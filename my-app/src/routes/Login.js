@@ -19,10 +19,10 @@ const Login = () => {
       <form onSubmit={handleLogin} className = "loginbox">
         
         <div className ="inputID">
-          <input className ="inputbox" type="text" placeholder = " ID" value={id} onChange={(e) => setId(e.target.value)} required />
+          <input id = "idbox" className ="inputbox" type="text" placeholder = " ID" value={id} onChange={(e) => setId(e.target.value)} required />
         </div>
         <div className ="inputID">
-          <input className =" inputbox" type="password" placeholder = " Password" value={pw} onChange={(e) => setPw(e.target.value)} required />
+          <input id ="pwbox" className =" inputbox" type="password" placeholder = " Password" value={pw} onChange={(e) => setPw(e.target.value)} required />
         </div>
         <div className ="button">
           <button type="submit">
