@@ -7,6 +7,7 @@ import Loginpic from './routes/Loginpic';
 import Makepost from './routes/Makepost';
 import ProjectDescription from './routes/ProjectDescription';
 import TeamEvaluation from './routes/TeamEvaluation';
+import TeamMemberEvaluation from './routes/TeamMemberEvaluation';
 
 const App = () => {
   return (
