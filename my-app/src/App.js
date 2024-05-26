@@ -6,6 +6,7 @@ import SignUp from './routes/SignUp';
 import Loginpic from './routes/Loginpic';
 import Makepost from './routes/Makepost';
 
+
 import ProfilePage from "./routes/ProfilePage";
 import PostsList from "./routes/PostsList";
 import Portfolio from "./routes/Portfolio";
@@ -18,11 +19,12 @@ import TeamMemberEvaluation from './routes/TeamMemberEvaluation';
 
 const projectId = 1;
 
+
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Loginpic />} /> 
+        <Route path="/" element={<Loginpic />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/makepost" element={<Makepost />} />
@@ -42,7 +44,6 @@ const App = () => {
           path="/evaluation/:memberId"
           element={<TeamMemberEvaluation />}
         />
-
       </Routes>
     </Router>
   );
