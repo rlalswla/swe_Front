@@ -1,0 +1,31 @@
+.portfolio-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.form-group {
+  margin: 20px 0;
+}
+
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #4caf50; /* Green */
+  color: white;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}

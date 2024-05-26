@@ -1,0 +1,29 @@
+.post-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.post-header h3 {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.post-header span {
+  float: right;
+  color: grey;
+}
+
+.roles button {
+  background: #e0e0e0;
+  border: none;
+  margin-right: 5px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
