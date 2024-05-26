@@ -58,7 +58,7 @@ function ProfilePage() {
         <Link to="/">Home</Link>
         <Link to="/posting">Posting</Link>
         <Link to="/scrab">Scrab</Link>
-        <Link to="/">Profile</Link>
+        <Link to="/">Profile</Link>ㄴㅈ1ㅁ
       </nav>
     </div>
   );
