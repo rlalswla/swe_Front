@@ -1,6 +1,7 @@
 // src/routes/SignUp.js
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 
 const Makepost = () => {
@@ -21,8 +22,15 @@ const Makepost = () => {
         });
     };
 
-    const handlemakepost = (event) => {
+    const handlemakepost = async (event) => {
         event.preventDefault();
+
+        try{
+            const response = await axios.post('api/makepost', form);
+            console.log('response:', response.data);
+        } catch (error) {
+            console.log('failed to make post:', error);
+        }
         // 회원가입 로직 추가
 
         console.log('게시물 정보:', form);
@@ -79,8 +87,8 @@ const Makepost = () => {
         </form>
         </div>
     );
-
 }
+
 
 export default Makepost;
 

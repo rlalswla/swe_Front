@@ -2,13 +2,20 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import './Login.css';
+import axios from 'axios';
 
 const Login = () => {
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
+    try {
+      const response = await axios.post('api/login', { id, pw }); //암호화 필요
+      console.log('response:', response.data);
+    }catch (error) {
+      console.log('failed to login:', error);
+    }
     // 로그인 로직 추가
     console.log('ID:', id);
     console.log('PW:', pw);

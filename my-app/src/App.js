@@ -6,6 +6,7 @@ import SignUp from './routes/SignUp';
 import Loginpic from './routes/Loginpic';
 import Makepost from './routes/Makepost';
 
+
 const App = () => {
   return (
     <Router>

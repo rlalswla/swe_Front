@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import './SignUp.css';
+import axios from 'axios';
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -21,10 +22,15 @@ const SignUp = () => {
     });
   };
 
-  const handleSignUp = (event) => {
+  const handleSignUp = async (event) => {
     event.preventDefault();
     // 회원가입 로직 추가
-
+    try {
+      const response = await axios.post('api/signup', form);
+      console.log('response:', response.data);
+    } catch (error) {
+      console.log('failed to sign up:', error);
+    }
     console.log('회원가입 정보:', form);
   };
 
