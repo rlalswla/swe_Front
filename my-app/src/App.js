@@ -1,6 +1,6 @@
 // src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Switch, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import Login from './routes/Login';
 import SignUp from './routes/SignUp';
 import Loginpic from './routes/Loginpic';
@@ -20,6 +20,13 @@ import TeamMemberEvaluation from './routes/TeamMemberEvaluation';
 const projectId = 1;
 
 
+const PrivateRoute = ({ children }) => {
+  const token = localStorage.getItem('token');
+  const location = useLocation();
+
+  return token ? children : <Navigate to="/login" state={{ from: location }} />;
+};
+
 const App = () => {
   return (
     <Router>
@@ -27,6 +34,11 @@ const App = () => {
         <Route path="/" element={<Loginpic />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        {/* <Route path="/signup" element={
+          <PrivateRoute>
+            <SignUp />
+        </PrivateRoute>
+        } /> */}
         <Route path="/makepost" element={<Makepost />} />
 
         <Route path="/미정" element={<ProfilePage />} />

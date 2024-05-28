@@ -1,10 +1,12 @@
 // src/routes/SignUp.js
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import './SignUp.css';
 import axios from 'axios';
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     id: '',
     pw: '',
@@ -23,11 +25,21 @@ const SignUp = () => {
   };
 
   const handleSignUp = async (event) => {
+    
     event.preventDefault();
     // 회원가입 로직 추가
+    
+
     try {
       const response = await axios.post('api/signup', form);
+      if (response.status === 200) {
+
+        alert('회원가입이 완료되었습니다.');
+        navigate('/Login');
+      }
       console.log('response:', response.data);
+
+
     } catch (error) {
       console.log('failed to sign up:', error);
     }
@@ -58,9 +70,9 @@ const SignUp = () => {
           <input className ="inputbox" placeholder="Phone" type="text" name="phone" value={form.phone} onChange={handleChange} required />
         </div>
         <div className ="button">
-          <button type="submit">
-            <Link style ={{color: '#000000', textDecoration:'none' }} to="/Login">Sign In</Link>
-          </button>
+          <button type="submit" style ={{color: '#000000', textDecoration:'none' }} > Sign In </button>
+            
+          
         </div>
       </form>
     </div>
