@@ -1,10 +1,71 @@
 import styled from 'styled-components';
-
 import useProjectStore from '../store/useProjectStore.jsx';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const Content = styled.div`
   text-align: left;
+  background-color: #ffffff;
   margin-top: 30px;
+  padding: 10px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  width: 345px;
+  box-sizing: border-box;
+  border-radius: 15px;
+  font-size: 14px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+`;
+
+const Title = styled.h2`
+  margin-top: 40px;
+`;
+
+const AuthorDate = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+`;
+
+const Date = styled.span`
+  margin-left: 10px;
+  color: #737e91;
+`;
+
+const SummaryDetails = styled.div`
+  margin-top: 10px;
+`;
+
+const PositionContainer = styled.div`
+  margin-bottom: 5px;
+`;
+
+const NumberContainer = styled.div`
+  margin-top: 10px;
+  margin-bottom: 5px;
+`;
+
+const DetailsContainer = styled.div`
+  padding-top: 10px;
+  margin-bottom: 5px;
+`;
+
+const PositionBadge = styled.span`
+  display: inline-block;
+  background-color: #f2f4f5;
+  border-radius: 12px;
+  padding: 5px 10px;
+  margin-right: 5px;
+`;
+
+const DetailsSpan = styled.span`
+  margin-right: 10px;
+  color: #737e91;
+  font-weight: bolder;
 `;
 
 export default function ProjectSummary() {
@@ -15,29 +76,34 @@ export default function ProjectSummary() {
   }
 
   return (
-    <div className="project-summary">
-      <h2>{projectData.title}</h2>
-      <div className="author-date">
-        <span>{projectData.author} </span>
-        <span>{projectData.date}</span>
-      </div>
+    <Container>
+      <Title>{projectData.title}</Title>
+      <AuthorDate>
+        <span>{projectData.author}</span>
+        <Date>{projectData.date}</Date>
+      </AuthorDate>
       <Content>
-        <div className="summary-details">
-          <div className="position">
-            Position:{' '}
+        <SummaryDetails>
+          <PositionContainer>
+            <DetailsSpan>Position </DetailsSpan>
             {projectData.positions.map((position, index) => (
-              <span key={index}>{position} </span>
+              <PositionBadge key={index}>{position}</PositionBadge>
             ))}
-          </div>
-          <div className="recruitment-number">
-            Recruitment Number: {projectData.recruitmentNumber} members
-          </div>
-          <div className="project-duration">
-            Project Duration: {projectData.startDate} - {projectData.endDate}
-          </div>
-          <div className="location">Location: {projectData.location}</div>
-        </div>
+          </PositionContainer>
+          <NumberContainer>
+            <DetailsSpan>Recruitment Number </DetailsSpan>
+            {projectData.recruitmentNumber} members
+          </NumberContainer>
+          <DetailsContainer>
+            <DetailsSpan>Project Duration </DetailsSpan>
+            {projectData.startDate} ~ {projectData.endDate}
+          </DetailsContainer>
+          <DetailsContainer>
+            <DetailsSpan>Location </DetailsSpan>
+            {projectData.location}
+          </DetailsContainer>
+        </SummaryDetails>
       </Content>
-    </div>
+    </Container>
   );
 }

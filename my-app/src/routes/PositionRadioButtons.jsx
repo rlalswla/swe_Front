@@ -2,12 +2,13 @@ import styled from 'styled-components';
 import useProjectStore from '../store/useProjectStore';
 
 const RadioButtonLabel = styled.label`
-  margin-right: 10px;
   display: block;
+  margin: 10px;
+  margin-left: 0px;
 `;
 
 const RadioButton = styled.input`
-  margin-right: 5px;
+  margin: 10px;
 `;
 
 const PositionRadioButtons = ({ selectedPosition, setSelectedPosition }) => {
