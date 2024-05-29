@@ -8,6 +8,7 @@ import ProjectSummary from './ProjectSummary.jsx';
 import ProjectDetails from './ProjectDetails.jsx';
 import useProjectStore from '../store/useProjectStore.jsx';
 import PositionSelectBar from './PositionSelectBar.jsx';
+import arrowLeftIcon from './asset/image/arrow-left-icon.svg';
 
 const Container = styled.div`
   display: flex;
@@ -21,7 +22,30 @@ const Container = styled.div`
 const Header = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-items: center;
+  gap: 25px;
+  background-color: #0e442a;
+  color: white;
+  width: 100vw;
+  height: 50px;
+`;
+
+const BackButton = styled.button`
+  background-color: transparent;
+  cursor: pointer;
+  margin: 10px;
+  margin-left: 20px;
+  padding: 10px 20px;
+  border: none;
+  color: white;
+  background-image: url(${arrowLeftIcon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
+const Title = styled.h1`
+  font-size: 24px;
 `;
 
 const Modal = styled.div`
@@ -31,11 +55,11 @@ const Modal = styled.div`
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 16px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  z-index: 1004;
   width: 50vw;
-  height: 20vh;
+  height: 23vh;
 `;
 
 const Overlay = styled.div`
@@ -45,17 +69,39 @@ const Overlay = styled.div`
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 1003;
 `;
 
-const Button = styled.button`
-  background-color: #4caf50;
+const Question = styled.p`
+  font-weight: bold;
+`;
+
+const YesButton = styled.button`
+  background-color: #23c16b;
   color: white;
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 40px;
   cursor: pointer;
   margin: 10px;
+  width: 40vw;
+`;
+
+const CloseButton = styled.button`
+  background-color: transparent;
+  color: #23c16b;
+  cursor: pointer;
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+`;
+
+const ProjectSummaryWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  background-color: #eeeeee;
+  height: 340px;
+  width: 100vw;
 `;
 
 export default function ProjectDescription({ projectId }) {
@@ -118,24 +164,26 @@ export default function ProjectDescription({ projectId }) {
         <>
           <Overlay onClick={closeModal} />
           <Modal>
-            <p>Would you like to evaluate the team members?</p>
-            <Button
+            <Question>Would you like to evaluate the team members?</Question>
+            <YesButton
               onClick={() => {
                 closeModal();
                 navigate('/evaluation');
               }}
             >
               Yes
-            </Button>
-            <Button onClick={closeModal}>Maybe later</Button>
+            </YesButton>
+            <CloseButton onClick={closeModal}>Maybe later</CloseButton>
           </Modal>
         </>
       )}
       <Header>
-        <button>←</button>
-        <h1>Project Description</h1>
+        <BackButton />
+        <Title>Project Description</Title>
       </Header>
-      <ProjectSummary />
+      <ProjectSummaryWrapper>
+        <ProjectSummary />
+      </ProjectSummaryWrapper>
       <ProjectDetails />
       {projectData && <PositionSelectBar />}
     </Container>
