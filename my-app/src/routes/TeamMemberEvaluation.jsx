@@ -92,6 +92,7 @@ const Textarea = styled.textarea`
   border: 1px solid #cccccc;
   border-radius: 20px;
   box-sizing: border-box;
+  padding: 15px;
 `;
 
 const SubmitButton = styled.button`
