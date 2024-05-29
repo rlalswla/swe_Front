@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+
 import TeamMemberList from './TeamMemberList.jsx';
+import arrowLeftIcon from './asset/image/arrow-left-icon.svg';
 
 const Container = styled.div`
   display: flex;
@@ -14,9 +16,30 @@ const Container = styled.div`
 const Header = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
-  // background-color: rgba(6, 51, 29, 1);
-  // color: white;
+  justify-items: center;
+  gap: 45px;
+  background-color: #0e442a;
+  color: white;
+  width: 100vw;
+  height: 50px;
+`;
+
+const BackButton = styled.button`
+  background-color: transparent;
+  cursor: pointer;
+  margin: 10px;
+  margin-left: 20px;
+  padding: 10px 20px;
+  border: none;
+  color: white;
+  background-image: url(${arrowLeftIcon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
+const Title = styled.h1`
+  font-size: 24px;
 `;
 
 export default function TeamEvaluation() {
@@ -26,11 +49,15 @@ export default function TeamEvaluation() {
     navigate(`/evaluation/${memberId}`);
   };
 
+  function handleBackButton() {
+    navigate('/project-description');
+  }
+
   return (
     <Container>
       <Header>
-        <button className="back-button">←</button>
-        <h1>Team Evaluation</h1>
+        <BackButton onClick={handleBackButton} />
+        <Title>Team Evaluation</Title>
       </Header>
       <h2>Please select the team member to evaluate.</h2>
       <div className="team-member-list">

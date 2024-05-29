@@ -4,7 +4,9 @@ import useProjectStore from '../store/useProjectStore';
 
 const Container = styled.div`
   text-align: left;
+  margin: 5px;
   margin-top: 30px;
+  font-size: 16px;
 `;
 
 export default function ProjectDetails() {

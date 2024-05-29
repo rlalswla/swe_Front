@@ -28,6 +28,8 @@ const PrivateRoute = ({ children }) => {
 };
 
 const App = () => {
+  const projectId = 1;
+
   return (
     <Router>
       <Routes>

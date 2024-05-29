@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
 import useTeamStore from '../store/useTeamStore.jsx';
+import arrowLeftIcon from './asset/image/arrow-left-icon.svg';
 
 const Container = styled.div`
   display: flex;
@@ -16,12 +16,99 @@ const Container = styled.div`
 const Header = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
-  // background-color: rgba(6, 51, 29, 1);
-  // color: white;
+  justify-items: center;
+  gap: 45px;
+  background-color: #0e442a;
+  color: white;
+  width: 100vw;
+  height: 50px;
 `;
 
-const ReviewContainer = styled.div``;
+const BackButton = styled.button`
+  background-color: transparent;
+  cursor: pointer;
+  margin: 10px;
+  margin-left: 20px;
+  padding: 10px 20px;
+  border: none;
+  color: white;
+  background-image: url(${arrowLeftIcon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
+const Title = styled.h1`
+  font-size: 24px;
+`;
+
+const EvaluationItemContainer = styled.div`
+  margin-top: 20px;
+`;
+
+const RatingCategory = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+const CategoryLabel = styled.span`
+  background-color: #198155;
+  color: white;
+  padding: 6.5px 10px;
+  border-radius: 15px;
+  margin-right: 10px;
+  min-width: 150px;
+  text-align: center;
+  margin-bottom: 10px;
+`;
+
+const Stars = styled.div`
+  display: flex;
+  margin-bottom: 12px;
+`;
+
+const Star = styled.span`
+  cursor: pointer;
+  font-size: 25px;
+  color: ${(props) => (props.filled ? '#FFD700' : '#DDDDDD')};
+  margin-right: 5px;
+`;
+
+const ReviewContainer = styled.div`
+  margin-top: 50px;
+  text-align: left;
+  width: 100%;
+`;
+
+const ReviewLabel = styled.p`
+  margin-left: 5px;
+  font-size: 18px;
+`;
+
+const Textarea = styled.textarea`
+  width: 100%;
+  height: 149px;
+  border: 1px solid #cccccc;
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 15px;
+`;
+
+const SubmitButton = styled.button`
+  width: 345px;
+  height: 52px;
+  background-color: #198155;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 10px 20px;
+  margin-top: 130px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-sizing: border-box;
+`;
 
 export default function TeamMemberEvaluation() {
   const { memberId } = useParams();
@@ -63,7 +150,6 @@ export default function TeamMemberEvaluation() {
   };
 
   const handleSubmit = () => {
-    // 로컬 상태 업데이트
     markMemberAsEvaluated(selectedMember.id);
     deselectMember();
     alert('Evaluation submitted successfully!');
@@ -79,37 +165,49 @@ export default function TeamMemberEvaluation() {
     }
   };
 
+  const handleBackButton = () => {
+    navigate('/evaluation');
+  };
+
   return (
     <Container>
       <Header>
-        <button className="back-button">←</button>
-        <h1>Team Evaluation</h1>
+        <BackButton onClick={handleBackButton} />
+        <Title>Team Evaluation</Title>
       </Header>
-      <h2>How was the project with {selectedMember.name}?</h2>
-      {['performance', 'communication', 'preparation', 'commitment'].map(
-        (category) => (
-          <div key={category} className="rating-category">
-            <span>{category.charAt(0).toUpperCase() + category.slice(1)}</span>
-            {[1, 2, 3, 4, 5].map((value) => (
-              <span
-                key={value}
-                className={value <= ratings[category] ? 'star filled' : 'star'}
-                onClick={() => handleRatingChange(category, value)}
-              >
-                ★
-              </span>
-            ))}
-          </div>
-        )
-      )}
-      <ReviewContainer>
-        <p>Feel free to leave a review.</p>
-        <textarea
-          value={review}
-          onChange={(e) => setReview(e.target.value)}
-        ></textarea>
-      </ReviewContainer>
-      <button onClick={handleSubmit}>Submit</button>
+      <h2>
+        How was the project <br /> with {selectedMember.name}?
+      </h2>
+      <EvaluationItemContainer>
+        {['performance', 'communication', 'preparation', 'commitment'].map(
+          (category) => (
+            <RatingCategory key={category}>
+              <CategoryLabel>
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+              </CategoryLabel>
+              <Stars>
+                {[1, 2, 3, 4, 5].map((value) => (
+                  <Star
+                    key={value}
+                    filled={value <= ratings[category]}
+                    onClick={() => handleRatingChange(category, value)}
+                  >
+                    ★
+                  </Star>
+                ))}
+              </Stars>
+            </RatingCategory>
+          )
+        )}
+        <ReviewContainer>
+          <ReviewLabel>Feel free to leave a review.</ReviewLabel>
+          <Textarea
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
+          ></Textarea>
+        </ReviewContainer>
+      </EvaluationItemContainer>
+      <SubmitButton onClick={handleSubmit}>Submit</SubmitButton>
     </Container>
   );
 }
