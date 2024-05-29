@@ -4,7 +4,7 @@ const data = [
     title: 'Project 1',
     author: 'John Doe',
     date: '2024-05-28',
-    positions: ['Frontend Developer', 'Backend Developer'],
+    positions: ['Front-end', 'Back-end'],
     recruitmentNumber: 5,
     startDate: '2024-06-01',
     endDate: '2024-08-31',
