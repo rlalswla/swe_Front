@@ -1,14 +1,16 @@
 // src/routes/SignUp.js
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
-
 const Makepost = () => {
+    const navigate = useNavigate();
   const [form, setForm] = useState({
     pjname: '',
     position: '',
-    headcount: '',
+    headcount_design: '',
+    headcount_front: '',
+    headcount_back: '',
     techstack: '',
     location: '',
     pjdetail: '',
@@ -27,6 +29,14 @@ const Makepost = () => {
 
         try{
             const response = await axios.post('api/makepost', form);
+            if (response.status === 200) {
+                alert('게시물이 작성되었습니다.');
+                navigate('/Login');
+            }
+            else {
+                alert('게시물 작성에 실패했습니다.');
+            }
+            
             console.log('response:', response.data);
         } catch (error) {
             console.log('failed to make post:', error);
@@ -52,13 +62,37 @@ const Makepost = () => {
             
             </div>
             <div className = "inputID">
-            <select className ="inputbox" placeholder="Headcount" type="text" name="headcount" value={form.headcount} onChange={handleChange} required >
+            <select className ="inputbox" placeholder="Headcount-designer" type="text" name="headcount_design" value={form.headcount_design} onChange={handleChange} required >
+                <option value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="4">5</option>
-                <option value="4">6</option>
+            </select>
+
+            </div>
+
+            <div className = "inputID">
+            <select className ="inputbox" placeholder="Headcount-front" type="text" name="headcount_front" value={form.headcount_front} onChange={handleChange} required >
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="4">5</option>
+            </select>
+
+            </div>
+
+            <div className = "inputID">
+            <select className ="inputbox" placeholder="Headcount-designer" type="text" name="headcount_back" value={form.headcount_back} onChange={handleChange} required >
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="4">5</option>
             </select>
 
             </div>

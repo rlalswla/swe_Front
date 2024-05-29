@@ -3,15 +3,26 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import './Login.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('api/login', { id, pw }); //암호화 필요
+      const response = await axios.post('api/signin', { id, pw }); //암호화 필요
+
+      if (response.data.token) {
+        // JWT를 로컬 스토리지에 저장
+        localStorage.setItem('token', response.data.token);
+        navigate('/mainpage');
+      }
+      else {
+        alert('아이디 또는 비밀번호가 일치하지 않습니다.');
+      }
       console.log('response:', response.data);
     }catch (error) {
       console.log('failed to login:', error);
