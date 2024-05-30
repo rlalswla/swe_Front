@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import TabBar from "./TabBar";
 
 function AccountInformation() {
   const [userInfo, setUserInfo] = useState({
@@ -84,6 +85,7 @@ function AccountInformation() {
         </div>
         <button type="submit">Save</button>
       </form>
+      <TabBar />
     </div>
   );
 }
