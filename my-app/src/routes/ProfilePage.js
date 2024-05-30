@@ -1,8 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./ProfilePage.css";
 import { useNavigate } from "react-router-dom";
 import PostsList from "./PostsList";
+import DATA from "../data.js";
+import ProfileCard from "./ProfileCard.jsx";
+import styled from "styled-components";
+import TabBar from "./TabBar.jsx";
+import {
+  BiEdit,
+  BiFile,
+  BiHome,
+  BiPencil,
+  BiHeart,
+  BiSolidHeart,
+  BiUser,
+} from "react-icons/bi";
+
+// 평점 구현 필요
 
 function ProfilePage() {
   const navigate = useNavigate();
@@ -11,57 +25,110 @@ function ProfilePage() {
     navigate("/accountInformation");
   };
 
-  const accountInfo = {
-    name: "Sungkyunkwan",
-    department: "Department",
-    location: "Suwon",
+  const goToPortfolio = () => {
+    navigate("/portfolio");
+  };
+
+  const goToMyPost = () => {
+    navigate("/posts");
   };
 
   return (
-    <div className="profile-page">
-      <header className="header">
-        <h1>SKKU Recruit</h1>
-      </header>
-      {/* <div className="my">
-        <h1 className="myProfile">My Profile</h1>
-      </div> */}
-      <div className="profile-card">
-        <div className="profile-section">
-          <div className="profile-pic"></div>
-          <div className="profile-edit">
-            {/* <img src="/path/to/profile-pic.png" alt="Profile" /> */}
-            <button onClick={EditButtonClick}>Edit My Profile</button>
-          </div>
-          <div className="profile-info">
-            <p>{accountInfo.name}</p>
-            <p>
-              {accountInfo.department} | {accountInfo.location}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="info-section">
+    <Profile_page>
+      <Header>
+        <Header_name>SKKU Recruit</Header_name>
+      </Header>
+      <Title>My Profile</Title>
+      <ProfileCard />
+      <Title>My Information</Title>
+      <Info_section>
         <div className="portfolio">
-          <Link to="/portfolio">
-            <h2>Portfolio</h2>
-          </Link>
-          <p>Creating and Refining My Portfolio to Showcase to Others</p>
+          <h3 onClick={goToPortfolio} style={{ cursor: "pointer" }}>
+            <StyledPortIcon />
+            Portfolio
+          </h3>
+          <PortDescription
+            onClick={goToPortfolio}
+            style={{ cursor: "pointer" }}>
+            Creating and Refining My Portfolio to Showcase to Others
+          </PortDescription>
         </div>
         <div className="posts">
-          <Link to="/posts">
-            <h2>My Post</h2>
-          </Link>
-          <p>Exploring and Managing My Posted Content</p>
+          <h3 onClick={goToMyPost} style={{ cursor: "pointer" }}>
+            <StyledPostIcon />
+            My Post
+          </h3>
+          <PostDescription onClick={goToMyPost} style={{ cursor: "pointer" }}>
+            Exploring and Managing My Posted Content
+          </PostDescription>
         </div>
-      </div>
-      <nav className="nav-bar">
-        <Link to="/">Home</Link>
-        <Link to="/posting">Posting</Link>
-        <Link to="/scrab">Scrab</Link>
-        <Link to="/">Profile</Link>ㄴㅈ1ㅁ
-      </nav>
-    </div>
+      </Info_section>
+      <TabBar />
+    </Profile_page>
   );
 }
 
 export default ProfilePage;
+
+const Profile_page = styled.div`
+  font-family: Arial, sans-serif;
+  position: relative;
+  width: 393px;
+  height: 852px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  gap: 25px;
+  background-color: #0e442a;
+  color: white;
+  width: 100vw;
+  height: 50px;
+`;
+
+const Header_name = styled.h1`
+  color: white;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+`;
+
+const Title = styled.h1`
+  font-size: 24px;
+  color: black; // 색상이 제대로 설정되었는지 확인
+  margin-top: 20px;
+  margin-left: 20px;
+`;
+
+const Info_section = styled.div`
+  padding: 0px 20px;
+  margin-bottom: 30px;
+`;
+
+const StyledPortIcon = styled(BiFile)`
+  font-size: 20px;
+  color: black;
+  margin-right: 7px;
+`;
+
+const StyledPostIcon = styled(BiEdit)`
+  font-size: 20px;
+  color: black;
+  margin-right: 7px;
+`;
+
+const PortDescription = styled.p`
+  margin-left: 25px;
+`;
+
+const PostDescription = styled.p`
+  margin-left: 25px;
+`;
