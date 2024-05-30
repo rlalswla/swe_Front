@@ -9,7 +9,9 @@ import TabBar from './TabBar';
 import PostCard from "./PostCard";
 import { CiSearch } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
-
+import TechStackPopup from './components/TechStackPopup';
+import TechStackPopup1 from './components/TechStackPopup1';
+import TechStackPopup2 from './components/TechStackPopup2';
 const Header = styled.div`
   display: flex;
   align-items: center;
@@ -79,6 +81,7 @@ const Searchbox = styled.input`
     font-size: 18px;
     font-weight: 600;
     outline: none;
+    name: "projectname";
 `;
 
 const SearchButtonWrapper = styled.div`
@@ -145,7 +148,37 @@ const Main = () => {
     });
     
     const [showPopup, setShowPopup] = useState(false);
+    const [showPopup1, setShowPopup1] = useState(false);
+    const [showPopup2, setShowPopup2] = useState(false);
 
+    const [selectedStacks, setSelectedStacks] = useState([]);
+    const [selectedstatus, setSelectedStatus] = useState(false);
+    const [selectedposition, setSelectedPosition] = useState('');
+
+    const handleSelectStack = (stacks) => {
+      setSelectedStacks(stacks);
+    };
+
+    const handleSelectStatus = (status) => {
+        setSelectedStatus(status);
+    };
+
+    const handleSelectPosition = (position) => {
+        setSelectedPosition(position);
+    };
+
+
+    const handleChange_popup = (e) => {
+      setSelectedStacks(e.target.value.split(',').map(s => s.trim()));
+    };
+  
+      const handleChange = (e) => {
+          const { name, value } = e.target;
+          setForm({
+          ...form,
+          [name]: value,
+          });
+      };
 
     return (
         <Mainpage>
@@ -155,15 +188,39 @@ const Main = () => {
             <Title1>All Projects</Title1>
             <SearchWrapper>
                 <SearchIcon />
-                <Searchbox placeholder='Search' />
+                <Searchbox name="projectname" placeholder='Search' onChange={handleChange} />
             </SearchWrapper>
 
             <SearchButtonWrapper>
-            <SearchButton>Status<IoIosArrowDown /></SearchButton>
-            <SearchButton>Position<IoIosArrowDown /></SearchButton>
-            <SearchButton>Tech Stack<IoIosArrowDown /></SearchButton>
+            <SearchButton onClick={()=>{setShowPopup1(true); setShowPopup(false);setShowPopup2(false);  }}>Status<IoIosArrowDown /></SearchButton>
+            {showPopup1 && (
+                <TechStackPopup1
+                    setForm={setForm}
+                    selectedStatus={selectedstatus}
+                    onSelect={handleSelectStatus}
+                    setShowPopup={setShowPopup1}
+                />
+                )}
+            <SearchButton onClick={()=>{setShowPopup1(false); setShowPopup(false);setShowPopup2(true);  }}>Position<IoIosArrowDown /></SearchButton>
+            {showPopup2 && (
+                <TechStackPopup2
+                    setForm={setForm}
+                    selectedPosition={selectedposition}
+                    onSelect={handleSelectPosition}
+                    setShowPopup={setShowPopup2}
+                />
+                )}
+            <SearchButton onClick={()=>{setShowPopup1(false); setShowPopup(true);setShowPopup2(false);  }}>Tech Stack<IoIosArrowDown /></SearchButton>
+            {showPopup && (
+                <TechStackPopup
+                    setForm={setForm}
+                    selectedStacks={selectedStacks}
+                    onSelect={handleSelectStack}
+                    setShowPopup={setShowPopup}
+                />
+                )}
             </SearchButtonWrapper>
-
+            {console.log('form:', form)}
 
             {posts.map((post, index) => (
                 <PostCardWrapper key={index} onClick={handleCardClick}>
@@ -172,7 +229,7 @@ const Main = () => {
             ))}
 
 
-            <h1>main^^;;</h1>
+            <h1>main^^; ; 검색 버튼 만들고..,,, 서버랑 연결해서 가져오기...,,, </h1>
             <TabBar></TabBar>
         </Mainpage>
     

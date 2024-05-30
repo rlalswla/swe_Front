@@ -1,5 +1,6 @@
 import React from 'react';
 import './TechStackPopup.css'; // CSS 파일을 가져옵니다
+import { on } from 'events';
 
 
 
@@ -44,6 +45,7 @@ const TechStackPopup = ({ setForm, setShowPopup, selectedStacks, onSelect }) => 
   const handleSubmit = () => {
     setForm(prevForm => ({ ...prevForm, stack: selectedStacks }));
     setShowPopup(false);
+    onSelect([]);
   };
 
   return (
