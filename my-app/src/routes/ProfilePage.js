@@ -71,7 +71,6 @@ function ProfilePage() {
 export default ProfilePage;
 
 const Profile_page = styled.div`
-  font-family: Arial, sans-serif;
   position: relative;
   width: 393px;
   height: 852px;
@@ -90,6 +89,7 @@ const Header = styled.div`
   color: white;
   width: 100vw;
   height: 50px;
+  padding: 10px 10px;
 `;
 
 const Header_name = styled.h1`
@@ -99,11 +99,12 @@ const Header_name = styled.h1`
   font-size: 24px;
   line-height: 1.2;
   letter-spacing: -0.5px;
+  text-align: center;
 `;
 
 const Title = styled.h1`
   font-size: 24px;
-  color: black; // 색상이 제대로 설정되었는지 확인
+  color: black;
   margin-top: 20px;
   margin-left: 20px;
 `;

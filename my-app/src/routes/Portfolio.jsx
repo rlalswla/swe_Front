@@ -1,43 +1,133 @@
 import React, { useState } from "react";
 import "./Portfolio.css";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { FaArrowLeft } from "react-icons/fa";
+import TabBar from "./TabBar";
 
 function Portfolio() {
   const [position, setPosition] = useState("");
   const [techStack, setTechStack] = useState("");
   const [description, setDescription] = useState("");
 
+  const navigate = useNavigate();
+  const goBackToProfile = () => {
+    navigate("/profile");
+  };
+
   return (
     <div className="portfolio-page">
-      <h1>Portfolio</h1>
+      <Header>
+        <StyledArrow onClick={goBackToProfile} />
+        <Header_name>SKKU Recruit</Header_name>
+      </Header>
+      <Title>Portfolio</Title>
       <form>
         <div className="form-group">
-          <select
+          <PortSelect
             value={position}
             onChange={(e) => setPosition(e.target.value)}>
             <option value="">Position</option>
             <option value="frontEnd">Front-End Developer</option>
             <option value="backEnd">Back-End Developer</option>
             <option value="fullStack">Full Stack Developer</option>
-          </select>
-          <select
+          </PortSelect>
+          <PortSelect
             value={techStack}
             onChange={(e) => setTechStack(e.target.value)}>
             <option value="">Tech Stack</option>
             <option value="react">React</option>
             <option value="angular">Angular</option>
             <option value="vue">Vue</option>
-          </select>
+          </PortSelect>
         </div>
         <div className="form-group">
-          <textarea
+          <Textarea
             placeholder="Please write here"
             value={description}
-            onChange={(e) => setDescription(e.target.value)}></textarea>
+            onChange={(e) => setDescription(e.target.value)}></Textarea>
         </div>
-        <button type="submit">Save</button>
+        <PortChangeButton type="submit">Save</PortChangeButton>
       </form>
+      <TabBar />
     </div>
   );
 }
 
 export default Portfolio;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  gap: 25px;
+  background-color: #0e442a;
+  color: white;
+  width: 100vw;
+  height: 50px;
+  padding: 10px 20px;
+`;
+
+const Header_name = styled.h1`
+  color: white;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  flex-grow: 1;
+  margin-left: 65px;
+`;
+
+const StyledArrow = styled(FaArrowLeft)`
+  font-size: 20px;
+  color: white;
+`;
+
+const Title = styled.h1`
+  font-size: 24px;
+  color: black;
+  margin-top: 20px;
+  margin-left: 20px;
+`;
+
+const Textarea = styled.textarea`
+  width: 331px;
+  height: 350px;
+  padding: 10px 10px 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 10px;
+  resize: none;
+  margin-left: 20px;
+`;
+
+const PortChangeButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 16px;
+  gap: 8px;
+
+  position: absolute;
+  width: 343px;
+  height: 52px;
+  left: 24px;
+  bottom: 97px;
+
+  background: #198155;
+  /* Blue Shadow */
+  box-shadow: 0px 4px 16px rgba(58, 107, 228, 0.24);
+  border-radius: 8px;
+`;
+
+const PortSelect = styled.select`
+  width: 353px;
+  padding: 10px 10px 10px 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-left: 20px;
+`;
