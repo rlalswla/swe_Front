@@ -5,7 +5,7 @@ import Login from './routes/Login';
 import SignUp from './routes/SignUp';
 import Loginpic from './routes/Loginpic';
 import Makepost from './routes/Makepost';
-
+import Main from './routes/Main';
 
 import ProfilePage from "./routes/ProfilePage";
 import PostsList from "./routes/PostsList";
@@ -42,6 +42,7 @@ const App = () => {
         </PrivateRoute>
         } /> */}
         <Route path="/makepost" element={<Makepost />} />
+        <Route path="/main" element={<Main />} />
 
         <Route path="/미정" element={<ProfilePage />} />
         <Route path="/portfolio" element={<Portfolio />} />

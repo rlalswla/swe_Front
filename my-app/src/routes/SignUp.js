@@ -8,13 +8,21 @@ import axios from 'axios';
 const SignUp = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
+    username: '',
     id: '',
-    pw: '',
-    name: '',
-    studentId: '',
-    major: '',
+    password: '',
     phone: '',
+    department: '',
   });
+  const setFormnull = () => {
+    setForm({
+      username: '',
+      id: '',
+      password: '',
+      phone: '',
+      department: '',
+    });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,48 +39,54 @@ const SignUp = () => {
     
 
     try {
-      const response = await axios.post('api/signup', form);
+      const response = await axios.post('/api/signup', form);
       if (response.status === 200) {
 
         alert('회원가입이 완료되었습니다.');
         navigate('/Login');
       }
+      else {
+        alert('회원가입에 실패했습니다.');
+        setFormnull();
+        
+      }
+
       console.log('response:', response.data);
 
 
     } catch (error) {
       console.log('failed to sign up:', error);
+      setFormnull();
+      
     }
     console.log('회원가입 정보:', form);
   };
 
   return (
-    <div className='container'>
+    <div className='container_sign'>
       <form onSubmit={handleSignUp} className ="signupbox">
+        <div className = "inputID">
+          <input className ="inputbox" placeholder="Name" type="text" name="username" value={form.username} onChange={handleChange} required />
+        </div>
+
         <div className='inputID'>
           <input className ="inputbox" placeholder='ID' type="text" name="id" value={form.id} onChange={handleChange} required />
         </div>
+
         <div className ="inputID">
-          <input className ="inputbox" placeholder="PW" type="password" name="pw" value={form.pw} onChange={handleChange} required />
+          <input className ="inputbox" placeholder="Password" type="password" name="password" value={form.password} onChange={handleChange} required />
         </div>
-        <div className = "inputID">
-          <input className ="inputbox" placeholder="Name" type="text" name="name" value={form.name} onChange={handleChange} required />
-        </div>
-        <div className ="inputID">
-          <input className ="inputbox" placeholder="Student ID" type="text" name="studentId" value={form.studentId} onChange={handleChange} required />
-          
-        </div>
-        <div className = "inputID">
-          <input className ="inputbox" placeholder="Major" type="text" name="major" value={form.major} onChange={handleChange} required />
-          
-        </div>
+
         <div className ="inputID">
           <input className ="inputbox" placeholder="Phone" type="text" name="phone" value={form.phone} onChange={handleChange} required />
         </div>
-        <div className ="button">
-          <button type="submit" style ={{color: '#000000', textDecoration:'none' }} > Sign In </button>
-            
-          
+
+        <div className ="inputID">
+          <input className ="inputbox" placeholder="Department" type="text" name="department" value={form.department} onChange={handleChange} required />
+        </div>
+
+        <div className ="button_sign">
+          <button type="submit" style ={{color: '#000000', textDecoration:'none' }} > Sign In </button>   
         </div>
       </form>
     </div>

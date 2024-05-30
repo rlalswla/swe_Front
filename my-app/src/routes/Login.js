@@ -7,18 +7,18 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [id, setId] = useState('');
-  const [pw, setPw] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('api/signin', { id, pw }); //암호화 필요
+      const response = await axios.post('/api/signin', { id, password }); // 서버에 로그인 요청
 
       if (response.data.token) {
         // JWT를 로컬 스토리지에 저장
         localStorage.setItem('token', response.data.token);
-        navigate('/mainpage');
+        navigate('/main');
       }
       else {
         alert('아이디 또는 비밀번호가 일치하지 않습니다.');
@@ -29,26 +29,26 @@ const Login = () => {
     }
     // 로그인 로직 추가
     console.log('ID:', id);
-    console.log('PW:', pw);
+    console.log('password:', password);
   };
 
   return (
-    <div className='container'>
+    <div className='container_login'>
       <form onSubmit={handleLogin} className = "loginbox">
         
         <div className ="inputID">
           <input id = "idbox" className ="inputbox" type="text" placeholder = " ID" value={id} onChange={(e) => setId(e.target.value)} required />
         </div>
         <div className ="inputID">
-          <input id ="pwbox" className =" inputbox" type="password" placeholder = " Password" value={pw} onChange={(e) => setPw(e.target.value)} required />
+          <input id ="passwordbox" className =" inputbox" type="password" placeholder = " Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
-        <div className ="button">
+        <div className ="button_login">
           <button type="submit">
             <Link style = {{color: '#000000', textDecoration:'none' }} to="/signup">Sign In</Link>
           </button> 
 
           <button type="submit">
-          <Link style = {{color: '#000000', textDecoration:'none' }} to="/mainpage">Login</Link> 
+          <Link style = {{color: '#000000', textDecoration:'none' }} to="/main">Login</Link> 
           {/* 로그인 유효성 판단후 mainpage 라우팅 해야함 */}
           </button>
         </div>

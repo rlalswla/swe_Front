@@ -2,19 +2,103 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import './Makepost.css';    
+import styled from 'styled-components';
+import TechStackPopup from './components/TechStackPopup';
+import arrowLeftIcon from './asset/image/arrow-left-icon.svg';
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  gap: 45px;
+  background-color: #0e442a;
+  color: white;
+  width: 100vw;
+  height: 50px;
+  margin-bottom: 35px;
+  justify-content: center;
+`;
+
+const Title = styled.h1`
+  font-size: 24px;
+  
+  
+`;
+
+const Container_posting = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-left: 24px;
+  margin-right: 24px;
+`;
+
+const Inputbox_posting = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: rgba(238, 238, 238, 1);
+    border-radius: 8px;
+    width: 240px;
+    height: 36px;
+    margin: 15px;
+    padding: 7px;
+    border: none;
+
+`;
+
+const BackButton = styled.button`
+  background-color: transparent;
+  cursor: pointer;
+  margin: 10px;
+  margin-left: 20px;
+  padding: 10px 20px;
+  border: none;
+  color: white;
+  background-image: url(${arrowLeftIcon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
+// const Box_in_box = styled.input`
+//     background: rgba(238, 238, 238, 1);
+//     border-radius: 5px;
+//     width: 240px;
+//     height: 36px;
+//     margin: 7px;
+//     border: none;
+// `;
 
 const Makepost = () => {
     const navigate = useNavigate();
   const [form, setForm] = useState({
-    pjname: '',
+    projectname: '',
     position: '',
-    headcount_design: '',
-    headcount_front: '',
-    headcount_back: '',
-    techstack: '',
+    front_req: 0,
+    back_req: 0,
+    design_req: 0,
+    stack: [],
     location: '',
-    pjdetail: '',
+    post_text: '',
   });
+
+const [showPopup, setShowPopup] = useState(false);
+
+
+
+
+
+  const [selectedStacks, setSelectedStacks] = useState([]);
+
+  const handleSelectStack = (stacks) => {
+    setSelectedStacks(stacks);
+  };
+  const handleChange_popup = (e) => {
+    setSelectedStacks(e.target.value.split(',').map(s => s.trim()));
+  };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,18 +112,20 @@ const Makepost = () => {
         event.preventDefault();
 
         try{
-            const response = await axios.post('api/makepost', form);
+            const response = await axios.post('api/posting', form);
             if (response.status === 200) {
                 alert('게시물이 작성되었습니다.');
-                navigate('/Login');
+                navigate('/main');
             }
             else {
                 alert('게시물 작성에 실패했습니다.');
+                navigate('/main')
             }
             
             console.log('response:', response.data);
         } catch (error) {
             console.log('failed to make post:', error);
+            navigate('Main');
         }
         // 회원가입 로직 추가
 
@@ -47,22 +133,46 @@ const Makepost = () => {
     };
 
     return (
-        <div className='container'>
+        <Container_posting>
+            <Header>
+                <BackButton onClick={() => navigate('/Main')} />
+                <Title>SKKU Recruit</Title>
+            </Header>
+
         <form onSubmit={handlemakepost} className ="makepostbox">
-            <div className='inputID'>
-            <input className ="inputbox" placeholder='Project Name' type="text" name="pjname" value={form.pjname} onChange={handleChange} required />
-            </div>
-            <div className ="inputID">
-                <select className ="inputbox" placeholder="Position" type="text" name="position" value={form.position} onChange={handleChange} required>
+            <Inputbox_posting>
+            <label className ="posting_label"> Project Name</label>
+
+
+
+            <input  className ="Box_in_box"  type="text" name="projectname" value={form.projectname} onChange={handleChange} required />
+            </Inputbox_posting>
+            <Inputbox_posting>
+                <label className ="posting_label">Position</label>
+                <select className ="Box_in_box"  type="text" name="position" value={form.position} onChange={handleChange} required>
+                <option value=""></option>
                 <option value="Frontend">Frontend</option>
                 <option value="Backend">Backend</option>
-                <option value="Fullstack">Fullstack</option>
-                <option value="Fullstack">Designer</option>
+                <option value="Designer">Designer</option>
                 </select>
+            </Inputbox_posting>
+
+            <Inputbox_posting>
+            <label className ="posting_label">frontend headcount</label>
+            <select className ="Box_in_box"  type="text" name="front_req" value={form.front_req} onChange={handleChange} required >
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="4">5</option>
+            </select>
+
+            </Inputbox_posting>
             
-            </div>
-            <div className = "inputID">
-            <select className ="inputbox" placeholder="Headcount-designer" type="text" name="headcount_design" value={form.headcount_design} onChange={handleChange} required >
+            <Inputbox_posting>
+            <label className ="posting_label">Backend Headcount</label>
+            <select className ="Box_in_box" type="text" name="back_req" value={form.back_req} onChange={handleChange} required >
                 <option value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -71,10 +181,11 @@ const Makepost = () => {
                 <option value="4">5</option>
             </select>
 
-            </div>
+            </Inputbox_posting>
 
-            <div className = "inputID">
-            <select className ="inputbox" placeholder="Headcount-front" type="text" name="headcount_front" value={form.headcount_front} onChange={handleChange} required >
+            <Inputbox_posting>
+            <label className ="posting_label">Designer Headcount</label>
+            <select className ="Box_in_box"  type="text" name="design_req" value={form.design_req} onChange={handleChange} required >
                 <option value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -83,25 +194,35 @@ const Makepost = () => {
                 <option value="4">5</option>
             </select>
 
-            </div>
+            </Inputbox_posting>
+            <Inputbox_posting>
+            <button onClick={() => setShowPopup(true)}>Select Stack</button>
+                {showPopup && (
+                <TechStackPopup
+                    setForm={setForm}
+                    selectedStacks={selectedStacks}
+                    onSelect={handleSelectStack}
+                    setShowPopup={setShowPopup}
+                />
+                )}
 
-            <div className = "inputID">
-            <select className ="inputbox" placeholder="Headcount-designer" type="text" name="headcount_back" value={form.headcount_back} onChange={handleChange} required >
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="4">5</option>
-            </select>
+                {/* <input
+                className="box-in-box"
+                type="text"
+                name="stack"
+                value={selectedStacks.join(', ')}
+                onChange={handleChange}
+                required
+                /> */}
+                {console.log(selectedStacks)}
+            </Inputbox_posting>
 
-            </div>
-            <div className ="inputID">
-            <input className ="inputbox" placeholder="Tech Stack" type="text" name="techstack" value={form.techstack} onChange={handleChange} required />
-            </div>
-            <div className = "inputID">
-            <select className ="inputbox" placeholder="Location" type="text" name="location" value={form.location} onChange={handleChange} required >
+            <Inputbox_posting>
+            <label className ="posting_label">Location</label>
+            <select className ="Box_in_box" type="text" name="location" value={form.location} onChange={handleChange} required >
+                <option value=""></option>
                 <option value="Seoul">Seoul</option>
+                <option value="Seoul">Suwon</option>
                 <option value="Busan">Busan</option>
                 <option value="Daegu">Daegu</option>
                 <option value="Daejeon">Daejeon</option>
@@ -109,17 +230,20 @@ const Makepost = () => {
                 <option value="Incheon">Incheon</option>
                 <option value="Ulsan">Ulsan</option>
             </select>
-            </div>
-            <div className ="inputID">
-            <input className ="inputbox" placeholder="Project Detail" type="text" name="pjdetail" value={form.pjdetail} onChange={handleChange} required />
-            </div>
+            </Inputbox_posting>
+            <Inputbox_posting>
+            <label className ="posting_label">Project Detail</label>
+            <input className ="Box_in_box" type="text" name="post_text" value={form.post_text} onChange={handleChange} required />
+            </Inputbox_posting>
+
             <div className ="button">
-            <button type="submit">
-                <Link style ={{color: '#000000', textDecoration:'none' }} to="/Login">Make Post</Link>
+            <button type="submit" id ="posting_btn">
+                <Link style ={{color: '#000000', textDecoration:'none' }} to="/Main">Make Post</Link>
+                {console.log (form)}
             </button>
             </div>
         </form>
-        </div>
+        </Container_posting>
     );
 }
 

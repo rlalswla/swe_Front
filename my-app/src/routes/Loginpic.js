@@ -7,7 +7,7 @@ import './Loginpic.css';
 const Loginpic = () => {
     return (  
       
-        <div className='box'>
+        <div className='box1'>
             <link rel="preconnect" href="https://fonts.googleapis.com"></link>
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></link>
             <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet"></link>

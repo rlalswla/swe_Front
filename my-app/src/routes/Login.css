@@ -1,4 +1,4 @@
-.container{
+.container_login{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,13 +46,14 @@
     font-weight: bold;
     color: #000000;
 }
-
+/* 
 .button{
     display: flex;
     
-}
+} */
 
-.button button{
+.button_login button{
+
     width: 120px;
     height: 40px;
     margin: 15px;
@@ -79,3 +80,4 @@
     user-select: none;
     color: #000000;
 }
+
