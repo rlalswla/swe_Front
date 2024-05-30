@@ -6,6 +6,7 @@ import './Makepost.css';
 import styled from 'styled-components';
 import TechStackPopup from './components/TechStackPopup';
 import arrowLeftIcon from './asset/image/arrow-left-icon.svg';
+import TabBar from './TabBar';
 
 const Header = styled.div`
   display: flex;
@@ -196,7 +197,8 @@ const [showPopup, setShowPopup] = useState(false);
 
             </Inputbox_posting>
             <Inputbox_posting>
-            <button onClick={() => setShowPopup(true)}>Select Stack</button>
+            <button style ={{background : 'rgba(0, 0, 0, 0.0)', color :'black'}}
+            onClick={() => setShowPopup(true)}>Select Stack</button>
                 {showPopup && (
                 <TechStackPopup
                     setForm={setForm}
@@ -243,7 +245,9 @@ const [showPopup, setShowPopup] = useState(false);
             </button>
             </div>
         </form>
+        <TabBar></TabBar>
         </Container_posting>
+        
     );
 }
 

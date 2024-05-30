@@ -13,15 +13,15 @@ export default function TabBar() {
 
   // 여기 바꿔야 함
   const goToHome = () => {
-    navigate("/");
+    navigate("/main");
   };
 
   const goToPosting = () => {
-    navigate("/");
+    navigate("/makepost");
   };
 
   const goToScrab = () => {
-    navigate("/");
+    navigate("/posts");
   };
 
   const goToProfile = () => {
