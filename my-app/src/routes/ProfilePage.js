@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import PostsList from "./PostsList";
 import DATA from "../data.js";
 import ProfileCard from "./ProfileCard.jsx";
+import EvaluationBar from "./EvaluationBar.jsx";
 import styled from "styled-components";
 import TabBar from "./TabBar.jsx";
 import {
