@@ -3,6 +3,9 @@ import data from "../data.js";
 import { useNavigate } from "react-router-dom";
 import EvaluationBar from "./EvaluationBar.jsx";
 import { VscAccount } from "react-icons/vsc";
+import axios from "axios";
+import { useEffect } from "react";
+import { useState } from "react";
 
 // const ProfilePic = styled.div`
 //   position: absolute;
@@ -74,19 +77,33 @@ const EvalTitle = styled.p`
 
 export default function ProfileCard() {
   const navigate = useNavigate();
-  const projectInfo = data[0];
+  const [ProfileInfo, setProfileInfo] = useState("");
 
   const EditButtonClick = () => {
     navigate("/accountInformation");
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/api/profile");
+        console.log(response.data);
+        setProfileInfo(response.data);
+      } catch (error) {
+        console.error("Failed to fetch user info", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <Card>
       <EditButton onClick={EditButtonClick}>Edit My Profile &gt;</EditButton>
       <StyledProfilePic />
       <ProfileInfo>
-        <InfoName>{projectInfo.author}</InfoName>
-        <Info>{`${projectInfo.location} | ${projectInfo.positions[0]}`}</Info>
+        <InfoName>{ProfileInfo.author}</InfoName>
+        <Info>{`${ProfileInfo.location} | ${ProfileInfo.positions[0]}`}</Info>
       </ProfileInfo>
       <div className="profile-edit"></div>
       <div>
