@@ -24,6 +24,7 @@ import AccountInformation from "./routes/AccountInformation";
 import ProjectDescription from "./routes/ProjectDescription";
 import TeamEvaluation from "./routes/TeamEvaluation";
 import TeamMemberEvaluation from "./routes/TeamMemberEvaluation";
+import ApplicationPort from "./routes/ApplicationPort";
 
 const projectId = 1;
 
@@ -57,7 +58,7 @@ const App = () => {
         <Route path="/posts" element={<PostsList />} />
         <Route path="/applicationList" element={<ApplicationList />} />
         <Route path="/accountInformation" element={<AccountInformation />} />
-
+        <Route path="/applicationPort" element={<ApplicationPort />} />
         <Route
           path="/project-description"
           element={<ProjectDescription projectId={projectId} />}

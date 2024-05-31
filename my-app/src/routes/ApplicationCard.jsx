@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function ApplicationCard({ id, name, roles, phone }) {
   const navigate = useNavigate();
   const goToApplicationPort = () => {
-    navigate("/posts");
+    navigate("/applicationPort");
   };
 
   return (
