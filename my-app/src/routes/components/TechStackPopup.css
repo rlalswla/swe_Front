@@ -10,7 +10,7 @@
     border-top-right-radius: 20px;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    z-index: 1000;
+    z-index: 1010;
   }
   
   .popup-header {

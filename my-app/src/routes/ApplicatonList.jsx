@@ -52,6 +52,7 @@ function ApplicationList() {
           <ApplicationCard {...applicant} />
         </ApplicationCardWrapper>
       ))}
+      <TabBar />
     </Application_List>
   );
 }

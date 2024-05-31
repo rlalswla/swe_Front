@@ -1,17 +1,16 @@
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import './Login.css';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import TabBar from './TabBar';
+import "./Login.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import TabBar from "./TabBar";
 import PostCard from "./PostCard";
 import { CiSearch } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
-import TechStackPopup from './components/TechStackPopup';
-import TechStackPopup1 from './components/TechStackPopup1';
-import TechStackPopup2 from './components/TechStackPopup2';
+import TechStackPopup from "./components/TechStackPopup";
+import TechStackPopup1 from "./components/TechStackPopup1";
+import TechStackPopup2 from "./components/TechStackPopup2";
 const Header = styled.div`
   display: flex;
   align-items: center;
@@ -32,12 +31,12 @@ const Title1 = styled.h1`
 `;
 
 const Mainpage = styled.div`
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    width: 393px;
-    height: 852px;
-    background: #ffffff;
+  width: 393px;
+  height: 852px;
+  background: #ffffff;
 `;
 
 const PostCardWrapper = styled.div`
@@ -57,43 +56,40 @@ const PostList = styled.div`
 `;
 
 const SearchWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    width: 90%;
-    height:5%;
-    border: none;
-    background: rgba(196, 196, 196, 0.2);
-    padding: 0;
-    margin-bottom: 15px;
-    align-self: center;
-    border-radius: 10px;
+  display: flex;
+  align-items: center;
+  width: 90%;
+  height: 5%;
+  border: none;
+  background: rgba(196, 196, 196, 0.2);
+  padding: 0;
+  margin-bottom: 15px;
+  align-self: center;
+  border-radius: 10px;
 `;
 
 const SearchIcon = styled(CiSearch)`
-    margin-left: 10px;
+  margin-left: 10px;
 `;
 
 const Searchbox = styled.input`
-    flex-grow: 1;
-    border: none;
-    background: transparent;
-    padding-left: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    outline: none;
-    name: "projectname";
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  padding-left: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  outline: none;
+  name: "projectname";
 `;
 
 const SearchButtonWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    width: 100%;
-    height: 5%;
-    
-    
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  width: 100%;
+  height: 5%;
 `;
-
 
 const SearchButton = styled.button`
     background: rgba(196, 196, 196, 0.2);
@@ -148,41 +144,40 @@ const Main = () => {
     //     // 추가 게시물 정보를 여기에 포함할 수 있습니다.
     //   ];
 
-    const navigate = useNavigate();
+    // 추가 게시물 정보를 여기에 포함할 수 있습니다.
 
-    const handleCardClick = () => {
-        navigate("/applicationList"); // ApplicationList 페이지로 네비게이션
-      };
+  const navigate = useNavigate();
 
-    
+  const handleCardClick = () => {
+    navigate("/applicationList"); // ApplicationList 페이지로 네비게이션
+  };
 
+  const [form, setForm] = useState({
+    projectname: "",
+    status: true,
+    position: 0,
+    stack: [],
+  });
 
-    const [form, setForm] = useState({
-        projectname: '',
-        status: true,
-        position: 0 ,
-        stack: [],
-    });
-    
-    const [showPopup, setShowPopup] = useState(false);
-    const [showPopup1, setShowPopup1] = useState(false);
-    const [showPopup2, setShowPopup2] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup1, setShowPopup1] = useState(false);
+  const [showPopup2, setShowPopup2] = useState(false);
 
-    const [selectedStacks, setSelectedStacks] = useState([]);
-    const [selectedstatus, setSelectedStatus] = useState(false);
-    const [selectedposition, setSelectedPosition] = useState('');
+  const [selectedStacks, setSelectedStacks] = useState([]);
+  const [selectedstatus, setSelectedStatus] = useState(false);
+  const [selectedposition, setSelectedPosition] = useState("");
 
-    const handleSelectStack = (stacks) => {
-      setSelectedStacks(stacks);
-    };
+  const handleSelectStack = (stacks) => {
+    setSelectedStacks(stacks);
+  };
 
-    const handleSelectStatus = (status) => {
-        setSelectedStatus(status);
-    };
+  const handleSelectStatus = (status) => {
+    setSelectedStatus(status);
+  };
 
-    const handleSelectPosition = (position) => {
-        setSelectedPosition(position);
-    };
+  const handleSelectPosition = (position) => {
+    setSelectedPosition(position);
+  };
 
 
     const handleChange_popup = (e) => {

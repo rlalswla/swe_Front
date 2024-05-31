@@ -69,14 +69,15 @@ const Navbar = styled.div`
   justify-content: space-around;
   align-items: center;
   padding: 10px 0;
-  // background: #f8f8f8;
+  background: #f8f8f8;
   border-radius: 25px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 1.5);
 
-  position: absolute;
+  position: fixed;
   width: 393px;
   height: 68px;
   bottom: -18px;
+  z-index: 1000;
 `;
 
 const NavItem = styled.div`
