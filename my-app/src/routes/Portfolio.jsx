@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Portfolio.css";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FaArrowLeft } from "react-icons/fa";
 import TabBar from "./TabBar";
+import axios from "axios";
 
 function Portfolio() {
   const [position, setPosition] = useState("");
@@ -13,6 +14,36 @@ function Portfolio() {
   const navigate = useNavigate();
   const goBackToProfile = () => {
     navigate("/profile");
+  };
+
+  useEffect(() => {
+    const fetchPortfolio = async () => {
+      try {
+        const response = await axios.get(`/api/get_portfolio`);
+        const { position, techStack, profile_text } = response.data;
+        console.log(response.data);
+        setPosition(position);
+        setTechStack(techStack);
+        setDescription(profile_text);
+      } catch (error) {
+        console.error("Failed to fetch portfolio", error);
+      }
+    };
+    fetchPortfolio();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("/api/save_portfolio", {
+        position: position,
+        stack: techStack,
+        profile_text: description,
+      });
+      alert("Portfolio saved successfully");
+    } catch (error) {
+      console.error("Failed to save portfolio", error);
+    }
   };
 
   return (
