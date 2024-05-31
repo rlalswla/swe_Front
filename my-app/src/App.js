@@ -25,6 +25,7 @@ import ProjectDescription from "./routes/ProjectDescription";
 import TeamEvaluation from "./routes/TeamEvaluation";
 import TeamMemberEvaluation from "./routes/TeamMemberEvaluation";
 import ApplicationPort from "./routes/ApplicationPort";
+import Scrab from "./routes/Scrab";
 
 const projectId = 1;
 
@@ -68,6 +69,7 @@ const App = () => {
           path="/evaluation/:memberId"
           element={<TeamMemberEvaluation />}
         />
+        <Route path="/scrab" element={<Scrab />} />
       </Routes>
     </Router>
   );
