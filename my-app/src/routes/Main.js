@@ -148,9 +148,14 @@ const Main = () => {
 
   const navigate = useNavigate();
 
-  const handleCardClick = () => {
-    navigate("/applicationList"); // ApplicationList 페이지로 네비게이션
-  };
+  const handleCardClick = async (id) => {
+        try {
+            const response = await axios.post('/api/post', { id });
+            // response를 처리하는 코드를 여기에 추가합니다.
+        } catch (error) {
+            console.error('Failed to post data:', error);
+        }
+    };
 
   const [form, setForm] = useState({
     projectname: "",
@@ -253,7 +258,7 @@ const Main = () => {
             {console.log('form:', form)}
 
             {posts.map((post, index) => (
-                <PostCardWrapper key={index} onClick={handleCardClick}>
+                <PostCardWrapper key={index} onClick={() => handleCardClick(post.id)}>
                     <PostCard {...post} />
                 </PostCardWrapper>
             ))}
