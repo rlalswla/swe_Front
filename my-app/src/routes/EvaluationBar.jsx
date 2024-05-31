@@ -4,7 +4,7 @@ import styled from "styled-components";
 export default function EvaluationBar() {
   return (
     <div>
-      <ProgressBar value="50" min="0" max="100"></ProgressBar>
+      <ProgressBar value={80} min={0} max={100}></ProgressBar>
     </div>
   );
 }

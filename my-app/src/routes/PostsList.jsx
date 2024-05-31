@@ -36,7 +36,7 @@ function PostsList() {
         <StyledArrow onClick={goBackToProfile} />
         <Header_name>SKKU Recruit</Header_name>
       </Header>
-      <Title>Portfolio</Title>
+      <Title>My Post</Title>
       {posts.map((post, index) => (
         <PostCardWrapper key={index} onClick={handleCardClick}>
           <PostCard {...post} />

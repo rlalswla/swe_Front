@@ -4,18 +4,18 @@ import { useNavigate } from "react-router-dom";
 import EvaluationBar from "./EvaluationBar.jsx";
 import { VscAccount } from "react-icons/vsc";
 
-const ProfilePic = styled.div`
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  left: 148px;
-  top: 25px;
-  background-image: url("https://i.imgur.com/8Km9tLL.png");
-  background-size: cover;
-  background-position: center;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-  z-index: 20;
-`;
+// const ProfilePic = styled.div`
+//   position: absolute;
+//   width: 60px;
+//   height: 60px;
+//   left: 148px;
+//   top: 25px;
+//   background-image: url("https://i.imgur.com/8Km9tLL.png");
+//   background-size: cover;
+//   background-position: center;
+//   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+//   z-index: 20;
+// `;
 
 const StyledProfilePic = styled(VscAccount)`
   position: absolute;
@@ -24,7 +24,6 @@ const StyledProfilePic = styled(VscAccount)`
   left: 148px;
   top: 40px;
   background-position: center;
-  color: #666;
 `;
 
 const Card = styled.div`
@@ -46,7 +45,6 @@ const Info = styled.p`
 `;
 
 const InfoName = styled.p`
-  color: #666;
   font-size: 18px;
   font-weight: 600;
   margin: 3px 0 5px;
@@ -56,7 +54,7 @@ const EditButton = styled.button`
   top: 20px;
   right: -105px;
   background-color: transparent;
-  color: #666;
+  color: #0e442a;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
@@ -69,7 +67,6 @@ const ProfileInfo = styled.div`
 `;
 
 const EvalTitle = styled.p`
-  color: #666;
   font-size: 14px;
   margin: 10px 0 5px;
   text-align: left;
