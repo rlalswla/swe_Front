@@ -97,7 +97,7 @@ const SearchButtonWrapper = styled.div`
 
 const SearchButton = styled.button`
     background: rgba(196, 196, 196, 0.2);
-    width:30%;
+    width:22%;
     height: 5%;
     border: none;
     border-radius: 10px;
@@ -115,21 +115,38 @@ const SearchButton = styled.button`
     
 `;
 
-
+const FindButton = styled.button`
+    // FindButton의 스타일을 정의합니다.
+    background: rgba(196, 196, 196, 0.2);
+    width:16%; // FindButton의 너비를 설정합니다.
+    height: 5%;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    margin-left: 3px;
+    margin-right: 3px;
+    cursor: pointer;
+    font-size: 12px;    
+    font-weight: 600;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 
 const Main = () => {
-    const posts = [
-        {
-          title: "SKKU Application",
-          location: "Suwon",
-          description:
-            "We are recruiting developers and designers to join our side project.",
-          roles: ["Front-end", "Back-end", "Designer"],
-          recruitingInfo: "Recruiting 1/7",
-        },
+    // const posts = [
+    //     {
+    //       title: "SKKU Application",
+    //       location: "Suwon",
+    //       description:
+    //         "We are recruiting developers and designers to join our side project.",
+    //       roles: ["Front-end", "Back-end", "Designer"],
+    //       recruitingInfo: "Recruiting 1/7",
+    //     },
     
-        // 추가 게시물 정보를 여기에 포함할 수 있습니다.
-      ];
+    //     // 추가 게시물 정보를 여기에 포함할 수 있습니다.
+    //   ];
 
     const navigate = useNavigate();
 
@@ -180,6 +197,23 @@ const Main = () => {
           });
       };
 
+
+      const handleFindClick = async () => {
+        try {
+            setPosts([]);
+            const response = await axios.post('/api/search', form);
+            // response.data를 posts 상태에 저장합니다.
+            setPosts(response.data);
+        } catch (error) {
+            console.error('Failed to fetch data:', error);
+        }
+    };
+    
+    const [posts, setPosts] = useState([]);
+
+    
+    
+
     return (
         <Mainpage>
             <Header>
@@ -219,6 +253,7 @@ const Main = () => {
                     setShowPopup={setShowPopup}
                 />
                 )}
+            <FindButton onClick={handleFindClick}>Find</FindButton>
             </SearchButtonWrapper>
             {console.log('form:', form)}
 
@@ -228,8 +263,6 @@ const Main = () => {
                 </PostCardWrapper>
             ))}
 
-
-            <h1>main^^; ; 검색 버튼 만들고..,,, 서버랑 연결해서 가져오기...,,, </h1>
             <TabBar></TabBar>
         </Mainpage>
     
