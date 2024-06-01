@@ -15,6 +15,25 @@ const PositionRadioButtons = ({ selectedPosition, setSelectedPosition }) => {
   const { projectData } = useProjectStore();
 
   const handlePositionChange = (event) => {
+    // let positionValue;
+
+    // switch (event.target.value) {
+    //   case 'Front-end':
+    //     positionValue = 0;
+    //     break;
+    //   case 'Back-end':
+    //     positionValue = 1;
+    //     break;
+    //   case 'Designer':
+    //     positionValue = 2;
+    //     break;
+    //   default:
+    //     console.error('Position Selection Error');
+    //     return;
+    // }
+
+    // setSelectedPosition(positionValue);
+
     setSelectedPosition(event.target.value);
   };
 

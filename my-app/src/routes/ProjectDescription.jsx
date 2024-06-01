@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import axios from 'axios';
+// import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import DATA from '../data.js';
+// import DATA from '../data.js';
 import ProjectSummary from './ProjectSummary.jsx';
 import ProjectDetails from './ProjectDetails.jsx';
 import useProjectStore from '../store/useProjectStore.jsx';
@@ -42,6 +42,7 @@ const BackButton = styled.button`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  width: 30px;
 `;
 
 const Title = styled.h1`
@@ -107,52 +108,48 @@ const ProjectSummaryWrapper = styled.div`
 export default function ProjectDescription({ projectId }) {
   const {
     setSelectedProjectId,
-    setProjectData,
+    fetchProjectData,
     isModalOpen,
-    openModal,
     closeModal,
     projectData,
   } = useProjectStore();
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // 나중에 수정할 것
-  useEffect(() => {
-    const projectData = DATA.find((project) => project.id === projectId);
-
-    if (!projectData) {
-      setError('Error: Project is missing.');
-      setProjectData(null);
-      return;
-    }
-
-    setProjectData(projectData);
-    setSelectedProjectId(projectId);
-
-    if (
-      projectData.status === 'closed' &&
-      projectData.isUserParticipant &&
-      projectData.isEvaluationPending
-    ) {
-      openModal();
-    }
-  }, [projectId, setProjectData, setSelectedProjectId, openModal]);
-
-  // 프로젝트 id에 해당하는 프로젝트 데이터를 가져와야 함
-  // const { projectId } = useParams();
+  // Dummy Data 사용 버전
   // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       await fetchProjectData(projectId);
-  //     } catch (err) {
-  //       setError('Error: Project is missing.');
-  //     }
-  //   };
+  //   const projectData = DATA.find((project) => project.id === projectId);
 
-  //   fetchData();
+  //   if (!projectData) {
+  //     setError('Error: Project is missing.');
+  //     setProjectData(null);
+  //     return;
+  //   }
+
+  //   setProjectData(projectData);
   //   setSelectedProjectId(projectId);
 
-  // }, [projectId, fetchProjectData, setSelectedProjectId, projectData, openModal]);
+  //   if (
+  //     projectData.status === 'closed' &&
+  //     projectData.isUserParticipant &&
+  //     projectData.isEvaluationPending
+  //   ) {
+  //     openModal();
+  //   }
+  // }, [projectId, setProjectData, setSelectedProjectId, openModal]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await fetchProjectData(projectId);
+        setSelectedProjectId(projectId);
+      } catch (err) {
+        setError('Error: Project is missing.');
+      }
+    };
+
+    fetchData();
+  }, [projectId, fetchProjectData, setSelectedProjectId]);
 
   if (error) {
     return <p>{error}</p>;
