@@ -12,13 +12,13 @@ export default function ApplicationCard({ id, name, roles, phone }) {
     <ApplicationCardContainer>
       <Header>
         <Title>{name}</Title>
+        <Roles>
+          {roles.map((role, index) => (
+            <RoleP key={index}>{role}</RoleP>
+          ))}
+        </Roles>
         <PortButton onClick={goToApplicationPort}>Portfolio &gt;</PortButton>
       </Header>
-      <Roles>
-        {roles.map((role, index) => (
-          <RoleP key={index}>{role}</RoleP>
-        ))}
-      </Roles>
       <Wrapper>
         <PhoneWrapper>
           <PhoneLabel>Phone Number</PhoneLabel>
@@ -38,7 +38,7 @@ const ApplicationCardContainer = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   width: 343px;
-  height: 140px;
+  height: 117px;
   margin: 10px 0;
   padding: 10px;
   padding-bottom: 12px;
@@ -94,6 +94,9 @@ const Roles = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 8px 0;
+  margin-left: -80px;
+  margin-bottom: 0px;
+  font-size: 14px;
 `;
 
 const RoleP = styled.p`

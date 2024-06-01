@@ -1,30 +1,30 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import TabBar from "./TabBar";
-import styled from "styled-components";
-import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import ApplicationCard from "./ApplicationCard";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import TabBar from './TabBar';
+import styled from 'styled-components';
+import { FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import ApplicationCard from './ApplicationCard';
 
 function ApplicationList() {
   const applicants = [
     {
       id: 1,
-      name: "applicant 1",
-      roles: ["Front-end", "Back-end", "Designer"],
-      phone: "010-1234-1234",
+      name: 'applicant 1',
+      roles: ['Back-end'],
+      phone: '010-1234-1234',
     },
     {
       id: 2,
-      name: "applicant 2",
-      roles: ["Front-end"],
-      phone: "010-2345-2345",
+      name: 'applicant 2',
+      roles: ['Front-end'],
+      phone: '010-2345-2345',
     },
     {
       id: 3,
-      name: "applicant 3",
-      roles: ["Front-end", "Back-end", "Designer"],
-      phone: "010-3456-3456",
+      name: 'applicant 3',
+      roles: ['Designer'],
+      phone: '010-3456-3456',
     },
   ];
   console.log(applicants);
@@ -37,7 +37,7 @@ function ApplicationList() {
   };
 
   const goBackToPostList = () => {
-    navigate("/posts");
+    navigate('/posts');
   };
 
   return (
