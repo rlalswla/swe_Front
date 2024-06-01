@@ -39,19 +39,42 @@ const PositionRadioButtons = ({ selectedPosition, setSelectedPosition }) => {
 
   return (
     <>
-      {projectData &&
-        projectData.positions.map((position, index) => (
-          <RadioButtonLabel key={index}>
-            <RadioButton
-              type="radio"
-              name="position"
-              value={position}
-              checked={selectedPosition === position}
-              onChange={handlePositionChange}
-            />
-            {position}
-          </RadioButtonLabel>
-        ))}
+      {projectData && projectData.front_req > 0 && (
+        <RadioButtonLabel>
+          <RadioButton
+            type="radio"
+            name="position"
+            value="Front-end"
+            checked={selectedPosition === "Front-end"}
+            onChange={handlePositionChange}
+          />
+          Front-end
+        </RadioButtonLabel>
+      )}
+      {projectData && projectData.back_req > 0 && (
+        <RadioButtonLabel>
+          <RadioButton
+            type="radio"
+            name="position"
+            value="Back-end"
+            checked={selectedPosition === "Back-end"}
+            onChange={handlePositionChange}
+          />
+          Back-end
+        </RadioButtonLabel>
+      )}
+      {projectData && projectData.design_req > 0 && (
+        <RadioButtonLabel>
+          <RadioButton
+            type="radio"
+            name="position"
+            value="Designer"
+            checked={selectedPosition === "Designer"}
+            onChange={handlePositionChange}
+          />
+          Designer
+        </RadioButtonLabel>
+      )}
     </>
   );
 };

@@ -61,6 +61,7 @@ const PositionBadge = styled.span`
   border-radius: 12px;
   padding: 5px 10px;
   margin-right: 5px;
+  font-size: 12px;
 `;
 
 const DetailsSpan = styled.span`
@@ -71,6 +72,7 @@ const DetailsSpan = styled.span`
 
 export default function ProjectSummary() {
   const projectData = useProjectStore((state) => state.projectData);
+  console.log(projectData);
 
   if (!projectData) {
     return <div>Loading...</div>;
@@ -79,18 +81,26 @@ export default function ProjectSummary() {
   let recruitmentNumber =
     projectData.front_req + projectData.back_req + projectData.design_req;
 
+  const positions = [];
+  if(projectData.front_req > 0) positions.push('Front-end');
+  if(projectData.back_req > 0) positions.push('Back-end');
+  if(projectData.design_req > 0) positions.push('Designer');
+
+  const startDate = projectData.startdate.split('T')[0];
+  const endDate = projectData.enddate.split('T')[0];
+
   return (
     <Container>
       <Title>{projectData.projectname}</Title>
-      <AuthorDate>
+      {/* <AuthorDate>
         <span>{projectData.author}</span>
         <Date>{projectData.date}</Date>
-      </AuthorDate>
+      </AuthorDate> */}
       <Content>
         <SummaryDetails>
           <PositionContainer>
             <DetailsSpan>Position </DetailsSpan>
-            {projectData.position.map((position, index) => (
+            {positions.map((position, index) => (
               <PositionBadge key={index}>{position}</PositionBadge>
             ))}
           </PositionContainer>
@@ -100,7 +110,7 @@ export default function ProjectSummary() {
           </NumberContainer>
           <DetailsContainer>
             <DetailsSpan>Project Duration </DetailsSpan>
-            {projectData.startdate} ~ {projectData.enddate}
+            {startDate} ~ {endDate}
           </DetailsContainer>
           <DetailsContainer>
             <DetailsSpan>Location </DetailsSpan>
