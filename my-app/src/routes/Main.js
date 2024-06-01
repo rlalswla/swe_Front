@@ -151,14 +151,10 @@ const Main = () => {
 
   const { setSelectedProjectId } = useProjectStore();
 
-  const handleCardClick = async (id) => {
-    try {
-      const response = await axios.post("/api/post", { id });
-      setSelectedProjectId(id);
-      // response를 처리하는 코드를 여기에 추가합니다.
-    } catch (error) {
-      console.error("Failed to post data:", error);
-    }
+  const handleCardClick = (id) => {
+    console.log("id:", id);
+    setSelectedProjectId(id);
+    navigate("/project-description");
   };
 
   const [form, setForm] = useState({
@@ -210,7 +206,6 @@ const Main = () => {
       // response.data를 posts 상태에 저장합니다.
       setPosts(response.data);
       setForm([]);
-      updatedForm = [];
     } catch (error) {
       console.error("Failed to fetch data:", error);
     }
@@ -300,7 +295,7 @@ const Main = () => {
               `Back: ${post.back_req}`,
               `Design: ${post.design_req}`,
             ]}
-            recruitingInfo={post.iseEnd ? "Recruiting ended" : "Recruiting"}
+            recruitingInfo={post.isend ? "Recruiting ended" : "Recruiting"}
           />
         </PostCardWrapper>
       ))}

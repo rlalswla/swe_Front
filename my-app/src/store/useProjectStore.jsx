@@ -13,12 +13,13 @@ const useProjectStore = create((set) => ({
     try {
       const response = await axios.post('/api/post', { postid: projectId });
       const data = response.data;
+      console.log(data);
 
-      const { status, isAttend, isEnd } = data;
+      const { status, isAttend, isend } = data;
 
       set({ projectData: data });
 
-      if (status && isAttend && isEnd) {
+      if (status && isAttend && isend) {
         set({ isModalOpen: true });
       }
     } catch (error) {

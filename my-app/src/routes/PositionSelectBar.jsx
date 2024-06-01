@@ -163,6 +163,18 @@ export default function PositionSelectBar() {
       .then((response) => {
         if (response.status === 200) {
           alert('Application submitted successfully!');
+
+          axios
+            .post('/api/scrab_post', {})
+            .then((response) => {
+              if (response.status === 200) {
+                console.log('Scrab request submitted successfully!');
+              }
+            })
+            .catch((error) => {
+              console.error('Error submitting scrab request:', error);
+              alert('Failed to submit scrab request.');
+            });
         }
       })
       .catch((error) => {
