@@ -65,7 +65,7 @@ const EditButton = styled.button`
   font-weight: bold;
 `;
 
-const ProfileInfo = styled.div`
+const ProfileInfoContainer = styled.div`
   margin-top: 91px;
 `;
 
@@ -86,7 +86,7 @@ export default function ProfileCard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api/profile");
+        const response = await axios.post("/api/profile");
         console.log(response.data);
         setProfileInfo(response.data);
       } catch (error) {
@@ -101,10 +101,10 @@ export default function ProfileCard() {
     <Card>
       <EditButton onClick={EditButtonClick}>Edit My Profile &gt;</EditButton>
       <StyledProfilePic />
-      {/* <ProfileInfo>
-        <InfoName>{ProfileInfo.author}</InfoName>
-        <Info>{`${ProfileInfo.location} | ${ProfileInfo.positions[0]}`}</Info> */}
-      {/* </ProfileInfo> */}
+      <ProfileInfoContainer>
+        {ProfileInfo && <InfoName>{ProfileInfo.username}</InfoName>}
+        {ProfileInfo && <Info>{`${ProfileInfo.location} | ${ProfileInfo.positions && ProfileInfo.positions[0]}`}</Info>}
+      </ProfileInfoContainer>
       <div className="profile-edit"></div>
       <div>
         <EvalTitle>Evaluation</EvalTitle>
