@@ -1,36 +1,36 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import PostCard from "./PostCard";
 import TabBar from "./TabBar";
 import styled from "styled-components";
 import { FaArrowLeft } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 function PostsList() {
   const [posts, setPosts] = useState([]);
 
+  const navigate = useNavigate();
+  const handleCardClick = () => {
+    navigate("/applicationList");
+  };
+
+  const goBackToProfile = () => {
+    navigate("/profile");
+  };
+
   useEffect(() => {
-    // 서버에서 데이터를 받아오는 비동기 함수
     const fetchPosts = async () => {
       try {
-        const response = await fetch("/api/mypost");
-        setPosts(response.data.posts);
+        const response = await axios.post("/api/mypost");
+        console.log(response.data);
+        setPosts(response.data);
       } catch (error) {
         console.error("Failed to fetch posts", error);
       }
     };
     fetchPosts();
   }, []);
-
-  const navigate = useNavigate();
-  const handleCardClick = () => {
-    navigate("/applicationList"); // ApplicationList 페이지로 네비게이션
-  };
-
-  const goBackToProfile = () => {
-    navigate("/profile");
-  };
 
   return (
     <PostList>

@@ -8,7 +8,6 @@ import axios from "axios";
 
 function Portfolio() {
   const [position, setPosition] = useState("");
-  const [stack, setstack] = useState("");
   const [description, setDescription] = useState("");
 
   const navigate = useNavigate();
@@ -19,11 +18,10 @@ function Portfolio() {
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
-        const response = await axios.get(`/api/portfolio`);
-        const { position, stack, profile_text } = response.data;
+        const response = await axios.post(`/api/portfolio`);
+        const { position, profile_text } = response.data;
         console.log(response.data);
         setPosition(position);
-        setstack(stack);
         setDescription(profile_text);
       } catch (error) {
         console.error("Failed to fetch portfolio", error);
@@ -37,7 +35,6 @@ function Portfolio() {
     try {
       await axios.post("/api/save_portfolio", {
         position: position,
-        stack: stack,
         profile_text: description,
       });
       alert("Portfolio saved successfully");
@@ -59,15 +56,9 @@ function Portfolio() {
             value={position}
             onChange={(e) => setPosition(e.target.value)}>
             <option value="">Position</option>
-            <option value="frontEnd">Front-End Developer</option>
-            <option value="backEnd">Back-End Developer</option>
-            <option value="fullStack">Full Stack Developer</option>
-          </PortSelect>
-          <PortSelect value={stack} onChange={(e) => setstack(e.target.value)}>
-            <option value="">Tech Stack</option>
-            <option value="react">React</option>
-            <option value="angular">Angular</option>
-            <option value="vue">Vue</option>
+            <option value="Front-end">Front-End</option>
+            <option value="Back-end">Back-End</option>
+            <option value="Designer">Designer</option>
           </PortSelect>
         </div>
         <div className="form-group">
