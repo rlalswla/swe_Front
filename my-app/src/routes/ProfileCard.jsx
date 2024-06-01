@@ -103,7 +103,9 @@ export default function ProfileCard() {
       <StyledProfilePic />
       <ProfileInfoContainer>
         {ProfileInfo && <InfoName>{ProfileInfo.username}</InfoName>}
-        {ProfileInfo && <Info>{`${ProfileInfo.location} | ${ProfileInfo.positions && ProfileInfo.positions[0]}`}</Info>}
+        {ProfileInfo && (
+          <Info>{`${ProfileInfo.id} | ${ProfileInfo.department}`}</Info>
+        )}
       </ProfileInfoContainer>
       <div className="profile-edit"></div>
       <div>

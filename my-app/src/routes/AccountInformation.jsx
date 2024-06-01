@@ -7,28 +7,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function AccountInformation() {
-  const [userInfo, setUserInfo] = useState({
-    username: "",
-    studentId: "",
-    password: "",
-    phone: "",
-    department: "",
-  });
+  const [userInfo, setUserInfo] = useState("");
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await axios.get(`api/save`);
-        const { username, studentId, password, phone, department } =
-          response.data;
+        const response = await axios.post(`api/account`);
         console.log(response.data);
-        setUserInfo({
-          username: username,
-          studentId: studentId,
-          password: password,
-          phone: phone,
-          department: department,
-        });
+        setUserInfo(response.data);
       } catch (error) {
         console.error("Failed to fetch user info", error);
       }
@@ -86,7 +72,7 @@ function AccountInformation() {
             <InputAccountInfo
               type="text"
               name="studentId"
-              value={userInfo.studentId}
+              value={userInfo.id}
               onChange={handleChange}
             />
           </Label>
