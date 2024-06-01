@@ -16,10 +16,6 @@ function PostCard({ title, location, description, roles, recruitingInfo }) {
       </Roles>
       <Actions>
         <RecruitingInfo>{recruitingInfo}</RecruitingInfo>
-        <StatusButtonWrapper>
-          <StatusButton>Edit</StatusButton>
-          <StatusButton>Delete</StatusButton>
-        </StatusButtonWrapper>
       </Actions>
     </PostCardContainer>
   );
