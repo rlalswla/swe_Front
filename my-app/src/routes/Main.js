@@ -94,69 +94,68 @@ const SearchButtonWrapper = styled.div`
 `;
 
 const SearchButton = styled.button`
-    background: rgba(196, 196, 196, 0.2);
-    width:22%;
-    height: 5%;
-    border: none;
-    border-radius: 10px;
-    padding: 15px;
-    margin-left: 3px;
-    margin-right: 3px;
-    cursor: pointer;
-    font-size: 12px;    
-    font-weight: 600;
-    color: black;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    justify-content: space-between;
-    
+  background: rgba(196, 196, 196, 0.2);
+  width: 22%;
+  height: 5%;
+  border: none;
+  border-radius: 10px;
+  padding: 15px;
+  margin-left: 3px;
+  margin-right: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: black;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const FindButton = styled.button`
-    // FindButton의 스타일을 정의합니다.
-    background: rgba(196, 196, 196, 0.2);
-    width:16%; // FindButton의 너비를 설정합니다.
-    height: 5%;
-    border: none;
-    border-radius: 10px;
-    padding: 15px;
-    margin-left: 3px;
-    margin-right: 3px;
-    cursor: pointer;
-    font-size: 12px;    
-    font-weight: 600;
-    color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  // FindButton의 스타일을 정의합니다.
+  background: rgba(196, 196, 196, 0.2);
+  width: 16%; // FindButton의 너비를 설정합니다.
+  height: 5%;
+  border: none;
+  border-radius: 10px;
+  padding: 15px;
+  margin-left: 3px;
+  margin-right: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Main = () => {
-    // const posts = [
-    //     {
-    //       title: "SKKU Application",
-    //       location: "Suwon",
-    //       description:
-    //         "We are recruiting developers and designers to join our side project.",
-    //       roles: ["Front-end", "Back-end", "Designer"],
-    //       recruitingInfo: "Recruiting 1/7",
-    //     },
-    
-    //     // 추가 게시물 정보를 여기에 포함할 수 있습니다.
-    //   ];
+  // const posts = [
+  //     {
+  //       title: "SKKU Application",
+  //       location: "Suwon",
+  //       description:
+  //         "We are recruiting developers and designers to join our side project.",
+  //       roles: ["Front-end", "Back-end", "Designer"],
+  //       recruitingInfo: "Recruiting 1/7",
+  //     },
 
-    // 추가 게시물 정보를 여기에 포함할 수 있습니다.
+  //     // 추가 게시물 정보를 여기에 포함할 수 있습니다.
+  //   ];
+
+  // 추가 게시물 정보를 여기에 포함할 수 있습니다.
 
   const navigate = useNavigate();
 
-  const {setSelectedProjectId} = useProjectStore();
+  const { setSelectedProjectId } = useProjectStore();
 
   const handleCardClick = (id) => {
-        console.log('id:', id);
-        setSelectedProjectId(id);
-        navigate("/project-description");
-    };
+    console.log("id:", id);
+    setSelectedProjectId(id);
+    navigate("/project-description");
+  };
 
   const [form, setForm] = useState({
     projectname: "",
@@ -185,105 +184,125 @@ const Main = () => {
     setSelectedPosition(position);
   };
 
+  const handleChange_popup = (e) => {
+    setSelectedStacks(e.target.value.split(",").map((s) => s.trim()));
+  };
 
-    const handleChange_popup = (e) => {
-      setSelectedStacks(e.target.value.split(',').map(s => s.trim()));
-    };
-  
-      const handleChange = (e) => {
-          const { name, value } = e.target;
-          setForm({
-          ...form,
-          [name]: value,
-          });
-      };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
 
-      
+  const handleFindClick = async () => {
+    const sum = form.stack.reduce((a, b) => a + b, 0);
+    const updatedForm = { ...form, stack: sum };
 
-      const handleFindClick = async () => {
-        const sum = form.stack.reduce((a, b) => a + b, 0);
-        const updatedForm = { ...form, stack: sum };
+    try {
+      setPosts([]);
+      const response = await axios.post("/api/search", updatedForm);
+      // response.data를 posts 상태에 저장합니다.
+      setPosts(response.data);
+      setForm([]);
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
+  };
 
-        try {
-            setPosts([]);
-            const response = await axios.post('/api/search', updatedForm);
-            // response.data를 posts 상태에 저장합니다.
-            setPosts(response.data);
-            setForm([]);
-        } catch (error) {
-            console.error('Failed to fetch data:', error);
-        }
-    };
-    
-    const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState([]);
 
-    
-    
+  return (
+    <Mainpage>
+      <Header>
+        <Title>SKKU Recruit</Title>
+      </Header>
+      <Title1>All Projects</Title1>
+      <SearchWrapper>
+        <SearchIcon />
+        <Searchbox
+          name="projectname"
+          placeholder="Search"
+          onChange={handleChange}
+        />
+      </SearchWrapper>
 
-    return (
-        <Mainpage>
-            <Header>
-                <Title>SKKU Recruit</Title>
-            </Header>
-            <Title1>All Projects</Title1>
-            <SearchWrapper>
-                <SearchIcon />
-                <Searchbox name="projectname" placeholder='Search' onChange={handleChange} />
-            </SearchWrapper>
+      <SearchButtonWrapper>
+        <SearchButton
+          onClick={() => {
+            setShowPopup1(true);
+            setShowPopup(false);
+            setShowPopup2(false);
+          }}>
+          Status
+          <IoIosArrowDown />
+        </SearchButton>
+        {showPopup1 && (
+          <TechStackPopup1
+            setForm={setForm}
+            selectedStatus={selectedstatus}
+            onSelect={handleSelectStatus}
+            setShowPopup={setShowPopup1}
+          />
+        )}
+        <SearchButton
+          onClick={() => {
+            setShowPopup1(false);
+            setShowPopup(false);
+            setShowPopup2(true);
+          }}>
+          Position
+          <IoIosArrowDown />
+        </SearchButton>
+        {showPopup2 && (
+          <TechStackPopup2
+            setForm={setForm}
+            selectedPosition={selectedposition}
+            onSelect={handleSelectPosition}
+            setShowPopup={setShowPopup2}
+          />
+        )}
+        <SearchButton
+          onClick={() => {
+            setShowPopup1(false);
+            setShowPopup(true);
+            setShowPopup2(false);
+          }}>
+          Tech Stack
+          <IoIosArrowDown />
+        </SearchButton>
+        {showPopup && (
+          <TechStackPopup
+            setForm={setForm}
+            selectedStacks={selectedStacks}
+            onSelect={handleSelectStack}
+            setShowPopup={setShowPopup}
+          />
+        )}
+        <FindButton onClick={handleFindClick}>Find</FindButton>
+      </SearchButtonWrapper>
+      {console.log("form:", form)}
 
-            <SearchButtonWrapper>
-            <SearchButton onClick={()=>{setShowPopup1(true); setShowPopup(false);setShowPopup2(false);  }}>Status<IoIosArrowDown /></SearchButton>
-            {showPopup1 && (
-                <TechStackPopup1
-                    setForm={setForm}
-                    selectedStatus={selectedstatus}
-                    onSelect={handleSelectStatus}
-                    setShowPopup={setShowPopup1}
-                />
-                )}
-            <SearchButton onClick={()=>{setShowPopup1(false); setShowPopup(false);setShowPopup2(true);  }}>Position<IoIosArrowDown /></SearchButton>
-            {showPopup2 && (
-                <TechStackPopup2
-                    setForm={setForm}
-                    selectedPosition={selectedposition}
-                    onSelect={handleSelectPosition}
-                    setShowPopup={setShowPopup2}
-                />
-                )}
-            <SearchButton onClick={()=>{setShowPopup1(false); setShowPopup(true);setShowPopup2(false);  }}>Tech Stack<IoIosArrowDown /></SearchButton>
-            {showPopup && (
-                <TechStackPopup
-                    setForm={setForm}
-                    selectedStacks={selectedStacks}
-                    onSelect={handleSelectStack}
-                    setShowPopup={setShowPopup}
-                />
-                )}
-            <FindButton onClick={handleFindClick}>Find</FindButton>
-            </SearchButtonWrapper>
-            {console.log('form:', form)}
+      {posts.map((post, index) => (
+        <PostCardWrapper key={index} onClick={() => handleCardClick(post.id)}>
+          <PostCard
+            title={post.projectname}
+            location={post.location}
+            description={post.post_text}
+            roles={[
+              `Front: ${post.front_req}`,
+              `Back: ${post.back_req}`,
+              `Design: ${post.design_req}`,
+            ]}
+            recruitingInfo={post.isend ? "Recruiting ended" : "Recruiting"}
+          />
+        </PostCardWrapper>
+      ))}
 
-            {posts.map((post, index) => (
-                <PostCardWrapper key={index} onClick={() => handleCardClick(post.id)}>
-                    <PostCard 
-                                  title={post.projectname}
-                                  location={post.location}
-                                  description={post.post_text}
-                                  roles={[`Front: ${post.front_req}`, `Back: ${post.back_req}`, `Design: ${post.design_req}`]}
-                                  recruitingInfo={post.isend ? 'Recruiting ended' : 'Recruiting'}
-                                />
-                </PostCardWrapper>
-            ))}
-
-            <TabBar></TabBar>
-        </Mainpage>
-    
-        
-
-
-
-
-    );
-}
+      <TabBar></TabBar>
+    </Mainpage>
+  );
+};
 
 export default Main;
