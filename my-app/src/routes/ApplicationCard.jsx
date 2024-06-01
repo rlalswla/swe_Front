@@ -53,7 +53,7 @@ const Header = styled.div`
 
 const PortButton = styled.button`
   background-color: transparent;
-  color: #4caf50;
+  color: #198155;
   border: none;
   padding: 0;
   cursor: pointer;
@@ -79,7 +79,7 @@ const ConfirmButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #4caf50;
+  background-color: #23c16b;
   color: white;
   border: none;
   border-radius: 10px;
