@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 export default function ApplicationCard({ id, name, roles, phone }) {
   const navigate = useNavigate();
   const goToApplicationPort = () => {
-    navigate("/applicationPort");
+    navigate('/applicationPort');
   };
 
   return (
@@ -34,12 +34,15 @@ const ApplicationCardContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px;
   background: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  width: 323px;
+  width: 343px;
+  height: 140px;
   margin: 10px 0;
+  padding: 10px;
+  padding-bottom: 12px;
+  box-sizing: border-box;
 `;
 
 const Header = styled.div`
@@ -56,21 +59,26 @@ const PortButton = styled.button`
   cursor: pointer;
   font-size: 14px;
   font-weight: bold;
+  width: 80px;
 `;
 
 const Title = styled.h3`
   margin: 8px;
   color: #333;
+  font-size: 20px;
+  width: 126px;
 `;
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
 `;
 
 const ConfirmButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #4caf50;
   color: white;
   border: none;
@@ -78,6 +86,8 @@ const ConfirmButton = styled.button`
   padding: 10px 20px;
   font-size: 14px;
   cursor: pointer;
+  width: 78px;
+  height: 39px;
 `;
 
 const Roles = styled.div`
@@ -98,6 +108,8 @@ const PhoneWrapper = styled.div`
   background: #f2f4f5;
   border-radius: 8px;
   padding: 8px;
+  width: 224px;
+  box-sizing: border-box;
 `;
 
 const PhoneLabel = styled.span`
