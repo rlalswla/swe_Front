@@ -12,20 +12,48 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-items: center;
-  gap: 45px;
+  gap: 55px;
   background-color: #0e442a;
   color: white;
   width: 100vw;
   height: 50px;
-  margin-bottom: 35px;
-  justify-content: center;
+`;
+
+const BackButton = styled.button`
+  background-color: transparent;
+  cursor: pointer;
+  margin: 10px;
+  margin-left: 20px;
+  padding: 10px 20px;
+  border: none;
+  color: white;
+  background-image: url(${arrowLeftIcon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 30px;
 `;
 
 const Title = styled.h1`
   font-size: 24px;
-  
-  
 `;
+
+// const Header = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-items: center;
+//   gap: 45px;
+//   background-color: #0e442a;
+//   color: white;
+//   width: 100vw;
+//   height: 50px;
+//   margin-bottom: 35px;
+//   justify-content: center;
+// `;
+
+// const Title = styled.h1`
+//   font-size: 24px;
+// `;
 
 const Container_posting = styled.div`
   display: flex;
@@ -63,19 +91,19 @@ const Inputbox_posting_detail = styled.div`
 
 `;
 
-const BackButton = styled.button`
-  background-color: transparent;
-  cursor: pointer;
-  margin: 10px;
-  margin-left: 20px;
-  padding: 10px 20px;
-  border: none;
-  color: white;
-  background-image: url(${arrowLeftIcon});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-`;
+// const BackButton = styled.button`
+//   background-color: transparent;
+//   cursor: pointer;
+//   margin: 10px;
+//   margin-left: 20px;
+//   padding: 10px 20px;
+//   border: none;
+//   color: white;
+//   background-image: url(${arrowLeftIcon});
+//   background-size: contain;
+//   background-repeat: no-repeat;
+//   background-position: center;
+// `;
 
 // const Box_in_box = styled.input`
 //     background: rgba(238, 238, 238, 1);
@@ -147,7 +175,7 @@ const token = localStorage.getItem('token') // 로컬 스토리지에서 토큰�
             console.log('response:', response.data);
         } catch (error) {
             console.log('failed to make post:', error);
-            navigate('Main');
+            navigate('/main');
         }
         // 회원가입 로직 추가
 
@@ -276,7 +304,7 @@ const token = localStorage.getItem('token') // 로컬 스토리지에서 토큰�
                 {/* fortest */}
                 {/* <Link style ={{color: '#000000', textDecoration:'none' }} to="/Main">Make Post</Link> */}
                 {console.log (form)}
-            
+                Make Post
             </button>
             </div>
         </form>

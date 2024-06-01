@@ -174,7 +174,7 @@ export default function ProjectDescription() {
         </>
       )}
       <Header>
-        <BackButton />
+        <BackButton onClick={() => navigate('/Main')} />
         <Title>Project Description</Title>
       </Header>
       <ProjectSummaryWrapper>
