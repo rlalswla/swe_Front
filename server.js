@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const { parse } = require('date-fns');
 
 /* User Modules */
 const db = require('./modules/DBconfig');
@@ -13,10 +14,13 @@ const { login, auth } = require('./modules/JWTauth');
 const app = express();
 const port = 3000;
 
-app.use(cors());
+app.use(cors({
+    origin: true,
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'my-app/build')));
+app.use(express.static(__dirname + '/my-app/build/'));
 app.use(cookieParser());
 
 /* Database Connect */
@@ -57,7 +61,7 @@ app.post('/api/signup', async (req, res) => {
 });
 
 /* SignIn */
-app.post('/api/signin', login, async (req, res) => {
+app.post('/api/signin', async (req, res) => {
   const { id, password } = req.body;
 
   const query = {
@@ -73,8 +77,13 @@ app.post('/api/signin', login, async (req, res) => {
       id,
     };
     jwt.sign(payload, process.env.KEY, { expiresIn: 3600 }, (err, token) => {
-      if (err) throw err;
-      else return res.cookie('user', token, { maxAge: 30 * 60 * 1000 }).end();
+      if (err) {
+          return res.status(400).json({ message: 'token create failed.' });
+      }
+      else{
+          res.cookie('user', token, { maxAge: 30 * 60 * 1000, httpOnly: true, secure: false, sameSite: 'Lax' });
+          return res.status(200).json({ token:token, message: 'signin success' });
+      }
     });
   }
 });
@@ -88,15 +97,16 @@ app.get('/logout', (req, res) => {
 app.post('/api/search', auth, async (req, res) => {
   const { status, position, stack } = req.body;
 
+  console.log(position);
   let positionStr;
   switch (position) {
-    case 0:
+    case "Front-end":
       positionStr = 'front_req';
       break;
-    case 1:
+    case "Back-end":
       positionStr = 'back_req';
       break;
-    case 2:
+    case "Designer":
       positionStr = 'design_req';
       break;
     default:
@@ -114,9 +124,10 @@ app.post('/api/search', auth, async (req, res) => {
       ' > 0 AND (stack | $1) > 0 AND isEnd = $2',
     values: [stack, status],
   };
+  console.log(query);
   const result = await db.query(query);
-
-  return res.send(result.rows);
+  console.log(result.rows);
+  return res.status(200).json(result.rows);
 });
 
 /* Post page */
@@ -141,7 +152,7 @@ app.post('/api/post', auth, async (req, res) => {
 
   result.rows[0].isAttend = isAttend.rows.length > 0;
 
-  return res.send(result.rows[0]);
+  return res.status(200).json(result.rows[0]);
 });
 
 /* Evaluate Page */
@@ -153,7 +164,7 @@ app.post('/api/end_post', auth, async (req, res) => {
     values: [postid, id],
   };
   const result = await db.query(userid_query);
-  return res.send(result);
+  return res.status(200).json(result);
 });
 
 /* Post apply */
@@ -206,17 +217,21 @@ app.post('/api/evaluate', auth, async (req, res) => {
 
 /* Posting */
 app.post('/api/posting', auth, async (req, res) => {
-  const { id, projectname, position, front_req, back_req, design_req, stack, location, post_text } = req.body;
-  console.log(id + " " + projectname);
+  const { id, projectname, front_req, back_req, design_req, stack, location, post_text, enddate } = req.body;
+
+  console.log(enddate);
+  const enddate_date = parse(enddate, "yyyyMMdd", new Date());
+  console.log(enddate_date);
   try {
     const query = {
-      text: "INSERT INTO posts (userid, projectname, front_req, back_req, design_req, post_text, stack, location, startdate, enddate, isEnd) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()::Date, $9, false]",
-      values: [id, projectname, front_req, back_req, design_req, post_text, stack, location, enddate]
+      text: "INSERT INTO posts (userid, projectname, front_req, back_req, design_req, post_text, stack, location, startdate, enddate, isEnd) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()::Date, $9, false)",
+      values: [id, projectname, front_req, back_req, design_req, post_text, stack, location, enddate_date]
     }
+    console.log(query);
     await db.query(query);
-
     return res.status(200).json({ message: 'posting success' });
   } catch (err) {
+    console.log(err);
     return res.status(400).json({ message: 'posting failed' });
   }
 });
@@ -246,7 +261,7 @@ app.post('/api/scrab_post', auth, async (req, res) => {
 
     const posts_result = await db.query(query2);
 
-    res.status(200).json({ posts: posts_result.rows });
+    res.status(200).json(posts_result.rows);
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: 'scrab_post failed' });
@@ -257,7 +272,7 @@ app.post('/api/profile', auth, async (req, res) => {
   const id = req.body.id;
 
   const query = {
-    text: 'SELECT perform, commute, prepare, commitment, total FROM users WHERE id = $1',
+    text: 'SELECT perform, commute, prepare, commitment, total, username, department FROM users WHERE id = $1',
     values: [id],
   };
 
@@ -272,7 +287,7 @@ app.post('/api/profile', auth, async (req, res) => {
 
     // console.log(evaluate);
 
-    res.status(200).json({ evaluate_average: evaluate });
+    res.status(200).json({username: scores.username, id:id, department: scores.department,  evaluate_average:evaluate});
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: 'profile failed' });
@@ -293,7 +308,7 @@ app.post('/api/account', auth, async (req, res) => {
 
     // console.log(user);
 
-    res.status(200).json({ user: user[0] });
+    res.status(200).json(user[0]);
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: 'account failed' });
@@ -343,7 +358,7 @@ app.post('/api/portfolio', auth, async (req, res) => {
 
     // console.log(user);
 
-    res.status(200).json({ user: user[0] });
+    res.status(200).json(user[0]);
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: 'portfolio failed' });
@@ -377,7 +392,7 @@ app.post('/api/mypost', auth, async (req, res) => {
     const posts = query_result.rows;
     console.log(posts);
 
-    res.status(200).json({ posts: query_result.rows });
+    res.status(200).json(query_result.rows);
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: 'mypost failed' });
@@ -401,7 +416,7 @@ app.post('/api/applicant', auth, async (req, res) => {
     const usersQuery_result = await db.query(usersQuery);
     const users = usersQuery_result.rows;
 
-    res.status(200).json({ users: users });
+    res.status(200).json(users);
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: 'applicant failed' });
@@ -417,7 +432,7 @@ app.post('/api/apply_portfolio', auth, async (req, res) => {
     const query_result = await db.query(query);
     // console.log(query_result.rows);
 
-    res.status(200).json({ users: query_result.rows[0] });
+    res.status(200).json(query_result.rows[0]);
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: 'apply_portfolio failed' });
@@ -426,7 +441,7 @@ app.post('/api/apply_portfolio', auth, async (req, res) => {
 
 /* React routing */
 app.use('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'my-app/build/index.html'));
+    res.sendFile(path.join(__dirname, '/my-app/build/index.html'));
 });
 
 app.listen(port, () => {

@@ -4,7 +4,7 @@ CREATE TABLE users (
     id VARCHAR(10) PRIMARY KEY,
     password VARCHAR(50),
 
-    phone INT,
+    phone VARCHAR(15),
     department VARCHAR(100),
 
     perform INT DEFAULT 0,
@@ -13,9 +13,9 @@ CREATE TABLE users (
     commitment INT DEFAULT 0,
     total INT DEFAULT 0,
 
-    position INT DEFAULT 0,
+    position VARCHAR(50) DEFAULT Null,
     stack INT DEFAULT 0,
-    profile TEXT
+    profile TEXT DEFAULT NULL
 );
 
 CREATE TABLE posts (

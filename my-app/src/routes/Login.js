@@ -13,7 +13,7 @@ const Login = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('/api/signin', { id, password }); // 서버에 로그인 요청
+      const response = await axios.post('/api/signin', { id, password },{ withCredentials: true }); // 서버에 로그인 요청
 
       if (response.data.token) {
         // JWT를 로컬 스토리지에 저장
@@ -43,12 +43,13 @@ const Login = () => {
           <input id ="passwordbox" className =" inputbox" type="password" placeholder = " Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
         <div className ="button_login">
-          <button type="submit">
+          <button>
             <Link style = {{color: '#000000', textDecoration:'none' }} to="/signup">Sign In</Link>
           </button> 
 
           <button type="submit">
-          <Link style = {{color: '#000000', textDecoration:'none' }} to="/main">Login</Link> 
+            login
+          {/* <Link style = {{color: '#000000', textDecoration:'none' }} to="/main">Login</Link>  */}
           {/* 로그인 유효성 판단후 mainpage 라우팅 해야함 */}
           </button>
         </div>

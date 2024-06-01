@@ -5,12 +5,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import TabBar from "./TabBar";
-import PostCard from "./PostCard";
+import PostCard from "./Postcardmain";
 import { CiSearch } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
 import TechStackPopup from "./components/TechStackPopup";
 import TechStackPopup1 from "./components/TechStackPopup1";
 import TechStackPopup2 from "./components/TechStackPopup2";
+import useProjectStore from "../store/useProjectStore";
+
 const Header = styled.div`
   display: flex;
   align-items: center;
@@ -148,9 +150,12 @@ const Main = () => {
 
   const navigate = useNavigate();
 
+  const {setSelectedProjectId} = useProjectStore();
+
   const handleCardClick = async (id) => {
         try {
             const response = await axios.post('/api/post', { id });
+            setSelectedProjectId(id);
             // response를 처리하는 코드를 여기에 추가합니다.
         } catch (error) {
             console.error('Failed to post data:', error);
@@ -197,13 +202,19 @@ const Main = () => {
           });
       };
 
+      
 
       const handleFindClick = async () => {
+        const sum = form.stack.reduce((a, b) => a + b, 0);
+        const updatedForm = { ...form, stack: sum };
+
         try {
             setPosts([]);
-            const response = await axios.post('/api/search', form);
+            const response = await axios.post('/api/search', updatedForm);
             // response.data를 posts 상태에 저장합니다.
             setPosts(response.data);
+            setForm([]);
+            updatedForm = [];
         } catch (error) {
             console.error('Failed to fetch data:', error);
         }
@@ -259,7 +270,13 @@ const Main = () => {
 
             {posts.map((post, index) => (
                 <PostCardWrapper key={index} onClick={() => handleCardClick(post.id)}>
-                    <PostCard {...post} />
+                    <PostCard 
+                                  title={post.projectname}
+                                  location={post.location}
+                                  description={post.post_text}
+                                  roles={[`Front: ${post.front_req}`, `Back: ${post.back_req}`, `Design: ${post.design_req}`]}
+                                  recruitingInfo={post.isend ? 'Recruiting ended' : 'Recruiting'}
+                                />
                 </PostCardWrapper>
             ))}
 

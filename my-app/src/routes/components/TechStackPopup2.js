@@ -8,8 +8,8 @@ const TechStackPopup = ({ setForm, setShowPopup, selectedPosition, onSelect }) =
 
   const techStacks = [
     { label: 'Design', value:"Designer" },
-    { label: 'Front', value: "Frontend" },
-    { label: 'Back', value: "Backend" },
+    { label: 'Front', value: "Front-end" },
+    { label: 'Back', value: "Back-end" },
   ];
   
   

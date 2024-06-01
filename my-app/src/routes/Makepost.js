@@ -90,7 +90,6 @@ const Makepost = () => {
     const navigate = useNavigate();
   const [form, setForm] = useState({
     projectname: '',
-    position: '',
     front_req: 0,
     back_req: 0,
     design_req: 0,
@@ -104,7 +103,7 @@ const Makepost = () => {
 const [showPopup, setShowPopup] = useState(false);
 
 
-
+const token = localStorage.getItem('token') // 로컬 스토리지에서 토큰을 가져오거나, 토큰이 없는 경우 빈 문자열을 사용합니다.
 
 
   const [selectedStacks, setSelectedStacks] = useState([]);
@@ -126,9 +125,16 @@ const [showPopup, setShowPopup] = useState(false);
 
     const handlemakepost = async (event) => {
         event.preventDefault();
-
+        const sum = form.stack.reduce((a, b) => a + b, 0);
+        const updatedForm = { ...form, stack: sum };
+        console.log('updatedForm:', updatedForm);
         try{
-            const response = await axios.post('/api/posting', form);
+
+            const response = await axios.post('/api/posting', updatedForm, {
+            headers: {
+                Authorization: `Bearer ${token}`, // 헤더에 토큰을 추가합니다.
+              },
+            });
             if (response.status === 200) {
                 alert('게시물이 작성되었습니다.');
                 navigate('/main');
@@ -268,8 +274,9 @@ const [showPopup, setShowPopup] = useState(false);
             <div className ="button">
             <button type="submit" id ="posting_btn">
                 {/* fortest */}
-                <Link style ={{color: '#000000', textDecoration:'none' }} to="/Main">Make Post</Link>
+                {/* <Link style ={{color: '#000000', textDecoration:'none' }} to="/Main">Make Post</Link> */}
                 {console.log (form)}
+            
             </button>
             </div>
         </form>
@@ -281,4 +288,3 @@ const [showPopup, setShowPopup] = useState(false);
 
 
 export default Makepost;
-
