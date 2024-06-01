@@ -16,5 +16,5 @@ export default function ProjectDetails() {
     return null;
   }
 
-  return <Container>{projectData.detail}</Container>;
+  return <Container>{projectData.post_text}</Container>;
 }

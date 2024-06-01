@@ -36,6 +36,7 @@ const BackButton = styled.button`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  width: 30px;
 `;
 
 const Title = styled.h1`
@@ -44,10 +45,6 @@ const Title = styled.h1`
 
 export default function TeamEvaluation() {
   const navigate = useNavigate();
-
-  const handleMemberClick = (memberId) => {
-    navigate(`/evaluation/${memberId}`);
-  };
 
   function handleBackButton() {
     navigate('/project-description');
@@ -61,7 +58,7 @@ export default function TeamEvaluation() {
       </Header>
       <h2>Please select the team member to evaluate.</h2>
       <div className="team-member-list">
-        <TeamMemberList onMemberClick={handleMemberClick} />
+        <TeamMemberList />
       </div>
     </Container>
   );

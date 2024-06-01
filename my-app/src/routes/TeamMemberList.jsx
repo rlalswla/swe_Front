@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useTeamStore from '../store/useTeamStore.jsx';
+import useProjectStore from '../store/useProjectStore.jsx';
 import skkuSymbol from './asset/image/skku_symbol.jpg';
 
 const TeamMemberContainer = styled.div`
@@ -59,11 +60,20 @@ const MemberPosition = styled.p`
 
 export default function TeamMemberList() {
   const { teamMembers, fetchTeamMembers, selectMember } = useTeamStore();
+  const { selectedProjectId } = useProjectStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchTeamMembers();
-  }, [fetchTeamMembers]);
+    if (selectedProjectId) {
+      fetchTeamMembers(selectedProjectId);
+    }
+  }, [selectedProjectId, fetchTeamMembers]);
+
+  useEffect(() => {
+    if (teamMembers.length === 0) {
+      alert('The evaluation has ended.');
+    }
+  }, [teamMembers]);
 
   const handleMemberClick = (member) => {
     selectMember(member);
@@ -76,7 +86,7 @@ export default function TeamMemberList() {
         <Button key={member.id} onClick={() => handleMemberClick(member)}>
           <Member />
           <TeamMemberInfo>
-            <MemberName>{member.name}</MemberName>
+            <MemberName>{member.username}</MemberName>
             <MemberPosition>{member.position}</MemberPosition>
           </TeamMemberInfo>
         </Button>

@@ -11,15 +11,14 @@ const useProjectStore = create((set) => ({
   closeModal: () => set({ isModalOpen: false }),
   fetchProjectData: async (projectId) => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/projects/${projectId}`
-      );
-      const data = response.data;
+      const response = await axios.post('/api/post', { postid: projectId });
+      const data = response.data.post;
+
+      const { status, isAttend } = data;
+
       set({ projectData: data });
 
-      const { status, isUserParticipant, isEvaluationPending } = data;
-
-      if (status === 'closed' && isUserParticipant && isEvaluationPending) {
+      if (status && isAttend && isEnd) {
         set({ isModalOpen: true });
       }
     } catch (error) {
