@@ -173,24 +173,6 @@ export default function PositionSelectBar() {
 
   const handleHeartClick = () => {
     setHeartClicked(!heartClicked);
-
-    const payload = {
-      postid: projectData.id,
-    };
-
-    // const endpoint = heartClicked ? '/api/unscrap' : '/api/scrap';
-
-    axios
-      .post('/api/scrap', payload)
-      .then((response) => {
-        if (response.status === 200) {
-          alert('Scrap success.');
-        }
-      })
-      .catch((error) => {
-        console.error('Error scrapping project:', error);
-        alert('Scrap failed.');
-      });
   };
 
   return (

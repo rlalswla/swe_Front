@@ -10,7 +10,7 @@ const useTeamStore = create((set) => ({
       const response = await axios.post('/api/end_post', {
         postid: postId,
       });
-      set({ teamMembers: response.data.users });
+      set({ teamMembers: response.data });
     } catch (error) {
       console.error('Error fetching team members:', error);
     }

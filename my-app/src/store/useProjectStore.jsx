@@ -12,9 +12,9 @@ const useProjectStore = create((set) => ({
   fetchProjectData: async (projectId) => {
     try {
       const response = await axios.post('/api/post', { postid: projectId });
-      const data = response.data.post;
+      const data = response.data;
 
-      const { status, isAttend } = data;
+      const { status, isAttend, isEnd } = data;
 
       set({ projectData: data });
 
