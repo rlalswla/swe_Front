@@ -133,16 +133,35 @@ export default function TeamMemberEvaluation() {
   // const [review, setReview] = useState('');
 
   useEffect(() => {
-    if (!selectedMember || selectedMember.id !== parseInt(memberId)) {
-      const member = teamMembers.find((m) => m.id === parseInt(memberId));
-      if (member) {
-        selectMember(member);
+    if (!selectedMember || selectedMember.id !== memberId) {
+      if (teamMembers.length === 0) {
+        fetchTeamMembers().then(() => {
+          const member = teamMembers.find((m) => m.id === memberId);
+          if (member) {
+            selectMember(member);
+          } else {
+            console.error('Error: Member not found');
+            navigate('/evaluation');
+          }
+        });
       } else {
-        console.error('Error: Member not found');
-        navigate('/evaluation');
+        const member = teamMembers.find((m) => m.id === memberId);
+        if (member) {
+          selectMember(member);
+        } else {
+          console.error('Error: Member not found');
+          navigate('/evaluation');
+        }
       }
     }
-  }, [memberId, selectedMember, teamMembers, selectMember, navigate]);
+  }, [
+    memberId,
+    selectedMember,
+    teamMembers,
+    selectMember,
+    navigate,
+    fetchTeamMembers,
+  ]);
 
   // useEffect(() => {
   //   const member = teamMembers.find((m) => m.id === memberId);
@@ -179,8 +198,7 @@ export default function TeamMemberEvaluation() {
           markMemberAsEvaluated(selectedMember.id);
           deselectMember();
 
-          const remainingMembers = teamMembers.filter((m) => !m.isEvaluated);
-          if (remainingMembers.length > 0) {
+          if (response.data.length > 0) {
             navigate('/evaluation');
           } else {
             navigate('/project-description');

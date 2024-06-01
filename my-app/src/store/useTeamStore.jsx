@@ -16,15 +16,6 @@ const useTeamStore = create((set) => ({
     }
   },
 
-  markMemberAsEvaluated: (memberId) => {
-    set((state) => ({
-      ...state,
-      teamMembers: state.teamMembers.map((member) =>
-        member.id === memberId ? { ...member, isEvaluated: true } : member
-      ),
-    }));
-  },
-
   selectMember: (member) => set({ selectedMember: member }),
   deselectMember: () => set({ selectedMember: null }),
 }));
