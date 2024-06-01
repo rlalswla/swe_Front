@@ -122,7 +122,7 @@ export default function TeamMemberEvaluation() {
     deselectMember,
     teamMembers,
     selectMember,
-    markMemberAsEvaluated,
+    fetchTeamMembers,
   } = useTeamStore();
   const [ratings, setRatings] = useState({
     performance: 0,
@@ -134,34 +134,15 @@ export default function TeamMemberEvaluation() {
 
   useEffect(() => {
     if (!selectedMember || selectedMember.id !== memberId) {
-      if (teamMembers.length === 0) {
-        fetchTeamMembers().then(() => {
-          const member = teamMembers.find((m) => m.id === memberId);
-          if (member) {
-            selectMember(member);
-          } else {
-            console.error('Error: Member not found');
-            navigate('/evaluation');
-          }
-        });
+      const member = teamMembers.find((m) => m.id === memberId);
+      if (member) {
+        selectMember(member);
       } else {
-        const member = teamMembers.find((m) => m.id === memberId);
-        if (member) {
-          selectMember(member);
-        } else {
-          console.error('Error: Member not found');
-          navigate('/evaluation');
-        }
+        console.error('Error: Member not found');
+        navigate('/evaluation');
       }
     }
-  }, [
-    memberId,
-    selectedMember,
-    teamMembers,
-    selectMember,
-    navigate,
-    fetchTeamMembers,
-  ]);
+  }, [memberId, selectedMember, teamMembers, selectMember, navigate]);
 
   // useEffect(() => {
   //   const member = teamMembers.find((m) => m.id === memberId);
@@ -195,7 +176,6 @@ export default function TeamMemberEvaluation() {
       .then((response) => {
         if (response.status === 200) {
           alert('Evaluation submitted successfully!');
-          markMemberAsEvaluated(selectedMember.id);
           deselectMember();
 
           if (response.data.length > 0) {
