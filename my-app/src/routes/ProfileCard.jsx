@@ -101,10 +101,10 @@ export default function ProfileCard() {
     <Card>
       <EditButton onClick={EditButtonClick}>Edit My Profile &gt;</EditButton>
       <StyledProfilePic />
-      <ProfileInfo>
+      {/* <ProfileInfo>
         <InfoName>{ProfileInfo.author}</InfoName>
-        <Info>{`${ProfileInfo.location} | ${ProfileInfo.positions[0]}`}</Info>
-      </ProfileInfo>
+        <Info>{`${ProfileInfo.location} | ${ProfileInfo.positions[0]}`}</Info> */}
+      {/* </ProfileInfo> */}
       <div className="profile-edit"></div>
       <div>
         <EvalTitle>Evaluation</EvalTitle>

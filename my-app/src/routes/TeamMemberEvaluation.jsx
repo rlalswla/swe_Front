@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 import useTeamStore from '../store/useTeamStore.jsx';
 import arrowLeftIcon from './asset/image/arrow-left-icon.svg';
 
@@ -36,6 +38,7 @@ const BackButton = styled.button`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  width: 30px;
 `;
 
 const Title = styled.h1`
@@ -50,6 +53,7 @@ const RatingCategory = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  margin-top: 20px;
 `;
 
 const CategoryLabel = styled.span`
@@ -75,35 +79,35 @@ const Star = styled.span`
   margin-right: 5px;
 `;
 
-const ReviewContainer = styled.div`
-  margin-top: 50px;
-  text-align: left;
-  width: 100%;
-`;
+// const ReviewContainer = styled.div`
+//   margin-top: 50px;
+//   text-align: left;
+//   width: 100%;
+// `;
 
-const ReviewLabel = styled.p`
-  margin-left: 5px;
-  font-size: 18px;
-`;
+// const ReviewLabel = styled.p`
+//   margin-left: 5px;
+//   font-size: 18px;
+// `;
 
-const Textarea = styled.textarea`
-  width: 100%;
-  height: 149px;
-  border: 1px solid #cccccc;
-  border-radius: 20px;
-  box-sizing: border-box;
-  padding: 15px;
-`;
+// const Textarea = styled.textarea`
+//   width: 100%;
+//   height: 149px;
+//   border: 1px solid #cccccc;
+//   border-radius: 20px;
+//   box-sizing: border-box;
+//   padding: 15px;
+// `;
 
 const SubmitButton = styled.button`
-  width: 345px;
+  width: 332px;
   height: 52px;
   background-color: #198155;
   color: white;
   font-size: 18px;
   font-weight: 600;
+  margin-top: 20px;
   padding: 10px 20px;
-  margin-top: 130px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -116,7 +120,6 @@ export default function TeamMemberEvaluation() {
   const {
     selectedMember,
     deselectMember,
-    fetchTeamMembers,
     teamMembers,
     selectMember,
     markMemberAsEvaluated,
@@ -127,19 +130,48 @@ export default function TeamMemberEvaluation() {
     preparation: 0,
     commitment: 0,
   });
-  const [review, setReview] = useState('');
+  // const [review, setReview] = useState('');
 
   useEffect(() => {
-    if (!selectedMember || selectedMember.id !== parseInt(memberId)) {
-      const member = teamMembers.find((m) => m.id === parseInt(memberId));
-      if (member) {
-        selectMember(member);
+    if (!selectedMember || selectedMember.id !== memberId) {
+      if (teamMembers.length === 0) {
+        fetchTeamMembers().then(() => {
+          const member = teamMembers.find((m) => m.id === memberId);
+          if (member) {
+            selectMember(member);
+          } else {
+            console.error('Error: Member not found');
+            navigate('/evaluation');
+          }
+        });
       } else {
-        console.error('Error: Member not found');
-        navigate('/evaluation');
+        const member = teamMembers.find((m) => m.id === memberId);
+        if (member) {
+          selectMember(member);
+        } else {
+          console.error('Error: Member not found');
+          navigate('/evaluation');
+        }
       }
     }
-  }, [memberId, selectedMember, teamMembers, selectMember, navigate]);
+  }, [
+    memberId,
+    selectedMember,
+    teamMembers,
+    selectMember,
+    navigate,
+    fetchTeamMembers,
+  ]);
+
+  // useEffect(() => {
+  //   const member = teamMembers.find((m) => m.id === memberId);
+  //   if (member) {
+  //     selectMember(member);
+  //   } else {
+  //     console.error('Error: Member not found');
+  //     navigate('/evaluation');
+  //   }
+  // }, [memberId, teamMembers, selectMember, navigate]);
 
   if (!selectedMember) {
     return <div>Error: Please select a team member to evaluate.</div>;
@@ -150,19 +182,33 @@ export default function TeamMemberEvaluation() {
   };
 
   const handleSubmit = () => {
-    markMemberAsEvaluated(selectedMember.id);
-    deselectMember();
-    alert('Evaluation submitted successfully!');
+    const payload = {
+      userid: selectedMember.userid,
+      perform: ratings.performance,
+      commute: ratings.communication,
+      prepare: ratings.preparation,
+      commitment: ratings.commitment,
+    };
 
-    console.log('Team Members after marking as evaluated:', teamMembers);
+    axios
+      .post('/api/evaluate', payload)
+      .then((response) => {
+        if (response.status === 200) {
+          alert('Evaluation submitted successfully!');
+          markMemberAsEvaluated(selectedMember.id);
+          deselectMember();
 
-    const remainingMembers = teamMembers.filter((m) => !m.isEvaluated);
-    console.log(remainingMembers);
-    if (remainingMembers.length > 0) {
-      navigate('/evaluation');
-    } else {
-      navigate('/project-description');
-    }
+          if (response.data.length > 0) {
+            navigate('/evaluation');
+          } else {
+            navigate('/project-description');
+          }
+        }
+      })
+      .catch((error) => {
+        console.error('Error submitting evaluation:', error);
+        alert('Failed to submit evaluation.');
+      });
   };
 
   const handleBackButton = () => {
@@ -176,7 +222,7 @@ export default function TeamMemberEvaluation() {
         <Title>Team Evaluation</Title>
       </Header>
       <h2>
-        How was the project <br /> with {selectedMember.name}?
+        How was the project <br /> with {selectedMember.username}?
       </h2>
       <EvaluationItemContainer>
         {['performance', 'communication', 'preparation', 'commitment'].map(
@@ -199,13 +245,13 @@ export default function TeamMemberEvaluation() {
             </RatingCategory>
           )
         )}
-        <ReviewContainer>
+        {/* <ReviewContainer>
           <ReviewLabel>Feel free to leave a review.</ReviewLabel>
           <Textarea
             value={review}
             onChange={(e) => setReview(e.target.value)}
           ></Textarea>
-        </ReviewContainer>
+        </ReviewContainer> */}
       </EvaluationItemContainer>
       <SubmitButton onClick={handleSubmit}>Submit</SubmitButton>
     </Container>

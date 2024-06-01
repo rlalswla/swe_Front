@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import useProjectStore from '../store/useProjectStore.jsx';
+// import { useEffect } from 'react';
 
 const Container = styled.div`
   display: flex;
@@ -72,12 +73,15 @@ export default function ProjectSummary() {
   const projectData = useProjectStore((state) => state.projectData);
 
   if (!projectData) {
-    return null;
+    return <div>Loading...</div>;
   }
+
+  let recruitmentNumber =
+    projectData.front_req + projectData.back_req + projectData.design_req;
 
   return (
     <Container>
-      <Title>{projectData.title}</Title>
+      <Title>{projectData.projectname}</Title>
       <AuthorDate>
         <span>{projectData.author}</span>
         <Date>{projectData.date}</Date>
@@ -86,17 +90,17 @@ export default function ProjectSummary() {
         <SummaryDetails>
           <PositionContainer>
             <DetailsSpan>Position </DetailsSpan>
-            {projectData.positions.map((position, index) => (
+            {projectData.position.map((position, index) => (
               <PositionBadge key={index}>{position}</PositionBadge>
             ))}
           </PositionContainer>
           <NumberContainer>
             <DetailsSpan>Recruitment Number </DetailsSpan>
-            {projectData.recruitmentNumber} members
+            {recruitmentNumber} members
           </NumberContainer>
           <DetailsContainer>
             <DetailsSpan>Project Duration </DetailsSpan>
-            {projectData.startDate} ~ {projectData.endDate}
+            {projectData.startdate} ~ {projectData.enddate}
           </DetailsContainer>
           <DetailsContainer>
             <DetailsSpan>Location </DetailsSpan>

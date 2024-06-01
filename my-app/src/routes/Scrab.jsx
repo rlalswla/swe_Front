@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import PostCard from "./PostCard";
 import TabBar from "./TabBar";
@@ -7,14 +6,13 @@ import styled from "styled-components";
 import { FaArrowLeft } from "react-icons/fa";
 import { useState, useEffect } from "react";
 
-function PostsList() {
+function Scrab() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    // 서버에서 데이터를 받아오는 비동기 함수
     const fetchPosts = async () => {
       try {
-        const response = await fetch("/api/mypost");
+        const response = await fetch("/api/scrab");
         setPosts(response.data.posts);
       } catch (error) {
         console.error("Failed to fetch posts", error);
@@ -25,20 +23,16 @@ function PostsList() {
 
   const navigate = useNavigate();
   const handleCardClick = () => {
-    navigate("/applicationList"); // ApplicationList 페이지로 네비게이션
-  };
-
-  const goBackToProfile = () => {
-    navigate("/profile");
+    navigate("/applicationList");
+    // 포스트 Id 넘겨주기
   };
 
   return (
     <PostList>
       <Header>
-        <StyledArrow onClick={goBackToProfile} />
         <Header_name>SKKU Recruit</Header_name>
       </Header>
-      <Title>My Post</Title>
+      <Title>Scrab</Title>
       {posts.map((post, index) => (
         <PostCardWrapper key={index} onClick={handleCardClick}>
           <PostCard {...post} />
@@ -49,7 +43,7 @@ function PostsList() {
   );
 }
 
-export default PostsList;
+export default Scrab;
 
 const Header = styled.div`
   display: flex;
@@ -73,11 +67,6 @@ const Header_name = styled.h1`
   letter-spacing: -0.5px;
   flex-grow: 1;
   margin-left: 65px;
-`;
-
-const StyledArrow = styled(FaArrowLeft)`
-  font-size: 20px;
-  color: white;
 `;
 
 const Title = styled.h1`

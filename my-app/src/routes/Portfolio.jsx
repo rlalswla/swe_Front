@@ -8,7 +8,7 @@ import axios from "axios";
 
 function Portfolio() {
   const [position, setPosition] = useState("");
-  const [techStack, setTechStack] = useState("");
+  const [stack, setstack] = useState("");
   const [description, setDescription] = useState("");
 
   const navigate = useNavigate();
@@ -19,11 +19,11 @@ function Portfolio() {
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
-        const response = await axios.get(`/api/get_portfolio`);
-        const { position, techStack, profile_text } = response.data;
+        const response = await axios.get(`/api/portfolio`);
+        const { position, stack, profile_text } = response.data;
         console.log(response.data);
         setPosition(position);
-        setTechStack(techStack);
+        setstack(stack);
         setDescription(profile_text);
       } catch (error) {
         console.error("Failed to fetch portfolio", error);
@@ -37,7 +37,7 @@ function Portfolio() {
     try {
       await axios.post("/api/save_portfolio", {
         position: position,
-        stack: techStack,
+        stack: stack,
         profile_text: description,
       });
       alert("Portfolio saved successfully");
@@ -63,9 +63,7 @@ function Portfolio() {
             <option value="backEnd">Back-End Developer</option>
             <option value="fullStack">Full Stack Developer</option>
           </PortSelect>
-          <PortSelect
-            value={techStack}
-            onChange={(e) => setTechStack(e.target.value)}>
+          <PortSelect value={stack} onChange={(e) => setstack(e.target.value)}>
             <option value="">Tech Stack</option>
             <option value="react">React</option>
             <option value="angular">Angular</option>
@@ -78,7 +76,9 @@ function Portfolio() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}></Textarea>
         </div>
-        <PortChangeButton type="submit">Save</PortChangeButton>
+        <PortChangeButton type="submit" onClick={handleSubmit}>
+          Save
+        </PortChangeButton>
       </form>
       <TabBar />
     </div>

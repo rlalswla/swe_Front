@@ -1,18 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TabBar from "./TabBar";
 import styled from "styled-components";
 import { FaArrowLeft } from "react-icons/fa6";
 import arrowLeftIcon from "./asset/image/arrow-left-icon.svg";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function AccountInformation() {
   const [userInfo, setUserInfo] = useState({
-    username: "Sungkyunkwan",
-    studentId: "2024123123",
-    password: "********",
-    phone: "010-1234-1234",
-    department: "Software",
+    username: "",
+    studentId: "",
+    password: "",
+    phone: "",
+    department: "",
   });
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const response = await axios.get(`api/save`);
+        const { username, studentId, password, phone, department } =
+          response.data;
+        console.log(response.data);
+        setUserInfo({
+          username: username,
+          studentId: studentId,
+          password: password,
+          phone: phone,
+          department: department,
+        });
+      } catch (error) {
+        console.error("Failed to fetch user info", error);
+      }
+    };
+    fetchUserInfo();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,10 +44,15 @@ function AccountInformation() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Saving Information:", userInfo);
-    alert("Information Saved!");
+    try {
+      await axios.post("/api/save", userInfo);
+      alert("Information Saved!");
+    } catch (error) {
+      console.error("Failed to save user info", error);
+      alert("Failed to save information.");
+    }
   };
 
   const navigate = useNavigate();
@@ -97,7 +124,9 @@ function AccountInformation() {
             />
           </Label>
         </div>
-        <AccountChangeButton type="submit">Save</AccountChangeButton>
+        <AccountChangeButton type="submit" onClick={handleSubmit}>
+          Save
+        </AccountChangeButton>
       </form>
       <TabBar />
     </div>

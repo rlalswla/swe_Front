@@ -154,14 +154,16 @@ export default function PositionSelectBar() {
     }
 
     const payload = {
+      postid: projectData.id,
       position: selectedPosition,
     };
 
-    // 선택한 포지션과 함께 지원자의 정보, 포트폴리오 전달해야 함
     axios
       .post('/api/apply', payload)
       .then((response) => {
-        alert('Application submitted successfully!');
+        if (response.status === 200) {
+          alert('Application submitted successfully!');
+        }
       })
       .catch((error) => {
         console.error('Error submitting application:', error);
@@ -177,7 +179,7 @@ export default function PositionSelectBar() {
     <>
       {showPositionSelector && <Overlay />}
       <Container>
-        {projectData.status !== 'closed' && (
+        {!projectData.status && (
           <div className="positionBar">
             <ArrowIconContainer
               arrowDirection={arrowDirection}
@@ -201,13 +203,12 @@ export default function PositionSelectBar() {
           </div>
         )}
         <ButtonContainer>
-          {/* <HeartButton>♡</HeartButton> */}
           <HeartButton clicked={heartClicked} onClick={handleHeartClick} />
-          {projectData.status === 'recruiting' ? (
-            <ApplyButton onClick={handleApplyClick}>Apply</ApplyButton>
-          ) : projectData.status === 'closed' ? (
+          {projectData.status ? (
             <ClosedLabel>Closed</ClosedLabel>
-          ) : null}
+          ) : (
+            <ApplyButton onClick={handleApplyClick}>Apply</ApplyButton>
+          )}
         </ButtonContainer>
       </Container>
     </>
