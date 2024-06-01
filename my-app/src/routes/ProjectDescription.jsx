@@ -105,9 +105,9 @@ const ProjectSummaryWrapper = styled.div`
   width: 100vw;
 `;
 
-export default function ProjectDescription({ projectId }) {
+export default function ProjectDescription() {
   const {
-    setSelectedProjectId,
+    selectedProjectId,
     fetchProjectData,
     isModalOpen,
     closeModal,
@@ -141,15 +141,14 @@ export default function ProjectDescription({ projectId }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await fetchProjectData(projectId);
-        setSelectedProjectId(projectId);
+        await fetchProjectData(selectedProjectId);
       } catch (err) {
         setError('Error: Project is missing.');
       }
     };
 
     fetchData();
-  }, [projectId, fetchProjectData, setSelectedProjectId]);
+  }, [selectedProjectId, fetchProjectData]);
 
   if (error) {
     return <p>{error}</p>;
