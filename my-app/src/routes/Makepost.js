@@ -50,6 +50,19 @@ const Inputbox_posting = styled.div`
 
 `;
 
+const Inputbox_posting_detail = styled.div`
+    display: flex;
+    flex-direction: row;
+    background: rgba(238, 238, 238, 1);
+    border-radius: 8px;
+    width: 240px;
+    height: 160px;
+    margin: 15px;
+    padding: 7px;
+    border: none;
+
+`;
+
 const BackButton = styled.button`
   background-color: transparent;
   cursor: pointer;
@@ -83,7 +96,9 @@ const Makepost = () => {
     design_req: 0,
     stack: [],
     location: '',
+    enddate: '',
     post_text: '',
+    
   });
 
 const [showPopup, setShowPopup] = useState(false);
@@ -113,7 +128,7 @@ const [showPopup, setShowPopup] = useState(false);
         event.preventDefault();
 
         try{
-            const response = await axios.post('api/posting', form);
+            const response = await axios.post('/api/posting', form);
             if (response.status === 200) {
                 alert('게시물이 작성되었습니다.');
                 navigate('/main');
@@ -148,7 +163,7 @@ const [showPopup, setShowPopup] = useState(false);
 
             <input  className ="Box_in_box"  type="text" name="projectname" value={form.projectname} onChange={handleChange} required />
             </Inputbox_posting>
-            <Inputbox_posting>
+            {/* <Inputbox_posting>
                 <label className ="posting_label">Position</label>
                 <select className ="Box_in_box"  type="text" name="position" value={form.position} onChange={handleChange} required>
                 <option value=""></option>
@@ -156,7 +171,7 @@ const [showPopup, setShowPopup] = useState(false);
                 <option value="Backend">Backend</option>
                 <option value="Designer">Designer</option>
                 </select>
-            </Inputbox_posting>
+            </Inputbox_posting> */}
 
             <Inputbox_posting>
             <label className ="posting_label">frontend headcount</label>
@@ -234,12 +249,25 @@ const [showPopup, setShowPopup] = useState(false);
             </select>
             </Inputbox_posting>
             <Inputbox_posting>
-            <label className ="posting_label">Project Detail</label>
-            <input className ="Box_in_box" type="text" name="post_text" value={form.post_text} onChange={handleChange} required />
-            </Inputbox_posting>
+            <label className ="posting_label"> End Date (please enter 8 number)</label>
 
+
+
+            <input  className ="Box_in_box"  type="text" name="enddate" value={form.enddate} onChange={handleChange} required />
+            </Inputbox_posting>
+            <Inputbox_posting_detail >
+            <label className ="posting_label">Project Detail</label>
+            <textarea 
+                style={{
+                    height: '150px', 
+                    
+                }}
+             className ="Box_in_box" type="text" name="post_text" value={form.post_text} onChange={handleChange} required />
+            </Inputbox_posting_detail>
+            
             <div className ="button">
             <button type="submit" id ="posting_btn">
+                {/* fortest */}
                 <Link style ={{color: '#000000', textDecoration:'none' }} to="/Main">Make Post</Link>
                 {console.log (form)}
             </button>
