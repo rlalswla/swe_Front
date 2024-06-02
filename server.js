@@ -539,6 +539,22 @@ app.post('/api/postdelete', auth, async (req, res) => {
   return res.status(200).json({ message: 'post delete success' });
 });
 
+app.post('/api/select', auth, async (req, res) => {
+  const { id, postid, userid } = req.body;
+
+  const query = {
+    text: 'INSERT INTO teams (postid, userid) VALUES ($1, $2)',
+    values: [postid, userid]
+  };
+  try {
+    await db.query(query);
+  } catch (err) {
+    return res.status(400).json({ message:'select failed' });
+  }
+
+  return res.status(200).json({ message: 'select success' });
+});
+
 /* React routing */
 app.use('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/my-app/build/index.html'));
