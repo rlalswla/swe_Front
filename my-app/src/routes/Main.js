@@ -36,17 +36,17 @@ const Title1 = styled.h1`
 const Mainpage = styled.div`
   display: flex;
   flex-direction: column;
-
-  width: 393px;
-  height: 852px;
+  height: 100vh;
+  // width: 393px;
+  // height: 852px;
   background: #ffffff;
 `;
 
 const PostCardWrapper = styled.div`
   display: flex;
-  justify-content: center; // 내부 아이템을 가운데 정렬
-  width: 100%; // 폭을 100%로 설정하여 부모 컨테이너의 폭에 맞춤
-  margin-bottom: 20px; // 각 카드 아래에 마진 추가
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
 `;
 
 const PostList = styled.div`
@@ -69,6 +69,8 @@ const SearchWrapper = styled.div`
   margin-bottom: 15px;
   align-self: center;
   border-radius: 10px;
+  width: 343px;
+  box-sizing: border-box;
 `;
 
 const SearchIcon = styled(CiSearch)`
@@ -114,9 +116,8 @@ const SearchButton = styled.button`
 `;
 
 const FindButton = styled.button`
-  // FindButton의 스타일을 정의합니다.
   background: rgba(196, 196, 196, 0.2);
-  width: 16%; // FindButton의 너비를 설정합니다.
+  width: 16%;
   height: 5%;
   border: none;
   border-radius: 10px;
@@ -130,6 +131,12 @@ const FindButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const ContentWrapper = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 68px;
 `;
 
 const Main = () => {
@@ -286,6 +293,7 @@ const Main = () => {
         )}
         <FindButton onClick={handleFindClick}>Find</FindButton>
       </SearchButtonWrapper>
+
       {console.log("form:", form)}
       {!isFindClicked && <DummyMain />}
       {posts.map((post, index) => (
