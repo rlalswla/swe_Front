@@ -504,12 +504,14 @@ app.post("/api/apply_portfolio", auth, async (req, res) => {
 app.post("/api/postend", auth, async (req, res) => {
   const { id, postid } = req.body;
 
+  console.log(req.body);
+
   const query = {
     text: "UPDATE posts SET isEnd = true WHERE id = $1",
     values: [postid],
   };
   try {
-    await db.query(postid);
+    await db.query(query);
   } catch (err) {
     console.log(err);
     return res.status(400).json({ message: "post end failed." });
