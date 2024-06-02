@@ -233,7 +233,7 @@ app.post("/api/evaluate", auth, async (req, res) => {
 
     const query2 = {
       text: "UPDATE users SET total = $1, perform = $2, commute = $3, prepare = $4, commitment = $5 WHERE id = $6",
-      values: [total, perform, commute, prepare, commitment],
+      values: [total, perform, commute, prepare, commitment, userid],
     };
     await db.query(query2);
 
