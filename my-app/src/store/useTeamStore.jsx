@@ -14,7 +14,7 @@ const useTeamStore = create((set) => ({
         },
         { withCredentials: true }
       );
-      console.log(response.data);
+      console.log('api response: ', response.data);
       set({ teamMembers: response.data });
     } catch (error) {
       // set({ teamMembers: null });

@@ -163,11 +163,11 @@ app.post("/api/end_post", auth, async (req, res) => {
   const { postid, id } = req.body;
 
   const userid_query = {
-    text: "SELECT u.* FROM users u JOIN teams t ON t.postid = $1 WHERE (u.id NOT IN (SELECT e.teamid FROM evaluate e WHERE e.userid = $2)) AND u.id != $2",
+      text: "SELECT u.username, u.id FROM users u WHERE (u.id IN (SELECT t.userid FROM teams t WHERE  t.postid = $1)) AND (u.id NOT IN (SELECT e.teamid FROM evaluate e WHERE e.userid = $2)) AND u.id != $2",
     values: [postid, id],
   };
   const result = await db.query(userid_query);
-  return res.status(200).json(result);
+  return res.status(200).json(result.rows);
 });
 
 /* Post apply */
@@ -185,7 +185,7 @@ app.post("/api/apply", auth, async (req, res) => {
     values: [id, postid],
   };
   await db.query(query2);
-/*
+  /*
   switch (position) {
     case 'Front-end':
       positionStr = 'front_req';
@@ -223,7 +223,7 @@ app.post("/api/evaluate", auth, async (req, res) => {
       text: "SELECT * FROM users WHERE id = $1",
       values: [userid],
     };
-    const result = await db.query(query);
+    result = await db.query(query);
 
     result.rows[0].total += 1;
     result.rows[0].perform += perform;
@@ -233,9 +233,15 @@ app.post("/api/evaluate", auth, async (req, res) => {
 
     const query2 = {
       text: "UPDATE users SET total = $1, perform = $2, commute = $3, prepare = $4, commitment = $5 WHERE id = $6",
-      values: [total, perform, commute, prepare, commitment],
+      values: [total, perform, commute, prepare, commitment, userid],
     };
     await db.query(query2);
+
+    const query3 = {
+        text: "INSERT INTO evaluate (userid, teamid) VALUES ($1, $2)",
+        values: [id, userid]
+    };
+    await db.query(query3);
 
     return res.status(200).json({ message: "evaluation success." });
   } catch {
@@ -277,9 +283,9 @@ app.post("/api/posting", auth, async (req, res) => {
     const postid = result.rows[0].id;
 
     const query2 = {
-        text: 'INSERT INTO teams (postid, userid) VALUES ($1, $2)',
-        values: [postid, id]
-    }
+      text: 'INSERT INTO teams (postid, userid) VALUES ($1, $2)',
+      values: [postid, id],
+    };
     await db.query(query2);
 
     return res.status(200).json({ message: "posting success" });
@@ -550,53 +556,58 @@ app.post("/api/postdelete", auth, async (req, res) => {
 });
 
 
-app.post('/api/select', auth, async (req, res) => {
-  const { id, userid, postid } = req.body;
+app.post("/api/select", auth, async (req, res) => {
+  const { id, postid, userid } = req.body;
 
   const query = {
-    text: "INSERT INTO teams (postid, userid) VALUES ($1, $2)",
+    text: 'INSERT INTO teams (postid, userid) VALUES ($1, $2)',
+
     values: [postid, userid],
   };
   try {
     await db.query(query);
-  
+    return res.status(200).json({ message: "select success" });
 
-  const query2 = {
+
+    const query2 = {
       text: 'SELECT position FROM applicant WHERE postid = $1 AND userid = $2',
-      values: [postid, userid]
-  };
-  const pos_result = await(query2);
-  positon = pos_result.rows[0].position;
-  switch (position) {
-    case 'Front-end':
-      positionStr = 'front_req';
-      break;
-    case 'Back-end':
-      positionStr = 'back_req';
-      break;
-    case 'Designer':
-      positionStr = 'design_req';
-      break;
-    default:
-      return res.status(400).json({ message: 'position error' });
-  }
+      values: [postid, userid],
+    };
+    
+    const pos_result = await db.query(query2);
+    
+    position = pos_result.rows[0].position;
+    
+    switch (position) {
+      case 'Front-end':
+        positionStr = 'front_req';
+        break;
+      case 'Back-end':
+        positionStr = 'back_req';
+        break;
+      case 'Designer':
+        positionStr = 'design_req';
+        break;
+      default:
+        return res.status(400).json({ message: 'position error' });
+    }
 
-  const query3 = {
-    text:
-      'UPDATE posts SET ' +
-      positionStr +
-      ' = ' +
-      positionStr +
-    ' - 1 WHERE id = $1',
+    const query3 = {
+      text:
+        'UPDATE posts SET ' +
+        positionStr +
+        ' = ' +
+        positionStr +
+        ' - 1 WHERE id = $1',
       values: [postid],
     };
     await db.query(query3);
-  } catch(err) {
-      return res.status(400).json({ message: 'select failed.'});
+  } catch (err) {
+    return res.status(400).json({ message: 'select failed.' });
   }
   return res.status(200).json({ message: 'select success' });
-});
 
+});
 
 /* React routing */
 app.use("*", (req, res) => {
