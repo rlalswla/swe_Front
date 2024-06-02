@@ -16,7 +16,8 @@ const useTeamStore = create((set) => ({
       );
       set({ teamMembers: response.data });
     } catch (error) {
-      console.error('Error fetching team members:', error);
+      set({ teamMembers: null });
+      // console.error('Error fetching team members:', error);
     }
   },
 
