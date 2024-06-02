@@ -81,7 +81,7 @@ const RoleButton = styled.button`
   align-items: center;
   justify-content: center;
   padding: 0 12px;
-  height: 24px;
+  height: 32px;
   width: 95px;
   background: #f2f4f5;
   border-radius: 32px;
