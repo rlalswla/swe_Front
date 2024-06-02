@@ -9,6 +9,28 @@ export default function ApplicationPort() {
   const goBackToPostList = () => {
     navigate("/applicationList");
   };
+
+  const data = `
+  ✔️ Introduction:
+Hello! My name is Seungji Lee, and I am a passionate and dedicated web developer with a strong focus on creating user-centric web applications. Over the years, I have honed my skills in both front-end and back-end development, ensuring that I deliver efficient, scalable, and maintainable code. My journey in web development has been driven by a deep love for technology and a constant desire to learn and grow.
+
+  ✔️ Technical Skills:
+Front-End: HTML, CSS, JavaScript, React, Vue.js
+Back-End: Node.js, Express, Django, Ruby on Rails
+Databases: MongoDB, PostgreSQL, MySQL
+Others: Git, Docker, AWS, RESTful API, GraphQL
+
+  ✔️ Projects:
+1. Project Name: E-commerce Website
+Description: A responsive e-commerce platform where users can browse, add items to their cart, and make purchases.
+Technologies: React, Redux, Node.js, Express, MongoDB
+Features:
+- User authentication and authorization (JWT-based)
+- Product search and filtering
+- Cart and order management
+- Admin dashboard
+`;
+
   return (
     <Application_port>
       <Header>
