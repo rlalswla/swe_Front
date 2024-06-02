@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import "./Login.css";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import TabBar from "./TabBar";
-import PostCard from "./Postcardmain";
-import { CiSearch } from "react-icons/ci";
-import { IoIosArrowDown } from "react-icons/io";
-import TechStackPopup from "./components/TechStackPopup";
-import TechStackPopup1 from "./components/TechStackPopup1";
-import TechStackPopup2 from "./components/TechStackPopup2";
-import useProjectStore from "../store/useProjectStore";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './Login.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import TabBar from './TabBar';
+import PostCard from './Postcardmain';
+import { CiSearch } from 'react-icons/ci';
+import { IoIosArrowDown } from 'react-icons/io';
+import TechStackPopup from './components/TechStackPopup';
+import TechStackPopup1 from './components/TechStackPopup1';
+import TechStackPopup2 from './components/TechStackPopup2';
+import useProjectStore from '../store/useProjectStore';
 
 const Header = styled.div`
   display: flex;
@@ -35,17 +35,17 @@ const Title1 = styled.h1`
 const Mainpage = styled.div`
   display: flex;
   flex-direction: column;
-
-  width: 393px;
-  height: 852px;
+  height: 100vh;
+  // width: 393px;
+  // height: 852px;
   background: #ffffff;
 `;
 
 const PostCardWrapper = styled.div`
   display: flex;
-  justify-content: center; // 내부 아이템을 가운데 정렬
-  width: 100%; // 폭을 100%로 설정하여 부모 컨테이너의 폭에 맞춤
-  margin-bottom: 20px; // 각 카드 아래에 마진 추가
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
 `;
 
 const PostList = styled.div`
@@ -68,6 +68,8 @@ const SearchWrapper = styled.div`
   margin-bottom: 15px;
   align-self: center;
   border-radius: 10px;
+  width: 343px;
+  box-sizing: border-box;
 `;
 
 const SearchIcon = styled(CiSearch)`
@@ -82,7 +84,7 @@ const Searchbox = styled.input`
   font-size: 18px;
   font-weight: 600;
   outline: none;
-  name: "projectname";
+  name: 'projectname';
 `;
 
 const SearchButtonWrapper = styled.div`
@@ -113,9 +115,8 @@ const SearchButton = styled.button`
 `;
 
 const FindButton = styled.button`
-  // FindButton의 스타일을 정의합니다.
   background: rgba(196, 196, 196, 0.2);
-  width: 16%; // FindButton의 너비를 설정합니다.
+  width: 16%;
   height: 5%;
   border: none;
   border-radius: 10px;
@@ -129,6 +130,12 @@ const FindButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const ContentWrapper = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 68px;
 `;
 
 const Main = () => {
@@ -152,13 +159,13 @@ const Main = () => {
   const { setSelectedProjectId } = useProjectStore();
 
   const handleCardClick = (id) => {
-    console.log("id:", id);
+    console.log('id:', id);
     setSelectedProjectId(id);
-    navigate("/project-description");
+    navigate('/project-description');
   };
 
   const [form, setForm] = useState({
-    projectname: "",
+    projectname: '',
     status: true,
     position: 0,
     stack: [],
@@ -170,7 +177,7 @@ const Main = () => {
 
   const [selectedStacks, setSelectedStacks] = useState([]);
   const [selectedstatus, setSelectedStatus] = useState(false);
-  const [selectedposition, setSelectedPosition] = useState("");
+  const [selectedposition, setSelectedPosition] = useState('');
 
   const handleSelectStack = (stacks) => {
     setSelectedStacks(stacks);
@@ -185,7 +192,7 @@ const Main = () => {
   };
 
   const handleChange_popup = (e) => {
-    setSelectedStacks(e.target.value.split(",").map((s) => s.trim()));
+    setSelectedStacks(e.target.value.split(',').map((s) => s.trim()));
   };
 
   const handleChange = (e) => {
@@ -202,12 +209,12 @@ const Main = () => {
 
     try {
       setPosts([]);
-      const response = await axios.post("/api/search", updatedForm);
+      const response = await axios.post('/api/search', updatedForm);
       // response.data를 posts 상태에 저장합니다.
       setPosts(response.data);
       setForm([]);
     } catch (error) {
-      console.error("Failed to fetch data:", error);
+      console.error('Failed to fetch data:', error);
     }
   };
 
@@ -234,7 +241,8 @@ const Main = () => {
             setShowPopup1(true);
             setShowPopup(false);
             setShowPopup2(false);
-          }}>
+          }}
+        >
           Status
           <IoIosArrowDown />
         </SearchButton>
@@ -251,7 +259,8 @@ const Main = () => {
             setShowPopup1(false);
             setShowPopup(false);
             setShowPopup2(true);
-          }}>
+          }}
+        >
           Position
           <IoIosArrowDown />
         </SearchButton>
@@ -268,7 +277,8 @@ const Main = () => {
             setShowPopup1(false);
             setShowPopup(true);
             setShowPopup2(false);
-          }}>
+          }}
+        >
           Tech Stack
           <IoIosArrowDown />
         </SearchButton>
@@ -282,25 +292,26 @@ const Main = () => {
         )}
         <FindButton onClick={handleFindClick}>Find</FindButton>
       </SearchButtonWrapper>
-      {console.log("form:", form)}
+      {console.log('form:', form)}
+      <ContentWrapper>
+        {posts.map((post, index) => (
+          <PostCardWrapper key={index} onClick={() => handleCardClick(post.id)}>
+            <PostCard
+              title={post.projectname}
+              location={post.location}
+              description={post.post_text}
+              roles={[
+                `Front-end: ${post.front_req}`,
+                `Back-end: ${post.back_req}`,
+                `Designer: ${post.design_req}`,
+              ]}
+              recruitingInfo={post.isend ? 'Recruiting ended' : 'Recruiting'}
+            />
+          </PostCardWrapper>
+        ))}
+      </ContentWrapper>
 
-      {posts.map((post, index) => (
-        <PostCardWrapper key={index} onClick={() => handleCardClick(post.id)}>
-          <PostCard
-            title={post.projectname}
-            location={post.location}
-            description={post.post_text}
-            roles={[
-              `Front: ${post.front_req}`,
-              `Back: ${post.back_req}`,
-              `Design: ${post.design_req}`,
-            ]}
-            recruitingInfo={post.isend ? "Recruiting ended" : "Recruiting"}
-          />
-        </PostCardWrapper>
-      ))}
-
-      <TabBar></TabBar>
+      <TabBar />
     </Mainpage>
   );
 };
