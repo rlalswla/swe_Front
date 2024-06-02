@@ -560,6 +560,12 @@ app.post('/api/select', auth, async (req, res) => {
     await db.query(query);
   
 
+  const query2 = {
+      text: 'SELECT position FROM applicant WHERE postid = $1 AND userid = $2',
+      values: [postid, userid]
+  };
+  const pos_result = await(query2);
+  positon = pos_result.rows[0].position;
   switch (position) {
     case 'Front-end':
       positionStr = 'front_req';
@@ -573,12 +579,6 @@ app.post('/api/select', auth, async (req, res) => {
     default:
       return res.status(400).json({ message: 'position error' });
   }
-
-  const query2 = {
-      text: 'SELECT position FROM applicant WHERE postid = $1 AND userid = $2',
-      values: [postid, userid]
-  };
-  await db.query(query2);
 
   const query3 = {
     text:
