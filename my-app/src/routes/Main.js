@@ -140,16 +140,18 @@ const MessageDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  width: 343px;
   height: 85%;
   background: rgba(196, 196, 196, 0.2);
   border-radius: 20px;
   margin: 20px;
   margin-top: 10px;
   padding: 20px;
-  text-align: center;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 700;
   color: #333;
+  box-sizing: border-box;
 `;
 
 const Main = () => {
