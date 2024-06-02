@@ -94,6 +94,11 @@ const Inputbox_posting_detail = styled.div`
   border: none;
 `;
 
+const Label = styled.label`
+  align-self: flex-start;
+  font-size: small;
+`;
+
 const Makepost = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -138,7 +143,7 @@ const Makepost = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
+      },{ withCredentials: true });
       if (response.status === 200) {
         alert('게시물이 작성되었습니다.');
         navigate('/main');
@@ -304,7 +309,7 @@ const Makepost = () => {
           />
         </Inputbox_posting>
         <Inputbox_posting_detail>
-          <label className="posting_label">Project Detail</label>
+          <Label>Project Detail</Label>
           <textarea
             style={{
               height: '160px',

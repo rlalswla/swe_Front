@@ -23,13 +23,13 @@ function Scrab() {
           // body: JSON.stringify(data),
         });
         const data = await response.json();
-
+        
         if (data.message) {
           alert('지원한 게시물이 없습니다.');
           navigate('/main');
           return;
         }
-  
+
         setPosts(data);
         console.log('posts', data);
       } catch (error) {
@@ -86,6 +86,7 @@ const Header = styled.div`
   padding: 10px 20px;
 `;
 
+
 const Header_name = styled.h1`
   color: white;
   font-style: normal;
@@ -93,8 +94,7 @@ const Header_name = styled.h1`
   font-size: 24px;
   line-height: 1.2;
   letter-spacing: -0.5px;
-  flex-grow: 1;
-  margin-left: 65px;
+  text-align: center;
 `;
 
 const Title = styled.h1`

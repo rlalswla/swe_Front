@@ -169,6 +169,7 @@ export default function PositionSelectBar() {
             .then((response) => {
               if (response.status === 200) {
                 console.log('Scrab request submitted successfully!');
+                setHeartClicked(true);
               }
             })
             .catch((error) => {
@@ -191,7 +192,7 @@ export default function PositionSelectBar() {
     <>
       {showPositionSelector && <Overlay />}
       <Container>
-        {!projectData.status && (
+        {!projectData.isend && (
           <div className="positionBar">
             <ArrowIconContainer
               arrowDirection={arrowDirection}
@@ -216,7 +217,7 @@ export default function PositionSelectBar() {
         )}
         <ButtonContainer>
           <HeartButton clicked={heartClicked} onClick={handleHeartClick} />
-          {projectData.status ? (
+          {projectData.isend ? (
             <ClosedLabel>Closed</ClosedLabel>
           ) : (
             <ApplyButton onClick={handleApplyClick}>Apply</ApplyButton>
