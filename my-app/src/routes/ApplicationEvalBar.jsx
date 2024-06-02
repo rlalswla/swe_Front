@@ -1,26 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
-const EvaluationBar = ({ profileInfo }) => {
+export default function ApplicationEvalBar() {
   return (
-    <div>
-      <ProgressBar
-        value={profileInfo.evaluate_average}
-        min={0}
-        max={100}></ProgressBar>
-    </div>
+    <Div>
+      <ProgressBar value={80} min={0} max={100}></ProgressBar>
+    </Div>
   );
-};
-
-EvaluationBar.propTypes = {
-  profileInfo: PropTypes.object.isRequired, // profileInfo의 타입을 객체로 지정
-};
-
-export default EvaluationBar;
+}
 
 const ProgressBar = styled.progress`
-  width: 100%;
+  width: 80%;
   height: 13px;
   border-radius: 10px;
   appearance: none;
@@ -39,4 +29,12 @@ const ProgressBar = styled.progress`
 
     border-radius: 10px;
   }
+`;
+
+const Div = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
