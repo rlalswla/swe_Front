@@ -213,16 +213,18 @@ const Main = () => {
 
     try {
       setPosts([]);
-      const response = await axios.post('/api/search', updatedForm , { withCredentials: true });
+      const response = await axios.post('/api/search', updatedForm, {
+        withCredentials: true,
+      });
       // response.data를 posts 상태에 저장합니다.
       setPosts(response.data);
       setForm([]);
     } catch (error) {
       console.error('Failed to fetch data:', error);
-      
+
       if (error.response.status === 401) {
         alert('Please log in');
-        navigate('/login')
+        navigate('/login');
       }
     }
   };
@@ -321,7 +323,7 @@ const Main = () => {
                 `Back-end: ${post.back_req}`,
                 `Designer: ${post.design_req}`,
               ]}
-              recruitingInfo={post.isend ? 'Recruiting ended' : 'Recruiting'}
+              recruitingInfo={post.isend ? 'Closed' : 'Recruiting'}
             />
           </PostCardWrapper>
         ))}
