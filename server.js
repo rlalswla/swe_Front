@@ -525,7 +525,7 @@ app.post('/api/postdelete', auth, async (req, res) => {
     const {id, postid } = req.body;
 
     const query = {
-        text: 'DELETE FROM posts WHERE id = $1",
+        text: 'DELETE FROM posts WHERE id = $1',
         values: [postid]
     };
 
@@ -535,7 +535,7 @@ app.post('/api/postdelete', auth, async (req, res) => {
         return res.status(400).json({ message: 'post delete failed.' });
     }
     return res.status(200).json({ message: 'post delete success' });
-}
+});
 
 /* React routing */
 app.use('*', (req, res) => {
