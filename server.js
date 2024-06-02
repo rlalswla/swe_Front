@@ -86,6 +86,7 @@ app.post('/api/signin', async (req, res) => {
           maxAge: 30 * 60 * 1000,
           httpOnly: false,
           sameSite: 'None',
+          secure: true,
         });
         return res
           .status(200)
