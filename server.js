@@ -183,8 +183,8 @@ app.post('/api/apply', auth, async (req, res) => {
     text: 'INSERT INTO apply_post VALUES ($1, $2)',
     values: [id, postid],
   };
-  /*  await db.query(query2);
-
+  await db.query(query2);
+/*
   switch (position) {
     case 'Front-end':
       positionStr = 'front_req';
