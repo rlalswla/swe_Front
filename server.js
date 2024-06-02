@@ -163,7 +163,7 @@ app.post("/api/end_post", auth, async (req, res) => {
   const { postid, id } = req.body;
 
   const userid_query = {
-    text: "SELECT u.position u.username FROM users u WHERE (u.id IN (SELECT t.userid FROM teams t WHERE  t.postid = $1) AND (u.id NOT IN (SELECT e.teamid FROM evaluate e WHERE e.userid = $2)) AND u.id != $2",
+      text: "SELECT u.username, u.id FROM users u WHERE (u.id IN (SELECT t.userid FROM teams t WHERE  t.postid = $1)) AND (u.id NOT IN (SELECT e.teamid FROM evaluate e WHERE e.userid = $2)) AND u.id != $2",
     values: [postid, id],
   };
   const result = await db.query(userid_query);
