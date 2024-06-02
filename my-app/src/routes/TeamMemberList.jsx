@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useTeamStore from '../store/useTeamStore.jsx';
@@ -51,9 +51,11 @@ const MemberName = styled.p`
   font-weight: bold;
   margin: 0;
   margin-bottom: 5px;
+  color: black;
+  font-size: 18px;
 `;
 
-const MemberPosition = styled.p`
+const MemberId = styled.p`
   color: #737e91;
   margin: 0;
 `;
@@ -63,20 +65,23 @@ export default function TeamMemberList() {
   const { selectedProjectId } = useProjectStore();
   const navigate = useNavigate();
 
+  const [fetched, setFetched] = useState(false);
+
   useEffect(() => {
     if (selectedProjectId) {
       fetchTeamMembers(selectedProjectId);
+      setFetched(true);
     }
   }, [selectedProjectId, fetchTeamMembers]);
 
-  console.log('team member length: ', teamMembers.length);
-
   useEffect(() => {
-    if (teamMembers.length === 0) {
+    if (fetched && teamMembers.length === 0) {
       alert('The evaluation has ended.');
       navigate('/project-description');
     }
   }, [teamMembers]);
+
+  console.log(teamMembers);
 
   const handleMemberClick = (member) => {
     selectMember(member);
@@ -90,7 +95,7 @@ export default function TeamMemberList() {
           <Member />
           <TeamMemberInfo>
             <MemberName>{member.username}</MemberName>
-            {/* <MemberPosition>{member.position}</MemberPosition> */}
+            <MemberId>{member.id}</MemberId>
           </TeamMemberInfo>
         </Button>
       ))}
