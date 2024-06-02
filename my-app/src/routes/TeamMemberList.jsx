@@ -72,6 +72,7 @@ export default function TeamMemberList() {
   useEffect(() => {
     if (teamMembers.length === 0) {
       alert('The evaluation has ended.');
+      navigate('/project-description');
     }
   }, [teamMembers]);
 
