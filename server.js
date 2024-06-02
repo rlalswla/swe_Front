@@ -483,7 +483,7 @@ app.post('/api/applicant', auth, async (req, res) => {
     const query_result = await db.query(query);
 
     const users = query_result.rows;
-    res.status(200).json({ users: users });
+    res.status(200).json(users);
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: 'applicant failed' });
