@@ -5,6 +5,7 @@ import TabBar from "./TabBar";
 import styled from "styled-components";
 import { FaArrowLeft } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import data from "../data";
 
 function Scrab() {
   const [posts, setPosts] = useState([]);
@@ -12,8 +13,18 @@ function Scrab() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch("/api/scrab");
-        setPosts(response.data.posts);
+        const response = await fetch("/api/scrab_post", {
+          method: 'POST', // 요청 메서드를 POST로 설정
+          headers: {
+            'Content-Type': 'application/json',
+            // 필요한 경우 다른 헤더를 추가
+          },
+          // 필요한 경우 요청 본문에 데이터를 추가
+          // body: JSON.stringify(data),
+        });
+        const data = await response.json();
+        setPosts(data);
+        console.log("posts", data);
       } catch (error) {
         console.error("Failed to fetch posts", error);
       }
@@ -34,8 +45,18 @@ function Scrab() {
       </Header>
       <Title>Scrab</Title>
       {posts.map((post, index) => (
-        <PostCardWrapper key={index} onClick={handleCardClick}>
-          <PostCard {...post} />
+        <PostCardWrapper key={index}>
+          <PostCard
+            title={post.projectname}
+            location={post.location}
+            description={post.post_text}
+            roles={[
+              `Front: ${post.front_req}`,
+              `Back: ${post.back_req}`,
+              `Design: ${post.design_req}`,
+            ]}
+            recruitingInfo={post.isend ? "Recruiting ended" : "Recruiting"}
+          />
         </PostCardWrapper>
       ))}
       <TabBar />

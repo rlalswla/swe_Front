@@ -262,7 +262,7 @@ app.post("/api/scrab_post", auth, async (req, res) => {
   //   console.log(req.cookies);
   //   console.log(req.body);
   const id = req.body.id;
-
+  console.log(id)
   const query = {
     text: "SELECT * FROM apply_post WHERE userid = $1",
     values: [id],
@@ -277,12 +277,13 @@ app.post("/api/scrab_post", auth, async (req, res) => {
     });
 
     const ids = postsId.map(String).join(", ");
+    console.log(ids);
     const query2 = {
       text: `SELECT * FROM posts WHERE id IN (${ids})`,
     };
 
     const posts_result = await db.query(query2);
-
+    console.log(posts_result.rows);
     res.status(200).json(posts_result.rows);
   } catch (error) {
     console.error(error);

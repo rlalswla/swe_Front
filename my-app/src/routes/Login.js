@@ -37,17 +37,17 @@ const Login = () => {
       <form onSubmit={handleLogin} className = "loginbox">
         
         <div className ="inputID">
-          <input id = "idbox" className ="inputbox" type="text" placeholder = " ID" value={id} onChange={(e) => setId(e.target.value)} required />
+          <input id = "idbox" autocomplete="off" className ="inputbox" type="text" placeholder = " ID" value={id} onChange={(e) => setId(e.target.value)} required />
         </div>
         <div className ="inputID">
-          <input id ="passwordbox" className =" inputbox" type="password" placeholder = " Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input id ="passwordbox" autocomplete="off" className =" inputbox" type="password" placeholder = " Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
         <div className ="button_login">
           <button>
             <Link style = {{color: '#000000', textDecoration:'none' }} to="/signup">Sign In</Link>
           </button> 
 
-          <button type="submit">
+          <button type="submit"  style={{color: '#000000'}}>
             login
           {/* <Link style = {{color: '#000000', textDecoration:'none' }} to="/main">Login</Link>  */}
           {/* 로그인 유효성 판단후 mainpage 라우팅 해야함 */}

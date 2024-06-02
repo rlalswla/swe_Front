@@ -283,7 +283,7 @@ const Main = () => {
         <FindButton onClick={handleFindClick}>Find</FindButton>
       </SearchButtonWrapper>
       {console.log("form:", form)}
-
+        
       {posts.map((post, index) => (
         <PostCardWrapper key={index} onClick={() => handleCardClick(post.id)}>
           <PostCard

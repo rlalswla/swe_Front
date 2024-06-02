@@ -62,6 +62,8 @@ const Container_posting = styled.div`
   text-align: center;
   margin-left: 24px;
   margin-right: 24px;
+  overflow: scroll;
+  padding-bottom: 90px;
 `;
 
 const Inputbox_posting = styled.div`
@@ -195,7 +197,7 @@ const token = localStorage.getItem('token') // 로컬 스토리지에서 토큰�
 
 
 
-            <input  className ="Box_in_box"  type="text" name="projectname" value={form.projectname} onChange={handleChange} required />
+            <input className ="Box_in_box"  type="text" name="projectname" value={form.projectname} onChange={handleChange} required />
             </Inputbox_posting>
             {/* <Inputbox_posting>
                 <label className ="posting_label">Position</label>
@@ -310,6 +312,7 @@ const token = localStorage.getItem('token') // 로컬 스토리지에서 토큰�
         </form>
         <TabBar></TabBar>
         </Container_posting>
+        
         
     );
 }

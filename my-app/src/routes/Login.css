@@ -41,6 +41,11 @@
     
 }
 
+.inputbox:focus{
+    outline: none;
+    background-color: rgba(0,0,0,0.2);
+}
+
 .inputbox::-webkit-input-placeholder{
     font-size: medium;
     font-weight: bold;
