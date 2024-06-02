@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 // Edit, Delete, Close 버튼을 추가하고, PostCard 컴포넌트를 완성하세요.
 function PostCard({
   projectname,
