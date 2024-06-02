@@ -548,8 +548,9 @@ app.post('/api/postdelete', auth, async (req, res) => {
   return res.status(200).json({ message: 'post delete success' });
 });
 
+
 app.post('/api/select', auth, async (req, res) => {
-  const { id, postid, userid } = req.body;
+  const { id, userid, postid } = req.body;
 
   const query = {
     text: 'INSERT INTO teams (postid, userid) VALUES ($1, $2)',
@@ -557,12 +558,44 @@ app.post('/api/select', auth, async (req, res) => {
   };
   try {
     await db.query(query);
-  } catch (err) {
-    return res.status(400).json({ message:'select failed' });
+  
+
+  switch (position) {
+    case 'Front-end':
+      positionStr = 'front_req';
+      break;
+    case 'Back-end':
+      positionStr = 'back_req';
+      break;
+    case 'Designer':
+      positionStr = 'design_req';
+      break;
+    default:
+      return res.status(400).json({ message: 'position error' });
   }
 
+  const query2 = {
+      text: 'SELECT position FROM applicant WHERE postid = $1 AND userid = $2',
+      values: [postid, userid]
+  };
+  await db.query(query2);
+
+  const query3 = {
+    text:
+      'UPDATE posts SET ' +
+      positionStr +
+      ' = ' +
+      positionStr +
+    ' - 1 WHERE id = $1',
+      values: [postid],
+    };
+    await db.query(query3);
+  } catch(err) {
+      return res.status(400).json({ message: 'select failed.'});
+  }
   return res.status(200).json({ message: 'select success' });
 });
+
 
 /* React routing */
 app.use('*', (req, res) => {
