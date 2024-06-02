@@ -276,7 +276,7 @@ app.post('/api/posting', auth, async (req, res) => {
     const postid = result.rows[0].id;
 
     const query2 = {
-        text: 'INSERT INTO teams (userid, postid) VALUES ($1, $2)',
+        text: 'INSERT INTO teams (postid, userid) VALUES ($1, $2)',
         values: [postid, id]
     }
     await db.query(query2);
