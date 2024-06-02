@@ -29,7 +29,7 @@ function Scrab() {
           navigate('/main');
           return;
         }
-  
+
         setPosts(data);
         console.log('posts', data);
       } catch (error) {
