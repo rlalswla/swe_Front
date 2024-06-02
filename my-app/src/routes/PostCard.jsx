@@ -50,6 +50,28 @@ function PostCard({
     fetchClosePosts();
   };
 
+  const handleDelete = () => {
+    console.log("Delete post with id:", id);
+    console.log("User id:", userid);
+
+    const fetchDeletePosts = async () => {
+      try {
+        const response = await axios.post("/api/postdelete", {
+          // id: userid,
+          postid: id,
+        });
+        console.log(response.data);
+
+        if (response.data.message === "post delete success.") {
+          console.log(`Post with id ${id} has been deleted.`);
+        }
+      } catch (error) {
+        console.error("Failed to fetch posts", error);
+      }
+    };
+    fetchDeletePosts();
+  };
+
   return (
     <PostCardContainer>
       <Header>
@@ -64,7 +86,7 @@ function PostCard({
       </Roles>
       <Actions>
         <CloseButton onClick={handleClose}>Close</CloseButton>
-        <DeleteButton>Delete</DeleteButton>
+        <DeleteButton onClick={handleDelete}>Delete</DeleteButton>
       </Actions>
     </PostCardContainer>
   );

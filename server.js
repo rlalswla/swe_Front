@@ -259,7 +259,7 @@ app.post('/api/posting', auth, async (req, res) => {
   const enddate_date = parse(enddate, 'yyyyMMdd', new Date());
   try {
     const query = {
-      text: 'INSERT INTO posts (userid, projectname, front_req, back_req, design_req, post_text, stack, location, startdate, enddate, isEnd) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()::Date, $9, false)',
+      text: 'INSERT INTO posts (userid, projectname, front_req, back_req, design_req, post_text, stack, location, startdate, enddate, isEnd) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()::Date, $9, false) RETURNING id',
       values: [
         id,
         projectname,
@@ -272,7 +272,14 @@ app.post('/api/posting', auth, async (req, res) => {
         enddate_date,
       ],
     };
-    await db.query(query);
+    const result = await db.query(query);
+    const postid = result.rows[0].id;
+
+    const query2 = {
+        text: 'INSERT INTO teams (userid, postid) VALUES ($1, $2)',
+        values: [postid, id]
+    }
+    await db.query(query2);
 
     return res.status(200).json({ message: 'posting success' });
   } catch (err) {
@@ -525,6 +532,8 @@ app.post('/api/postend', auth, async (req, res) => {
 
 app.post('/api/postdelete', auth, async (req, res) => {
   const { id, postid } = req.body;
+
+  console.log(req.body);
 
   const query = {
     text: 'DELETE FROM posts WHERE id = $1',

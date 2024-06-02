@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
 export default function ApplicationCard({
   id,
   username,
@@ -12,7 +13,11 @@ export default function ApplicationCard({
 }) {
   const navigate = useNavigate();
   const goToApplicationPort = () => {
-    navigate('/applicationPort');
+    navigate("/applicationPort");
+  };
+
+  const submitApplication = () => {
+    alert("conrfirmed");
   };
 
   const handleConfirm = async () => {

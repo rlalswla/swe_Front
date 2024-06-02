@@ -63,8 +63,8 @@ const Container_posting = styled.div`
   // text-align: center;
   // margin-left: 24px;
   // margin-right: 24px;
-  // overflow: scroll;
-  // padding-bottom: 90px;
+  overflow: scroll;
+  padding-bottom: 90px;
 `;
 
 const Inputbox_posting = styled.div`
