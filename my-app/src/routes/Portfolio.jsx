@@ -32,10 +32,14 @@ function Portfolio() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/save_portfolio", {
-        position: position,
-        profile: description,
-      });
+      await axios.post(
+        "/api/save_portfolio",
+        {
+          position: position,
+          profile_text: description,
+        },
+        console.log(position, description)
+      );
       alert("Portfolio saved successfully");
     } catch (error) {
       console.error("Failed to save portfolio", error);
@@ -62,7 +66,6 @@ function Portfolio() {
         </div>
         <div className="form-group">
           <Textarea
-            placeholder={description}
             value={description}
             onChange={(e) => setDescription(e.target.value)}></Textarea>
         </div>
