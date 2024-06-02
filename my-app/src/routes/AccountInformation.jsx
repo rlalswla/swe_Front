@@ -50,7 +50,7 @@ function AccountInformation() {
   return (
     <div className="account-information">
       <Header>
-        <StyledArrow onClick={goBackToProfile} />
+        <StyledArrow onClick={goBackToProfile}  />
         <Header_name>SKKU Recruit</Header_name>
       </Header>
       <Title>Account Information</Title>
@@ -141,8 +141,7 @@ const Header = styled.div`
   background-color: #0e442a;
   color: white;
   width: 100vw;
-  height: 50px;
-  padding: 10px 20px;
+  height: 80px;
 `;
 
 const Header_name = styled.h1`
@@ -205,6 +204,7 @@ const AccountChangeButton = styled.button`
 const StyledArrow = styled(FaArrowLeft)`
   font-size: 20px;
   color: white;
+  margin-left: 20px;
 `;
 
 const BackButton = styled.button`

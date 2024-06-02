@@ -19,7 +19,7 @@ const Header = styled.div`
   background-color: #0e442a;
   color: white;
   width: 100vw;
-  height: 50px;
+  height: 80px;
   justify-content: center;
 `;
 

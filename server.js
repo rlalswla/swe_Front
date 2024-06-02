@@ -260,11 +260,7 @@ app.post("/api/posting", auth, async (req, res) => {
   const enddate_date = parse(enddate, "yyyyMMdd", new Date());
   try {
     const query = {
-<<<<<<< HEAD
-      text: "INSERT INTO posts (userid, projectname, front_req, back_req, design_req, post_text, stack, location, startdate, enddate, isEnd) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()::Date, $9, false)",
-=======
       text: 'INSERT INTO posts (userid, projectname, front_req, back_req, design_req, post_text, stack, location, startdate, enddate, isEnd) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()::Date, $9, false) RETURNING id',
->>>>>>> 71389a05cfe3f300e7e1839ad81d3e6a0f34833d
       values: [
         id,
         projectname,
@@ -553,14 +549,9 @@ app.post("/api/postdelete", auth, async (req, res) => {
   return res.status(200).json({ message: "post delete success" });
 });
 
-<<<<<<< HEAD
-app.post("/api/select", auth, async (req, res) => {
-  const { id, postid, userid } = req.body;
-=======
 
 app.post('/api/select', auth, async (req, res) => {
   const { id, userid, postid } = req.body;
->>>>>>> 71389a05cfe3f300e7e1839ad81d3e6a0f34833d
 
   const query = {
     text: "INSERT INTO teams (postid, userid) VALUES ($1, $2)",
@@ -568,13 +559,6 @@ app.post('/api/select', auth, async (req, res) => {
   };
   try {
     await db.query(query);
-<<<<<<< HEAD
-  } catch (err) {
-    return res.status(400).json({ message: "select failed" });
-  }
-
-  return res.status(200).json({ message: "select success" });
-=======
   
 
   const query2 = {
@@ -611,7 +595,6 @@ app.post('/api/select', auth, async (req, res) => {
       return res.status(400).json({ message: 'select failed.'});
   }
   return res.status(200).json({ message: 'select success' });
->>>>>>> 71389a05cfe3f300e7e1839ad81d3e6a0f34833d
 });
 
 

@@ -65,28 +65,31 @@ const ApplicationPortContainer = styled.div`
 const Header = styled.div`
   display: flex;
   align-items: center;
-  gap: 25px;
+  justify-items: center;
+  justify-content: center;
   background-color: #0e442a;
   color: white;
   width: 100%;
-  height: 50px;
-  padding: 10px 20px;
+  height: 80px;
+
 `;
 
 const HeaderName = styled.h1`
   color: white;
+  font-style: normal;
   font-weight: 700;
   font-size: 24px;
   line-height: 1.2;
   letter-spacing: -0.5px;
-  text-align: center;
-  flex: 1;
+  flex-grow: 1;
+  margin-left: 65px;
 `;
 
 const StyledArrow = styled(FaArrowLeft)`
   font-size: 20px;
   color: white;
   cursor: pointer;
+  margin-left: 20px;
 `;
 
 const Title = styled.h1`
