@@ -1,21 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 // Edit, Delete, Close 버튼을 추가하고, PostCard 컴포넌트를 완성하세요.
-function PostCard({ title, location, description, roles, recruitingInfo }) {
+function PostCard({
+  projectname,
+  location,
+  post_text,
+  front_req,
+  back_req,
+  design_req,
+}) {
   return (
     <PostCardContainer>
       <Header>
-        <Title>{title}</Title>
+        <Title>{projectname}</Title>
         <Location>{location}</Location>
       </Header>
-      <Description>{description}</Description>
-      {/* <Roles>
-        {roles.map((role, index) => (
-          <RoleButton key={index}>{role}</RoleButton>
-        ))}
-      </Roles> */}
+      <Description>{post_text}</Description>
+      <Roles>
+        {front_req > 0 && <RoleButton>Front-end: {front_req}</RoleButton>}
+        {back_req > 0 && <RoleButton>Back-end: {back_req}</RoleButton>}
+        {design_req > 0 && <RoleButton>Designer: {design_req}</RoleButton>}
+      </Roles>
       <Actions>
-        <RecruitingInfo>{recruitingInfo}</RecruitingInfo>
         <StatusButtonWrapper>
           <StatusButton>Edit</StatusButton>
           <StatusButton>Delete</StatusButton>
