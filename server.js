@@ -540,7 +540,7 @@ app.post('/api/postdelete', auth, async (req, res) => {
 });
 
 app.post('/api/select', auth, async (req, res) => {
-  const { id, postid } = req.body;
+  const { id, postid, userid } = req.body;
 
   const query = {
     text: 'INSERT INTO teams (postid, userid) VALUES ($1, $2)',
