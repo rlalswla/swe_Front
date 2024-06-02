@@ -1,14 +1,14 @@
 /* NPM Modules */
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
-const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
-const { parse } = require("date-fns");
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
+const { parse } = require('date-fns');
 
 /* User Modules */
-const db = require("./modules/DBconfig");
-const { login, auth } = require("./modules/JWTauth");
+const db = require('./modules/DBconfig');
+const { login, auth } = require('./modules/JWTauth');
 
 /* express config */
 const app = express();
@@ -22,111 +22,110 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + "/my-app/build/"));
+app.use(express.static(__dirname + '/my-app/build/'));
 app.use(cookieParser());
 
 /* Database Connect */
 db.connect((err) => {
   if (err) throw err;
-  console.log("DB is Connected");
+  console.log('DB is Connected');
 });
 
 /* SignUp */
-app.post("/api/signup", async (req, res, next) => {
+app.post('/api/signup', async (req, res, next) => {
   // id 중복 확인
   const { username, id, password, phone, department } = req.body;
 
   const query = {
-    text: "SELECT * FROM users WHERE id = $1",
+    text: 'SELECT * FROM users WHERE id = $1',
     values: [id],
   };
   const result = await db.query(query);
 
   if (result.rows.length > 0) {
-    return res.status(400).json({ message: "studentid already exists" });
+    return res.status(400).json({ message: 'studentid already exists' });
   } else {
     return next();
   }
 });
 
-app.post("/api/signup", async (req, res) => {
+app.post('/api/signup', async (req, res) => {
   // id 생성
   const { username, id, password, department, phone } = req.body;
 
   const query = {
-    text: "INSERT INTO users (username, id, password, phone, department) VALUES ($1, $2, $3, $4, $5)",
+    text: 'INSERT INTO users (username, id, password, phone, department) VALUES ($1, $2, $3, $4, $5)',
     values: [username, id, password, phone, department],
   };
   const result = await db.query(query);
 
-  return res.status(200).json({ message: "Success create new account" });
+  return res.status(200).json({ message: 'Success create new account' });
 });
 
 /* SignIn */
-app.post("/api/signin", async (req, res) => {
-  const { id, password } = req.body;
+app.post('/api/signin', async (req, res) => {
+  const {id, password} = req.body;
 
   const query = {
-    text: "SELECT * FROM users WHERE id = $1 AND password = $2",
+    text: 'SELECT * FROM users WHERE id = $1 AND password = $2',
     values: [id, password],
   };
   const result = await db.query(query);
 
   if (result.rows.length == 0) {
-    return res.status(400).json({ message: "Signin failed." });
+    return res.status(400).json({ message: 'Signin failed.' });
   } else {
     const payload = {
       id,
     };
     jwt.sign(payload, process.env.KEY, { expiresIn: 3600 }, (err, token) => {
       if (err) {
-        return res.status(400).json({ message: "token create failed." });
+        return res.status(400).json({ message: 'token create failed.' });
       } else {
-        res.cookie("user", token, {
+        res.cookie('user', token, {
           maxAge: 30 * 60 * 1000,
           httpOnly: false,
-          secure: true,
-          sameSite: "None",
+          sameSite: 'None',
         });
         return res
           .status(200)
-          .json({ token: token, message: "signin success" });
+          .json({ token: token, message: 'signin success' });
       }
     });
   }
 });
 
 /*Logout to develop*/
-app.get("/logout", (req, res) => {
-  return res.clearCookie("user", { path: "/" }).end();
+app.get('/logout', (req, res) => {
+  return res.clearCookie('user', { path: '/' }).end();
 });
 
 /* Main page search */
-app.post("/api/search", auth, async (req, res) => {
+app.post('/api/search', auth, async (req, res) => {
   const { status, position, stack } = req.body;
 
   let positionStr;
   switch (position) {
-    case "Front-end":
-      positionStr = "front_req";
+    case 'Front-end':
+      positionStr = 'front_req';
       break;
-    case "Back-end":
-      positionStr = "back_req";
+    case 'Back-end':
+      positionStr = 'back_req';
       break;
-    case "Designer":
-      positionStr = "design_req";
+    case 'Designer':
+      positionStr = 'design_req';
       break;
     default:
-      return res.status(400).json({ message: "position error" });
+      return res.status(400).json({ message: 'position error' });
   }
 
-  await db.query("UPDATE posts SET isEnd = true WHERE enddate < NOW()::Date");
+  await db.query('UPDATE posts SET isEnd = true WHERE enddate < NOW()::Date');
 
   const query = {
     text:
-      "SELECT * FROM posts WHERE " +
+      'SELECT * FROM posts WHERE ' +
       positionStr +
-      " > 0 AND (stack | $1) > 0 AND isEnd = $2",
+      ' > 0 AND (stack | $1) > 0 AND isEnd = $2',
     values: [stack, status],
   };
   const result = await db.query(query);
@@ -135,20 +134,19 @@ app.post("/api/search", auth, async (req, res) => {
 });
 
 /* Post page */
-app.post("/api/post", auth, async (req, res) => {
+app.post('/api/post', auth, async (req, res) => {
   const { postid, id } = req.body;
 
-  await db.query("UPDATE posts SET isEnd = true WHERE enddate < NOW()::Date");
+  await db.query('UPDATE posts SET isEnd = true WHERE enddate < NOW()::Date');
 
   const query = {
-    text: "SELECT * FROM posts WHERE id = $1",
-
+    text: 'SELECT * FROM posts WHERE id = $1',
     values: [postid],
   };
   const result = await db.query(query);
 
   const query2 = {
-    text: "SELECT 1 FROM teams WHERE postid = $1 AND userid = $2",
+    text: 'SELECT 1 FROM teams WHERE postid = $1 AND userid = $2',
     values: [postid, id],
   };
   isAttend = await db.query(query2);
@@ -159,11 +157,11 @@ app.post("/api/post", auth, async (req, res) => {
 });
 
 /* Evaluate Page */
-app.post("/api/end_post", auth, async (req, res) => {
+app.post('/api/end_post', auth, async (req, res) => {
   const { postid, id } = req.body;
 
   const userid_query = {
-    text: "SELECT u.* FROM users u JOIN teams t ON t.postid = $1 WHERE (u.id NOT IN (SELECT e.teamid FROM evaluate e WHERE e.userid = $2)) AND u.id != $2",
+    text: 'SELECT u.* FROM users u JOIN teams t ON t.postid = $1 WHERE (u.id NOT IN (SELECT e.teamid FROM evaluate e WHERE e.userid = $2)) AND u.id != $2',
     values: [postid, id],
   };
   const result = await db.query(userid_query);
@@ -171,57 +169,57 @@ app.post("/api/end_post", auth, async (req, res) => {
 });
 
 /* Post apply */
-app.post("/api/apply", auth, async (req, res) => {
+app.post('/api/apply', auth, async (req, res) => {
   const { id, postid, position } = req.body;
 
-  //  const query = {
-  //    text: 'INSERT INTO applicant VALUES ($1, $2, $3)',
-  //    values: [postid, id, position],
-  //  };
-  //  await db.query(query);
+  const query = {
+    text: 'INSERT INTO applicant VALUES ($1, $2, $3)',
+    values: [postid, id, position],
+  };
+  await db.query(query);
 
   const query2 = {
-    text: "INSERT INTO apply_post VALUES ($1, $2)",
+    text: 'INSERT INTO apply_post VALUES ($1, $2)',
     values: [id, postid],
   };
-  await db.query(query2);
+/*  await db.query(query2);
 
   switch (position) {
-    case "Front-end":
-      positionStr = "front_req";
+    case 'Front-end':
+      positionStr = 'front_req';
       break;
-    case "Back-end":
-      positionStr = "back_req";
+    case 'Back-end':
+      positionStr = 'back_req';
       break;
-    case "Designer":
-      positionStr = "design_req";
+    case 'Designer':
+      positionStr = 'design_req';
       break;
     default:
-      return res.status(400).json({ message: "position error" });
+      return res.status(400).json({ message: 'position error' });
   }
 
   const query3 = {
     text:
-      "UPDATE posts SET " +
+      'UPDATE posts SET ' +
       positionStr +
-      " = " +
+      ' = ' +
       positionStr +
-      " - 1 WHERE id = $1",
+      ' - 1 WHERE id = $1',
     values: [postid],
   };
   await db.query(query3);
+*/
+  return res.status(200).json({ message: 'apply success.' });
 
-  return res.status(200).json({ message: "apply success." });
 });
 
 /* Evaluate submit */
-app.post("/api/evaluate", auth, async (req, res) => {
+app.post('/api/evaluate', auth, async (req, res) => {
   const { userid, perform, commute, prepare, commitment } = req.body;
 
   try {
     const query = {
-      text: "SELECT * FROM users WHERE id = $1",
-
+      text: 'SELECT * FROM users WHERE id = $1',
       values: [userid],
     };
     const result = await db.query(query);
@@ -233,20 +231,19 @@ app.post("/api/evaluate", auth, async (req, res) => {
     result.rows[0].commitment += commitment;
 
     const query2 = {
-      text: "UPDATE users SET total = $1, perform = $2, commute = $3, prepare = $4, commitment = $5 WHERE id = $6",
-
+      text: 'UPDATE users SET total = $1, perform = $2, commute = $3, prepare = $4, commitment = $5 WHERE id = $6',
       values: [total, perform, commute, prepare, commitment],
     };
     await db.query(query2);
 
-    return res.status(200).json({ message: "evaluation success." });
+    return res.status(200).json({ message: 'evaluation success.' });
   } catch {
-    return res.status(400).json({ message: "evaluation failed." });
+    return res.status(400).json({ message: 'evaluation failed.' });
   }
 });
 
 /* Posting */
-app.post("/api/posting", auth, async (req, res) => {
+app.post('/api/posting', auth, async (req, res) => {
   const {
     id,
     projectname,
@@ -259,13 +256,10 @@ app.post("/api/posting", auth, async (req, res) => {
     enddate,
   } = req.body;
 
-  // console.log(enddate_str);
-  const enddate_str = parse(enddate, "yyyyMMdd", new Date());
-  console.log(enddate_str);
+  const enddate_date = parse(enddate, 'yyyyMMdd', new Date());
   try {
     const query = {
-      text: "INSERT INTO posts (userid, projectname, front_req, back_req, design_req, post_text, stack, location, startdate, enddate, isEnd) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()::Date, $9, false)",
-
+      text: 'INSERT INTO posts (userid, projectname, front_req, back_req, design_req, post_text, stack, location, startdate, enddate, isEnd) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()::Date, $9, false)',
       values: [
         id,
         projectname,
@@ -275,23 +269,23 @@ app.post("/api/posting", auth, async (req, res) => {
         post_text,
         stack,
         location,
-        enddate_str,
+        enddate_date,
       ],
     };
     await db.query(query);
-    return res.status(200).json({ message: "posting success" });
+    return res.status(200).json({ message: 'posting success' });
   } catch (err) {
-    return res.status(400).json({ message: "posting failed" });
+    return res.status(400).json({ message: 'posting failed' });
   }
 });
 
-app.post("/api/scrab_post", auth, async (req, res) => {
+app.post('/api/scrab_post', auth, async (req, res) => {
   //   console.log(req.cookies);
   //   console.log(req.body);
   const id = req.body.id;
-  console.log(id)
+
   const query = {
-    text: "SELECT * FROM apply_post WHERE userid = $1",
+    text: 'SELECT * FROM apply_post WHERE userid = $1',
     values: [id],
   };
 
@@ -303,26 +297,25 @@ app.post("/api/scrab_post", auth, async (req, res) => {
       postsId.push(post.postid);
     });
 
-    const ids = postsId.map(String).join(", ");
-    console.log(ids);
+    const ids = postsId.map(String).join(', ');
     const query2 = {
       text: `SELECT * FROM posts WHERE id IN (${ids})`,
     };
 
     const posts_result = await db.query(query2);
-    console.log(posts_result.rows);
+
     res.status(200).json(posts_result.rows);
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: "scrab_post failed" });
+    res.status(400).json({ message: 'scrab_post failed' });
   }
 });
 
-app.post("/api/profile", auth, async (req, res) => {
+app.post('/api/profile', auth, async (req, res) => {
   const id = req.body.id;
 
   const query = {
-    text: "SELECT perform, commute, prepare, commitment, total, username, department FROM users WHERE id = $1",
+    text: 'SELECT perform, commute, prepare, commitment, total, username, department FROM users WHERE id = $1',
     values: [id],
   };
 
@@ -335,27 +328,29 @@ app.post("/api/profile", auth, async (req, res) => {
     // console.log(Math.round((score / (scores.total * 4)).toFixed(1)));
     if (scores.total == 0) {
       evaluate = 50;
-    } else evaluate = Math.round((score / (scores.total * 4)).toFixed(1));
+    } else evaluate = Math.round((score / (scores.total * 4)).toFixed(1)) * 20;
 
     // console.log(evaluate);
 
-    res.status(200).json({
-      username: scores.username,
-      id: id,
-      department: scores.department,
-      evaluate_average: evaluate,
-    });
+    res
+      .status(200)
+      .json({
+        username: scores.username,
+        id: id,
+        department: scores.department,
+        evaluate_average: evaluate,
+      });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: "profile failed" });
+    res.status(400).json({ message: 'profile failed' });
   }
 });
 
-app.post("/api/account", auth, async (req, res) => {
+app.post('/api/account', auth, async (req, res) => {
   const id = req.body.id;
 
   const query = {
-    text: "SELECT * FROM users WHERE id = $1",
+    text: 'SELECT * FROM users WHERE id = $1',
     values: [id],
   };
 
@@ -368,22 +363,22 @@ app.post("/api/account", auth, async (req, res) => {
     res.status(200).json(user[0]);
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: "account failed" });
+    res.status(400).json({ message: 'account failed' });
   }
 });
 
-app.post("/api/save", auth, async (req, res) => {
+app.post('/api/save', auth, async (req, res) => {
   // const { username, password, phone, department } = req.body;
   const id = req.body.id;
   const filteredData = Object.fromEntries(
     Object.entries(req.body).filter(
-      ([key, value]) => value !== undefined && key != "id"
+      ([key, value]) => value !== undefined && key != 'id'
     )
   );
 
   const setClause = Object.entries(filteredData)
     .map(([key, value]) => `${key} = '${value}'`)
-    .join(", ");
+    .join(', ');
 
   console.log(setClause);
 
@@ -394,18 +389,18 @@ app.post("/api/save", auth, async (req, res) => {
     const query_result = await db.query(query);
     console.log(query_result.rows);
 
-    res.status(200).json({ message: "save success" });
+    res.status(200).json({ message: 'save success' });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: "save failed" });
+    res.status(400).json({ message: 'save failed' });
   }
 });
 
-app.post("/api/portfolio", auth, async (req, res) => {
+app.post('/api/portfolio', auth, async (req, res) => {
   const id = req.body.id;
 
   const query = {
-    text: "SELECT * FROM users WHERE id = $1",
+    text: 'SELECT * FROM users WHERE id = $1',
     values: [id],
   };
 
@@ -418,29 +413,29 @@ app.post("/api/portfolio", auth, async (req, res) => {
     res.status(200).json(user[0]);
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: "portfolio failed" });
+    res.status(400).json({ message: 'portfolio failed' });
   }
 });
 
-app.post("/api/save_portfolio", auth, async (req, res) => {
+app.post('/api/save_portfolio', auth, async (req, res) => {
   const { id, position, stack, profile_text } = req.body;
 
   const query = {
-    text: "UPDATE users SET position = $1, stack = $2, profile = $3 WHERE id = $4",
+    text: 'UPDATE users SET position = $1, stack = $2, profile = $3 WHERE id = $4',
     values: [position, stack, profile_text, id],
   };
 
   try {
     const query_result = await db.query(query);
 
-    res.status(200).json({ message: "save_portfolio success" });
+    res.status(400).json({ message: 'save_portfolio success' });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: "save_portfolio failed" });
+    res.status(400).json({ message: 'save_portfolio failed' });
   }
 });
 
-app.post("/api/mypost", auth, async (req, res) => {
+app.post('/api/mypost', auth, async (req, res) => {
   const id = req.body.id;
   const query = `SELECT * FROM posts WHERE userid='${id}'`;
 
@@ -452,35 +447,47 @@ app.post("/api/mypost", auth, async (req, res) => {
     res.status(200).json(query_result.rows);
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: "mypost failed" });
+    res.status(400).json({ message: 'mypost failed' });
   }
 });
 
-app.post("/api/applicant", auth, async (req, res) => {
+app.post('/api/applicant', auth, async (req, res) => {
   const { id, postid } = req.body;
 
-  const query = `SELECT * FROM apply_post WHERE postid=${postid}`;
+  // const query = `SELECT * FROM apply_post WHERE postid=${postid}`;
+
+  // try {
+  //   const query_result = await db.query(query);
+  //   const usersString = query_result.rows
+  //     .map((item) => {
+  //       return `'${item.userid}'`;
+  //     })
+  //     .join(", ");
+  //   const usersQuery = `SELECT * FROM users WHERE id IN (${usersString})`;
+
+  //   const usersQuery_result = await db.query(usersQuery);
+  //   const users = usersQuery_result.rows;
+
+  //   res.status(200).json(users);
+  // } catch (error) {
+  //   console.error(error);
+  //   res.status(400).json({ message: "applicant failed" });
+  // }
+
+  const query = `SELECT users.username, users.id, users.phone, users.department, applicant.position, applicant.postid FROM users JOIN applicant ON applicant.userid = users.id WHERE applicant.postid = ${postid}`;
 
   try {
     const query_result = await db.query(query);
-    const usersString = query_result.rows
-      .map((item) => {
-        return `'${item.userid}'`;
-      })
-      .join(", ");
-    const usersQuery = `SELECT * FROM users WHERE id IN (${usersString})`;
 
-    const usersQuery_result = await db.query(usersQuery);
-    const users = usersQuery_result.rows;
-
-    res.status(200).json(users);
+    const users = query_result.rows;
+    res.status(200).json({ users: users });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: "applicant failed" });
+    res.status(400).json({ message: 'applicant failed' });
   }
 });
 
-app.post("/api/apply_portfolio", auth, async (req, res) => {
+app.post('/api/apply_portfolio', auth, async (req, res) => {
   const { id, userid } = req.body;
 
   const query = `SELECT * FROM users WHERE id='${userid}'`;
@@ -492,15 +499,33 @@ app.post("/api/apply_portfolio", auth, async (req, res) => {
     res.status(200).json(query_result.rows[0]);
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: "apply_portfolio failed" });
+    res.status(400).json({ message: 'apply_portfolio failed' });
   }
 });
 
+app.post('/api/postend', auth, async (req, res) => {
+    const {id, postid} = req.body;
+
+    const query = {
+        text: 'UPDATE posts SET isEnd = true WHERE id = $1',
+        values: [postid]
+    };
+    try {
+        await db.query(postid);
+    } catch (err) {
+        console.log(err);
+        return res.status(400).json({ message : 'post end failed.' });
+    }
+
+    return res.status(400).json({ message: 'post end success.' });
+
+});
+
 /* React routing */
-app.use("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "/my-app/build/index.html"));
+app.use('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/my-app/build/index.html'));
 });
 
 app.listen(port, () => {
-  console.log("app listening on port ", port);
+  console.log('app listening on port ', port);
 });
