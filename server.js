@@ -223,7 +223,7 @@ app.post("/api/evaluate", auth, async (req, res) => {
       text: "SELECT * FROM users WHERE id = $1",
       values: [userid],
     };
-    const result = await db.query(query);
+    result = await db.query(query);
 
     result.rows[0].total += 1;
     result.rows[0].perform += perform;
@@ -236,6 +236,12 @@ app.post("/api/evaluate", auth, async (req, res) => {
       values: [total, perform, commute, prepare, commitment, userid],
     };
     await db.query(query2);
+
+    const query3 = {
+        text: "INSERT INTO evaluate (userid, teamid) VALUES ($1, $2)",
+        values: [id, userid]
+    };
+    await db.query(query3);
 
     return res.status(200).json({ message: "evaluation success." });
   } catch {
