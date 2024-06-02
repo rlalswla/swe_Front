@@ -27,7 +27,7 @@ function Portfolio() {
       }
     };
     fetchPortfolio();
-  }, []);
+  }, []); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
