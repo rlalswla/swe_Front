@@ -165,36 +165,11 @@ const Makepost = () => {
         navigate("/main");
       }
 
-<<<<<<< HEAD
       console.log("response:", response.data);
     } catch (error) {
       console.log("failed to make post:", error);
       navigate("Main");
     }
-    // 회원가입 로직 추가
-=======
-            const response = await axios.post('/api/posting', updatedForm, {
-            headers: {
-                Authorization: `Bearer ${token}`, // 헤더에 토큰을 추가합니다.
-              },
-            });
-            if (response.status === 200) {
-                alert('게시물이 작성되었습니다.');
-                navigate('/main');
-            }
-            else {
-                alert('게시물 작성에 실패했습니다.');
-                navigate('/main')
-            }
-            
-            console.log('response:', response.data);
-        } catch (error) {
-            console.log('failed to make post:', error);
-            navigate('/main');
-        }
-        // 회원가입 로직 추가
->>>>>>> c4cdfbc00e27059923b589db4be288239e55c3ee
-
     console.log("게시물 정보:", form);
   };
 
@@ -357,7 +332,6 @@ const Makepost = () => {
           />
         </Inputbox_posting_detail>
 
-<<<<<<< HEAD
         <div className="button">
           <button type="submit" id="posting_btn">
             {/* fortest */}
@@ -370,35 +344,5 @@ const Makepost = () => {
     </Container_posting>
   );
 };
-=======
-
-            <input  className ="Box_in_box"  type="text" name="enddate" value={form.enddate} onChange={handleChange} required />
-            </Inputbox_posting>
-            <Inputbox_posting_detail >
-            <label className ="posting_label">Project Detail</label>
-            <textarea 
-                style={{
-                    height: '150px', 
-                    
-                }}
-             className ="Box_in_box" type="text" name="post_text" value={form.post_text} onChange={handleChange} required />
-            </Inputbox_posting_detail>
-            
-            <div className ="button">
-            <button type="submit" id ="posting_btn">
-                {/* fortest */}
-                {/* <Link style ={{color: '#000000', textDecoration:'none' }} to="/Main">Make Post</Link> */}
-                {console.log (form)}
-                Make Post
-            </button>
-            </div>
-        </form>
-        <TabBar></TabBar>
-        </Container_posting>
-        
-    );
-}
-
->>>>>>> c4cdfbc00e27059923b589db4be288239e55c3ee
 
 export default Makepost;

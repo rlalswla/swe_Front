@@ -19,10 +19,9 @@ function Portfolio() {
     const fetchPortfolio = async () => {
       try {
         const response = await axios.post(`/api/portfolio`);
-        const { position, profile_text } = response.data;
         console.log(response.data);
-        setPosition(position);
-        setDescription(profile_text);
+        setPosition(response.data.position);
+        setDescription(response.data.profile);
       } catch (error) {
         console.error("Failed to fetch portfolio", error);
       }
@@ -35,7 +34,7 @@ function Portfolio() {
     try {
       await axios.post("/api/save_portfolio", {
         position: position,
-        profile_text: description,
+        profile: description,
       });
       alert("Portfolio saved successfully");
     } catch (error) {
@@ -63,7 +62,7 @@ function Portfolio() {
         </div>
         <div className="form-group">
           <Textarea
-            placeholder="Please write here"
+            placeholder={description}
             value={description}
             onChange={(e) => setDescription(e.target.value)}></Textarea>
         </div>
