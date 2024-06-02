@@ -39,7 +39,7 @@ function ApplicationList() {
   useEffect(() => {
     const fetchApplicants = async () => {
       try {
-        const response = await axios.get(
+        const response = await axios.post(
           '/api/applicant',
           { postid: selectedProjectId },
           { withCredentials: true }
