@@ -100,4 +100,5 @@ const RecruitingInfo = styled.span`
   font-weight: bold;
   font-size: 14px;
   margin: 8px;
+  margin-right: 10px;
 `;
