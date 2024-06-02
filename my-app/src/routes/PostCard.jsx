@@ -30,7 +30,7 @@ function PostCard({
         const response = await axios.post("/api/postend", {
           // id: userid,
           postid: id,
-        });
+        },{ withCredentials: true });
         console.log(response.data);
 
         if (response.data.message === "post end success.") {

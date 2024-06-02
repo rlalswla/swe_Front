@@ -138,7 +138,7 @@ const Makepost = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
+      },{ withCredentials: true });
       if (response.status === 200) {
         alert('게시물이 작성되었습니다.');
         navigate('/main');

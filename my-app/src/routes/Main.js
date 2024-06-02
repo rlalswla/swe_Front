@@ -212,7 +212,7 @@ const Main = () => {
 
     try {
       setPosts([]);
-      const response = await axios.post('/api/search', updatedForm);
+      const response = await axios.post('/api/search', updatedForm , { withCredentials: true });
       // response.data를 posts 상태에 저장합니다.
       setPosts(response.data);
       setForm([]);

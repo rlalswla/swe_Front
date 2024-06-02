@@ -19,7 +19,7 @@ function PostsList() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.post("/api/mypost");
+        const response = await axios.post("/api/mypost", { withCredentials: true });
         console.log(response.data);
         setPosts(response.data);
       } catch (error) {
