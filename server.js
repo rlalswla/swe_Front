@@ -509,7 +509,7 @@ app.post("/api/postend", auth, async (req, res) => {
     values: [postid],
   };
   try {
-    await db.query(query);
+    await db.query(postid);
   } catch (err) {
     console.log(err);
     return res.status(400).json({ message: "post end failed." });
