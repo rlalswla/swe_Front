@@ -23,6 +23,13 @@ function Scrab() {
           // body: JSON.stringify(data),
         });
         const data = await response.json();
+        
+        if (data.length === 0) {
+          alert('지원한 게시물이 없습니다.');
+          navigate('/main');
+          return;
+        }
+  
         setPosts(data);
         console.log('posts', data);
       } catch (error) {
@@ -74,7 +81,7 @@ const Header = styled.div`
   gap: 25px;
   background-color: #0e442a;
   color: white;
-  width: 100vw;
+  width: 393px;
   height: 50px;
   padding: 10px 20px;
 `;
