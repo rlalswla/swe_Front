@@ -185,7 +185,7 @@ app.post("/api/apply", auth, async (req, res) => {
     values: [id, postid],
   };
   await db.query(query2);
-/*
+  /*
   switch (position) {
     case 'Front-end':
       positionStr = 'front_req';
@@ -260,11 +260,8 @@ app.post("/api/posting", auth, async (req, res) => {
   const enddate_date = parse(enddate, "yyyyMMdd", new Date());
   try {
     const query = {
-<<<<<<< HEAD
-      text: "INSERT INTO posts (userid, projectname, front_req, back_req, design_req, post_text, stack, location, startdate, enddate, isEnd) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()::Date, $9, false)",
-=======
       text: 'INSERT INTO posts (userid, projectname, front_req, back_req, design_req, post_text, stack, location, startdate, enddate, isEnd) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()::Date, $9, false) RETURNING id',
->>>>>>> 71389a05cfe3f300e7e1839ad81d3e6a0f34833d
+
       values: [
         id,
         projectname,
@@ -281,9 +278,9 @@ app.post("/api/posting", auth, async (req, res) => {
     const postid = result.rows[0].id;
 
     const query2 = {
-        text: 'INSERT INTO teams (postid, userid) VALUES ($1, $2)',
-        values: [postid, id]
-    }
+      text: 'INSERT INTO teams (postid, userid) VALUES ($1, $2)',
+      values: [postid, id],
+    };
     await db.query(query2);
 
     return res.status(200).json({ message: "posting success" });
@@ -553,67 +550,59 @@ app.post("/api/postdelete", auth, async (req, res) => {
   return res.status(200).json({ message: "post delete success" });
 });
 
-<<<<<<< HEAD
+
 app.post("/api/select", auth, async (req, res) => {
   const { id, postid, userid } = req.body;
-=======
-
-app.post('/api/select', auth, async (req, res) => {
-  const { id, userid, postid } = req.body;
->>>>>>> 71389a05cfe3f300e7e1839ad81d3e6a0f34833d
 
   const query = {
-    text: "INSERT INTO teams (postid, userid) VALUES ($1, $2)",
+    text: 'INSERT INTO teams (postid, userid) VALUES ($1, $2)',
+
     values: [postid, userid],
   };
   try {
     await db.query(query);
-<<<<<<< HEAD
-  } catch (err) {
-    return res.status(400).json({ message: "select failed" });
-  }
-
   return res.status(200).json({ message: "select success" });
-=======
-  
 
-  const query2 = {
+
+    const query2 = {
       text: 'SELECT position FROM applicant WHERE postid = $1 AND userid = $2',
-      values: [postid, userid]
-  };
-  const pos_result = await(query2);
-  positon = pos_result.rows[0].position;
-  switch (position) {
-    case 'Front-end':
-      positionStr = 'front_req';
-      break;
-    case 'Back-end':
-      positionStr = 'back_req';
-      break;
-    case 'Designer':
-      positionStr = 'design_req';
-      break;
-    default:
-      return res.status(400).json({ message: 'position error' });
-  }
+      values: [postid, userid],
+    };
+    console.log(query2);
+    const pos_result = await db.query(query2);
+    console.log(pos_result);
+    position = pos_result.rows[0].position;
+    console.log(position);
+    switch (position) {
+      case 'Front-end':
+        positionStr = 'front_req';
+        break;
+      case 'Back-end':
+        positionStr = 'back_req';
+        break;
+      case 'Designer':
+        positionStr = 'design_req';
+        break;
+      default:
+        return res.status(400).json({ message: 'position error' });
+    }
 
-  const query3 = {
-    text:
-      'UPDATE posts SET ' +
-      positionStr +
-      ' = ' +
-      positionStr +
-    ' - 1 WHERE id = $1',
+    const query3 = {
+      text:
+        'UPDATE posts SET ' +
+        positionStr +
+        ' = ' +
+        positionStr +
+        ' - 1 WHERE id = $1',
       values: [postid],
     };
     await db.query(query3);
-  } catch(err) {
-      return res.status(400).json({ message: 'select failed.'});
+  } catch (err) {
+    return res.status(400).json({ message: 'select failed.' });
   }
   return res.status(200).json({ message: 'select success' });
->>>>>>> 71389a05cfe3f300e7e1839ad81d3e6a0f34833d
-});
 
+});
 
 /* React routing */
 app.use("*", (req, res) => {
