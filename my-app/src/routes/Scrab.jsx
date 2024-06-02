@@ -23,7 +23,7 @@ function Scrab() {
           // body: JSON.stringify(data),
         });
         const data = await response.json();
-
+        
         if (data.message) {
           alert('지원한 게시물이 없습니다.');
           navigate('/main');

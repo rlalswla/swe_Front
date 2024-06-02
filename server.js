@@ -296,9 +296,9 @@ app.post("/api/scrab_post", auth, async (req, res) => {
       postsId.push(post.postid);
     });
 
-    if (postsId.length == 0) {
-      res.status(200).json({ posts: null });
-    }
+    // if (postsId.length == 0) {
+    //   res.status(200).json({ posts: null });
+    // }
 
     const ids = postsId.map(String).join(", ");
     const query2 = {
