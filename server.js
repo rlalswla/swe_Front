@@ -533,6 +533,8 @@ app.post('/api/postend', auth, async (req, res) => {
 app.post('/api/postdelete', auth, async (req, res) => {
   const { id, postid } = req.body;
 
+  console.log(req.body);
+
   const query = {
     text: 'DELETE FROM posts WHERE id = $1',
     values: [postid],
