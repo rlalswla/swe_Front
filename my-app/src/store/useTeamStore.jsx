@@ -14,10 +14,11 @@ const useTeamStore = create((set) => ({
         },
         { withCredentials: true }
       );
+      console.log(response.data);
       set({ teamMembers: response.data });
     } catch (error) {
-      set({ teamMembers: null });
-      // console.error('Error fetching team members:', error);
+      // set({ teamMembers: null });
+      console.error('Error fetching team members:', error);
     }
   },
 
