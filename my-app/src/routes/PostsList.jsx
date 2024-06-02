@@ -11,9 +11,6 @@ function PostsList() {
   const [posts, setPosts] = useState([]);
 
   const navigate = useNavigate();
-  const handleCardClick = () => {
-    navigate("/applicationList");
-  };
 
   const goBackToProfile = () => {
     navigate("/profile");
@@ -40,7 +37,7 @@ function PostsList() {
       </Header>
       <Title>My Post</Title>
       {posts.map((post, index) => (
-        <PostCardWrapper key={index} onClick={handleCardClick}>
+        <PostCardWrapper key={index}>
           <PostCard {...post} />
         </PostCardWrapper>
       ))}
