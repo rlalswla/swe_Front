@@ -1,12 +1,12 @@
 // src/routes/SignUp.js
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import "./Makepost.css";
-import styled from "styled-components";
-import TechStackPopup from "./components/TechStackPopup";
-import arrowLeftIcon from "./asset/image/arrow-left-icon.svg";
-import TabBar from "./TabBar";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import './Makepost.css';
+import styled from 'styled-components';
+import TechStackPopup from './components/TechStackPopup';
+import arrowLeftIcon from './asset/image/arrow-left-icon.svg';
+import TabBar from './TabBar';
 
 const Header = styled.div`
   display: flex;
@@ -67,7 +67,7 @@ const Container_posting = styled.div`
 const Inputbox_posting = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   background: rgba(238, 238, 238, 1);
   border-radius: 8px;
   width: 240px;
@@ -79,7 +79,7 @@ const Inputbox_posting = styled.div`
 
 const Inputbox_posting_detail = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   background: rgba(238, 238, 238, 1);
   border-radius: 8px;
   width: 240px;
@@ -115,19 +115,19 @@ const Inputbox_posting_detail = styled.div`
 const Makepost = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    projectname: "",
+    projectname: '',
     front_req: 0,
     back_req: 0,
     design_req: 0,
     stack: [],
-    location: "",
-    enddate: "",
-    post_text: "",
+    location: '',
+    enddate: '',
+    post_text: '',
   });
 
   const [showPopup, setShowPopup] = useState(false);
 
-  const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰을 가져오거나, 토큰이 없는 경우 빈 문자열을 사용합니다.
+  const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰을 가져오거나, 토큰이 없는 경우 빈 문자열을 사용합니다.
 
   const [selectedStacks, setSelectedStacks] = useState([]);
 
@@ -135,7 +135,7 @@ const Makepost = () => {
     setSelectedStacks(stacks);
   };
   const handleChange_popup = (e) => {
-    setSelectedStacks(e.target.value.split(",").map((s) => s.trim()));
+    setSelectedStacks(e.target.value.split(',').map((s) => s.trim()));
   };
 
   const handleChange = (e) => {
@@ -150,33 +150,33 @@ const Makepost = () => {
     event.preventDefault();
     const sum = form.stack.reduce((a, b) => a + b, 0);
     const updatedForm = { ...form, stack: sum };
-    console.log("updatedForm:", updatedForm);
+    console.log('updatedForm:', updatedForm);
     try {
-      const response = await axios.post("/api/posting", updatedForm, {
+      const response = await axios.post('/api/posting', updatedForm, {
         headers: {
           Authorization: `Bearer ${token}`, // 헤더에 토큰을 추가합니다.
         },
       });
       if (response.status === 200) {
-        alert("게시물이 작성되었습니다.");
-        navigate("/main");
+        alert('게시물이 작성되었습니다.');
+        navigate('/main');
       } else {
-        alert("게시물 작성에 실패했습니다.");
-        navigate("/main");
+        alert('게시물 작성에 실패했습니다.');
+        navigate('/main');
       }
 
-      console.log("response:", response.data);
+      console.log('response:', response.data);
     } catch (error) {
-      console.log("failed to make post:", error);
-      navigate("Main");
+      console.log('failed to make post:', error);
+      navigate('Main');
     }
-    console.log("게시물 정보:", form);
+    console.log('게시물 정보:', form);
   };
 
   return (
     <Container_posting>
       <Header>
-        <BackButton onClick={() => navigate("/Main")} />
+        <BackButton onClick={() => navigate('/Main')} />
         <Title>SKKU Recruit</Title>
       </Header>
 
@@ -211,7 +211,8 @@ const Makepost = () => {
             name="front_req"
             value={form.front_req}
             onChange={handleChange}
-            required>
+            required
+          >
             <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -229,7 +230,8 @@ const Makepost = () => {
             name="back_req"
             value={form.back_req}
             onChange={handleChange}
-            required>
+            required
+          >
             <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -247,7 +249,8 @@ const Makepost = () => {
             name="design_req"
             value={form.design_req}
             onChange={handleChange}
-            required>
+            required
+          >
             <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -258,8 +261,9 @@ const Makepost = () => {
         </Inputbox_posting>
         <Inputbox_posting>
           <button
-            style={{ background: "rgba(0, 0, 0, 0.0)", color: "black" }}
-            onClick={() => setShowPopup(true)}>
+            style={{ background: 'rgba(0, 0, 0, 0.0)', color: 'black' }}
+            onClick={() => setShowPopup(true)}
+          >
             Select Stack
           </button>
           {showPopup && (
@@ -290,7 +294,8 @@ const Makepost = () => {
             name="location"
             value={form.location}
             onChange={handleChange}
-            required>
+            required
+          >
             <option value=""></option>
             <option value="Seoul">Seoul</option>
             <option value="Seoul">Suwon</option>
@@ -304,7 +309,7 @@ const Makepost = () => {
         </Inputbox_posting>
         <Inputbox_posting>
           <label className="posting_label">
-            {" "}
+            {' '}
             End Date (please enter 8 number)
           </label>
 
@@ -321,7 +326,7 @@ const Makepost = () => {
           <label className="posting_label">Project Detail</label>
           <textarea
             style={{
-              height: "150px",
+              height: '150px',
             }}
             className="Box_in_box"
             type="text"

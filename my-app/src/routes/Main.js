@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import "./Login.css";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import TabBar from "./TabBar";
-import PostCard from "./Postcardmain";
-import { CiSearch } from "react-icons/ci";
-import { IoIosArrowDown } from "react-icons/io";
-import TechStackPopup from "./components/TechStackPopup";
-import TechStackPopup1 from "./components/TechStackPopup1";
-import TechStackPopup2 from "./components/TechStackPopup2";
-import useProjectStore from "../store/useProjectStore";
-import DummyMain from "./DummyMain";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './Login.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import TabBar from './TabBar';
+import PostCard from './Postcardmain';
+import { CiSearch } from 'react-icons/ci';
+import { IoIosArrowDown } from 'react-icons/io';
+import TechStackPopup from './components/TechStackPopup';
+import TechStackPopup1 from './components/TechStackPopup1';
+import TechStackPopup2 from './components/TechStackPopup2';
+import useProjectStore from '../store/useProjectStore';
+import DummyMain from './DummyMain';
 
 const Header = styled.div`
   display: flex;
@@ -61,8 +61,6 @@ const PostList = styled.div`
 const SearchWrapper = styled.div`
   display: flex;
   align-items: center;
-  width: 90%;
-  height: 5%;
   border: none;
   background: rgba(196, 196, 196, 0.2);
   padding: 0;
@@ -70,6 +68,7 @@ const SearchWrapper = styled.div`
   align-self: center;
   border-radius: 10px;
   width: 343px;
+  height: 40px;
   box-sizing: border-box;
 `;
 
@@ -85,7 +84,7 @@ const Searchbox = styled.input`
   font-size: 18px;
   font-weight: 600;
   outline: none;
-  name: "projectname";
+  name: 'projectname';
 `;
 
 const SearchButtonWrapper = styled.div`
@@ -160,13 +159,13 @@ const Main = () => {
   const { setSelectedProjectId } = useProjectStore();
 
   const handleCardClick = (id) => {
-    console.log("id:", id);
+    console.log('id:', id);
     setSelectedProjectId(id);
-    navigate("/project-description");
+    navigate('/project-description');
   };
 
   const [form, setForm] = useState({
-    projectname: "",
+    projectname: '',
     status: true,
     position: 0,
     stack: [],
@@ -178,7 +177,7 @@ const Main = () => {
 
   const [selectedStacks, setSelectedStacks] = useState([]);
   const [selectedstatus, setSelectedStatus] = useState(false);
-  const [selectedposition, setSelectedPosition] = useState("");
+  const [selectedposition, setSelectedPosition] = useState('');
 
   const [isFindClicked, setIsFindClicked] = useState(false);
 
@@ -195,7 +194,7 @@ const Main = () => {
   };
 
   const handleChange_popup = (e) => {
-    setSelectedStacks(e.target.value.split(",").map((s) => s.trim()));
+    setSelectedStacks(e.target.value.split(',').map((s) => s.trim()));
   };
 
   const handleChange = (e) => {
@@ -213,12 +212,12 @@ const Main = () => {
 
     try {
       setPosts([]);
-      const response = await axios.post("/api/search", updatedForm);
+      const response = await axios.post('/api/search', updatedForm);
       // response.data를 posts 상태에 저장합니다.
       setPosts(response.data);
       setForm([]);
     } catch (error) {
-      console.error("Failed to fetch data:", error);
+      console.error('Failed to fetch data:', error);
     }
   };
 
@@ -245,7 +244,8 @@ const Main = () => {
             setShowPopup1(true);
             setShowPopup(false);
             setShowPopup2(false);
-          }}>
+          }}
+        >
           Status
           <IoIosArrowDown />
         </SearchButton>
@@ -262,7 +262,8 @@ const Main = () => {
             setShowPopup1(false);
             setShowPopup(false);
             setShowPopup2(true);
-          }}>
+          }}
+        >
           Position
           <IoIosArrowDown />
         </SearchButton>
@@ -279,7 +280,8 @@ const Main = () => {
             setShowPopup1(false);
             setShowPopup(true);
             setShowPopup2(false);
-          }}>
+          }}
+        >
           Tech Stack
           <IoIosArrowDown />
         </SearchButton>
@@ -294,23 +296,25 @@ const Main = () => {
         <FindButton onClick={handleFindClick}>Find</FindButton>
       </SearchButtonWrapper>
 
-      {console.log("form:", form)}
-      {!isFindClicked && <DummyMain />}
-      {posts.map((post, index) => (
-        <PostCardWrapper key={index} onClick={() => handleCardClick(post.id)}>
-          <PostCard
-            title={post.projectname}
-            location={post.location}
-            description={post.post_text}
-            roles={[
-              `Front: ${post.front_req}`,
-              `Back: ${post.back_req}`,
-              `Design: ${post.design_req}`,
-            ]}
-            recruitingInfo={post.isend ? "Recruiting ended" : "Recruiting"}
-          />
-        </PostCardWrapper>
-      ))}
+      {console.log('form:', form)}
+      <ContentWrapper>
+        {!isFindClicked && <DummyMain />}
+        {posts.map((post, index) => (
+          <PostCardWrapper key={index} onClick={() => handleCardClick(post.id)}>
+            <PostCard
+              title={post.projectname}
+              location={post.location}
+              description={post.post_text}
+              roles={[
+                `Front-end: ${post.front_req}`,
+                `Back-end: ${post.back_req}`,
+                `Designer: ${post.design_req}`,
+              ]}
+              recruitingInfo={post.isend ? 'Recruiting ended' : 'Recruiting'}
+            />
+          </PostCardWrapper>
+        ))}
+      </ContentWrapper>
 
       <TabBar></TabBar>
     </Mainpage>
