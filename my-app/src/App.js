@@ -85,10 +85,10 @@ const App = () => {
         />
         <Route path="/scrab" element={<Scrab />} /> */}
         <Route path="/portfolio" element={
-  <PrivateRoute>
-    <Portfolio />
-  </PrivateRoute>
-} />
+          <PrivateRoute>
+            <Portfolio />
+          </PrivateRoute>
+        } />
 
         <Route path="/posts" element={
           <PrivateRoute>
