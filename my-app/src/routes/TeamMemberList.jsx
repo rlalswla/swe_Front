@@ -69,6 +69,8 @@ export default function TeamMemberList() {
     }
   }, [selectedProjectId, fetchTeamMembers]);
 
+  console.log('team member length: ', teamMembers.length);
+
   useEffect(() => {
     if (teamMembers.length === 0) {
       alert('The evaluation has ended.');
@@ -88,7 +90,7 @@ export default function TeamMemberList() {
           <Member />
           <TeamMemberInfo>
             <MemberName>{member.username}</MemberName>
-            <MemberPosition>{member.position}</MemberPosition>
+            {/* <MemberPosition>{member.position}</MemberPosition> */}
           </TeamMemberInfo>
         </Button>
       ))}
