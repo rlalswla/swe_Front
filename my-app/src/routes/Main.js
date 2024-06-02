@@ -219,6 +219,11 @@ const Main = () => {
       setForm([]);
     } catch (error) {
       console.error('Failed to fetch data:', error);
+      
+      if (error.response.status === 401) {
+        alert('Please log in');
+        navigate('/login')
+      }
     }
   };
 
