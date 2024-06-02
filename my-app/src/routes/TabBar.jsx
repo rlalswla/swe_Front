@@ -21,7 +21,7 @@ export default function TabBar() {
   };
 
   const goToScrab = () => {
-    navigate("/posts");
+    navigate("/scrab");
   };
 
   const goToProfile = () => {
