@@ -85,6 +85,7 @@ app.post('/api/signin', async (req, res) => {
         res.cookie('user', token, {
           maxAge: 30 * 60 * 1000,
           httpOnly: false,
+          secure: true,
           sameSite: 'None',
         });
         return res
