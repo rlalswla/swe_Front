@@ -1,11 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 export default function ApplicationCard({ id, name, roles, phone }) {
   const navigate = useNavigate();
   const goToApplicationPort = () => {
-    navigate('/applicationPort');
+    navigate("/applicationPort");
+  };
+
+  const submitApplication = () => {
+    alert("conrfirmed");
   };
 
   return (
@@ -24,7 +28,7 @@ export default function ApplicationCard({ id, name, roles, phone }) {
           <PhoneLabel>Phone Number</PhoneLabel>
           <Phone>{phone}</Phone>
         </PhoneWrapper>
-        <ConfirmButton>Confirm</ConfirmButton>
+        <ConfirmButton onClick={submitApplication}>Confirm</ConfirmButton>
       </Wrapper>
     </ApplicationCardContainer>
   );

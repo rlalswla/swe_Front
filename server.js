@@ -483,7 +483,7 @@ app.post('/api/applicant', auth, async (req, res) => {
     const query_result = await db.query(query);
 
     const users = query_result.rows;
-    res.status(200).json({ users: users });
+    res.status(200).json(users);
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: 'applicant failed' });
@@ -525,6 +525,8 @@ app.post('/api/postend', auth, async (req, res) => {
 
 app.post('/api/postdelete', auth, async (req, res) => {
   const { id, postid } = req.body;
+
+  console.log(req.body);
 
   const query = {
     text: 'DELETE FROM posts WHERE id = $1',
