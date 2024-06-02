@@ -12,6 +12,7 @@ import TechStackPopup from "./components/TechStackPopup";
 import TechStackPopup1 from "./components/TechStackPopup1";
 import TechStackPopup2 from "./components/TechStackPopup2";
 import useProjectStore from "../store/useProjectStore";
+import DummyMain from "./DummyMain";
 
 const Header = styled.div`
   display: flex;
@@ -172,6 +173,8 @@ const Main = () => {
   const [selectedstatus, setSelectedStatus] = useState(false);
   const [selectedposition, setSelectedPosition] = useState("");
 
+  const [isFindClicked, setIsFindClicked] = useState(false);
+
   const handleSelectStack = (stacks) => {
     setSelectedStacks(stacks);
   };
@@ -197,6 +200,7 @@ const Main = () => {
   };
 
   const handleFindClick = async () => {
+    setIsFindClicked(true);
     const sum = form.stack.reduce((a, b) => a + b, 0);
     const updatedForm = { ...form, stack: sum };
 
@@ -283,7 +287,7 @@ const Main = () => {
         <FindButton onClick={handleFindClick}>Find</FindButton>
       </SearchButtonWrapper>
       {console.log("form:", form)}
-
+      {!isFindClicked && <DummyMain />}
       {posts.map((post, index) => (
         <PostCardWrapper key={index} onClick={() => handleCardClick(post.id)}>
           <PostCard
