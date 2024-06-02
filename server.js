@@ -167,7 +167,7 @@ app.post("/api/end_post", auth, async (req, res) => {
     values: [postid, id],
   };
   const result = await db.query(userid_query);
-  return res.status(200).json(result);
+  return res.status(200).json(result.rows);
 });
 
 /* Post apply */
@@ -561,18 +561,18 @@ app.post("/api/select", auth, async (req, res) => {
   };
   try {
     await db.query(query);
-  return res.status(200).json({ message: "select success" });
+    return res.status(200).json({ message: "select success" });
 
 
     const query2 = {
       text: 'SELECT position FROM applicant WHERE postid = $1 AND userid = $2',
       values: [postid, userid],
     };
-    console.log(query2);
+    
     const pos_result = await db.query(query2);
-    console.log(pos_result);
+    
     position = pos_result.rows[0].position;
-    console.log(position);
+    
     switch (position) {
       case 'Front-end':
         positionStr = 'front_req';
