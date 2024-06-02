@@ -1,11 +1,11 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import PostCard from "./PostCard";
-import TabBar from "./TabBar";
-import styled from "styled-components";
-import { FaArrowLeft } from "react-icons/fa";
-import { useState, useEffect } from "react";
-import data from "../data";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import Postcardmain from './Postcardmain';
+import TabBar from './TabBar';
+import styled from 'styled-components';
+import { FaArrowLeft } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import data from '../data';
 
 function Scrab() {
   const [posts, setPosts] = useState([]);
@@ -13,7 +13,7 @@ function Scrab() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch("/api/scrab_post", {
+        const response = await fetch('/api/scrab_post', {
           method: 'POST', // 요청 메서드를 POST로 설정
           headers: {
             'Content-Type': 'application/json',
@@ -24,9 +24,9 @@ function Scrab() {
         });
         const data = await response.json();
         setPosts(data);
-        console.log("posts", data);
+        console.log('posts', data);
       } catch (error) {
-        console.error("Failed to fetch posts", error);
+        console.error('Failed to fetch posts', error);
       }
     };
     fetchPosts();
@@ -34,7 +34,7 @@ function Scrab() {
 
   const navigate = useNavigate();
   const handleCardClick = () => {
-    navigate("/applicationList");
+    navigate('/applicationList');
     // 포스트 Id 넘겨주기
   };
 
@@ -46,16 +46,16 @@ function Scrab() {
       <Title>Scrab</Title>
       {posts.map((post, index) => (
         <PostCardWrapper key={index}>
-          <PostCard
+          <Postcardmain
             title={post.projectname}
             location={post.location}
             description={post.post_text}
             roles={[
-              `Front: ${post.front_req}`,
-              `Back: ${post.back_req}`,
-              `Design: ${post.design_req}`,
+              `Front-end: ${post.front_req}`,
+              `Back-end: ${post.back_req}`,
+              `Designer: ${post.design_req}`,
             ]}
-            recruitingInfo={post.isend ? "Recruiting ended" : "Recruiting"}
+            recruitingInfo={post.isend ? 'Recruiting ended' : 'Recruiting'}
           />
         </PostCardWrapper>
       ))}

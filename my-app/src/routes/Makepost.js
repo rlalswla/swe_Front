@@ -181,15 +181,20 @@ const Makepost = () => {
         <BackButton onClick={() => navigate('/Main')} />
         <Title>SKKU Recruit</Title>
       </Header>
-        <form onSubmit={handlemakepost} className ="makepostbox">
-            <Inputbox_posting>
-            <label className ="posting_label"> Project Name</label>
+      <form onSubmit={handlemakepost} className="makepostbox">
+        <Inputbox_posting>
+          <label className="posting_label"> Project Name</label>
 
-
-
-            <input className ="Box_in_box"  type="text" name="projectname" value={form.projectname} onChange={handleChange} required />
-            </Inputbox_posting>
-            {/* <Inputbox_posting>
+          <input
+            className="Box_in_box"
+            type="text"
+            name="projectname"
+            value={form.projectname}
+            onChange={handleChange}
+            required
+          />
+        </Inputbox_posting>
+        {/* <Inputbox_posting>
                 <label className ="posting_label">Position</label>
                 <select className ="Box_in_box"  type="text" name="position" value={form.position} onChange={handleChange} required>
                 <option value=""></option>

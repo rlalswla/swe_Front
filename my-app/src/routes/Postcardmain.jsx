@@ -13,6 +13,12 @@ function PostCard({ title, location, description, roles, recruitingInfo }) {
         {roles.map((role, index) => (
           <RoleButton key={index}>{role}</RoleButton>
         ))}
+        {roles.length < 3 && (
+          <RoleButton style={{ visibility: 'hidden' }}>Placeholder</RoleButton>
+        )}
+        {roles.length < 2 && (
+          <RoleButton style={{ visibility: 'hidden' }}>Placeholder</RoleButton>
+        )}
       </Roles>
       <RecruitStatus>
         <RecruitingInfo>{recruitingInfo}</RecruitingInfo>
