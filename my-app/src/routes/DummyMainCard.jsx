@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 function PostCard({ title, location, description, roles, recruitingInfo }) {
   return (
@@ -13,15 +13,16 @@ function PostCard({ title, location, description, roles, recruitingInfo }) {
         {roles.map((role, index) => (
           <RoleButton key={index}>{role}</RoleButton>
         ))}
+        {roles.length < 3 && (
+          <RoleButton style={{ visibility: 'hidden' }}>Placeholder</RoleButton>
+        )}
+        {roles.length < 2 && (
+          <RoleButton style={{ visibility: 'hidden' }}>Placeholder</RoleButton>
+        )}
       </Roles>
-      <Actions>
+      <RecruitStatus>
         <RecruitingInfo>{recruitingInfo}</RecruitingInfo>
-        <StatusButtonWrapper>
-          <StatusButton>Edit</StatusButton>
-          <StatusButton>Delete</StatusButton>
-          <StatusButton>Close</StatusButton>
-        </StatusButtonWrapper>
-      </Actions>
+      </RecruitStatus>
     </PostCardContainer>
   );
 }
@@ -37,7 +38,8 @@ const PostCardContainer = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   width: 343px;
-  height: 180px;
+  height: 175px;
+  box-sizing: border-box;
 `;
 
 const Header = styled.div`
@@ -61,11 +63,23 @@ const Description = styled.p`
   color: #666;
   font-size: 15px;
   margin: -5px 10px;
+  width: 290px;
+  height: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.2em;
+  max-height: 2.4em;
+  margin-bottom: 8px;
 `;
 
 const Roles = styled.div`
   display: flex;
   justify-content: space-around;
+  width: 323px;
+  margin-bottom: -5px;
 `;
 
 const RoleButton = styled.button`
@@ -73,8 +87,8 @@ const RoleButton = styled.button`
   align-items: center;
   justify-content: center;
   padding: 0 12px;
-  height: 24px;
-  width: 88px;
+  height: 32px;
+  width: 95px;
   background: #f2f4f5;
   border-radius: 32px;
   border: none;
@@ -82,29 +96,15 @@ const RoleButton = styled.button`
   color: #333;
 `;
 
-const Actions = styled.div`
+const RecruitStatus = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-end;
 `;
 
 const RecruitingInfo = styled.span`
   color: #4caf50;
   font-weight: bold;
-`;
-
-const StatusButton = styled.button`
-  padding: 4px 9px;
-  font-size: 12px;
-  background: #23c16b;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  margin: 3px;
-`;
-
-const StatusButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-around;
-  width: auto;
-  margin-top: 8px;
+  font-size: 14px;
+  margin: 8px;
+  margin-right: 10px;
 `;
