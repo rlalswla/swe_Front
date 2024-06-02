@@ -66,8 +66,6 @@ export default function TeamMemberList() {
   const navigate = useNavigate();
   const [fetched, setFetched] = useState(false);
 
-  const [fetched, setFetched] = useState(false);
-
   useEffect(() => {
     if (selectedProjectId) {
       fetchTeamMembers(selectedProjectId);
@@ -76,7 +74,6 @@ export default function TeamMemberList() {
   }, [selectedProjectId, fetchTeamMembers]);
 
   useEffect(() => {
-    
     if (fetched && teamMembers.length === 0) {
       alert('The evaluation has ended.');
       navigate('/project-description');
